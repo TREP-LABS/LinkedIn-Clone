@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { v4 as uuidv4 } from 'uuid';
 import log from './api/utils/logger';
+import { errorHandler } from './api/middlewares';
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.get('/', (req, res) => {
 });
 
 app.use(cors());
+
+app.use(errorHandler);
 
 app.listen(app.get('port'), () => {
   log.info(`App started on port ${app.get('port')}`);
