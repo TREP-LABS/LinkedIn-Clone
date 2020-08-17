@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import config from '../config/config';
 
 // Import models.
+import User from './User';
 
 const env = process.env.NODE_ENV?.trim() || 'development';
 
@@ -13,4 +14,6 @@ mongoose.connect(presetConfig.dbUrl, {
   useUnifiedTopology: true,
 });
 
-export default {};
+export default {
+  User,
+};
