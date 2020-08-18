@@ -10,5 +10,5 @@ import { successResponse } from '../../utils/helpers';
 export const register = asyncHandler(async (req, res) => {
   const token = await UserService.register(req.body);
 
-  return successResponse(res, 'User registered successfully.', { data: { token } }, 201);
+  return successResponse(res, 'User created successfully.', { data: { token } }, 201);
 });
