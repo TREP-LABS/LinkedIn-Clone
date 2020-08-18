@@ -34,3 +34,5 @@ app.use(errorHandler);
 app.listen(app.get('port'), () => {
   log.info(`App started on port ${app.get('port')}`);
 });
+
+export default app;
