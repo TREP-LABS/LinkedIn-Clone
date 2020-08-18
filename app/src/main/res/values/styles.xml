@@ -10,6 +10,7 @@
 
     <style name="SplashScreen" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash_screen_background</item>
+        <item name="android:statusBarColor">@color/colorAccent</item>
     </style>
 
 </resources>
