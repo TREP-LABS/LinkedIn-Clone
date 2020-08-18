@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">LinkedIn Clone</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="onboarding_sneek_peek">Connecting professionals to\nrecruiters</string>
+    <string name="log_in">Log In</string>
+    <string name="join_now">Join Now</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password (6 or more characters)</string>
+    <string name="confirm_agreement_message">By clicking join now, you agree to LinkedIn User Agreement, Privacy Policy, and Cookie Policy</string>
+    <string name="already_have_an_account">Already have an account ?</string>
 </resources>
