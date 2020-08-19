@@ -14,6 +14,7 @@ import android.widget.Button;
 
 public class OnboardingFragment extends Fragment {
     private Button mJoinButton;
+    private Button mLogInButton;
 
     public OnboardingFragment() {
         // Required empty public constructor
@@ -23,7 +24,8 @@ public class OnboardingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_onboarding, container, false);
-        mJoinButton = view.findViewById(R.id.join_now_btn);
+        mJoinButton = view.findViewById(R.id.onboarding_join_now_btn);
+        mLogInButton = view.findViewById(R.id.onboarding_login_btn);
         return view;
     }
 
@@ -32,6 +34,9 @@ public class OnboardingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mJoinButton.setOnClickListener(
                 Navigation.createNavigateOnClickListener(R.id.action_onboardingFragment_to_signUpFragment)
+        );
+        mLogInButton.setOnClickListener(
+                Navigation.createNavigateOnClickListener(R.id.action_onboardingFragment_to_logInFragment)
         );
     }
 }

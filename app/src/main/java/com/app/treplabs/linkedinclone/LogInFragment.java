@@ -12,28 +12,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class SignUpFragment extends Fragment {
-    private Button mJoinNowButton;
+public class LogInFragment extends Fragment {
     private Button mLogInButton;
+    private Button mSignUpButton;
 
-    public SignUpFragment() {
+    public LogInFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
-        mJoinNowButton = view.findViewById(R.id.register_join_now_btn);
-        mLogInButton = view.findViewById(R.id.register_log_in_button);
+        View view =  inflater.inflate(R.layout.fragment_log_in, container, false);
+        mLogInButton = view.findViewById(R.id.login_button);
+        mSignUpButton = view.findViewById(R.id.login_sign_up_btn);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mLogInButton.setOnClickListener(
-                Navigation.createNavigateOnClickListener(R.id.action_signUpFragment_to_logInFragment)
+        mSignUpButton.setOnClickListener(
+                Navigation.createNavigateOnClickListener(R.id.action_logInFragment_to_signUpFragment)
         );
     }
 }
