@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import slugify from 'slugify';
 
 const { Schema } = mongoose;
 
@@ -23,6 +24,7 @@ const UserSchema = new Schema(
       lowercase: true,
       unique: true,
     },
+    slug: { type: String },
     password: { type: String },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
@@ -33,7 +35,60 @@ const UserSchema = new Schema(
 UserSchema.pre('save', async function (next) {
   if (this.isModified('password')) this.password = await hashPassword(this.password);
 
+  if (this.isModified('firstname') || this.isModified('lastname')) {
+    let slugExists = true;
+
+    let slug = createSlug(this.firstname, this.lastname);
+
+    let counter = 1;
+
+    while (slugExists) {
+      const dbSlug = await this.constructor.findOne({ slug });
+
+      if (dbSlug) {
+        if (counter == 1) {
+          slug = slug.concat(`-${counter}`);
+        } else {
+          slug = incrementSlugNumber(slug);
+        }
+
+        slugExists = true;
+      } else {
+        this.slug = slug;
+        slugExists = false;
+      }
+
+      counter++;
+    }
+  }
+
   next();
 });
+
+/**
+ * Create slug from user's firstname and lastname.
+ * @param {String} firstname The user's firstname.
+ * @param {String} lastname The user's lastname.
+ */
+const createSlug = (firstname, lastname) => {
+  const name = `${firstname} ${lastname}`;
+
+  const slug = slugify(name, { lower: true });
+  return slug;
+};
+
+/**
+ * Increment number at the end of slug.
+ * @param {String} slug The user's firstname and lastname that has been converted to a slug.
+ */
+const incrementSlugNumber = (slug) => {
+  let slugArray = slug.split('-');
+  let slugNumber = parseInt(slugArray.pop(), 10);
+  slugNumber++;
+  slugArray.push(slugNumber);
+  slug = slugArray.join('-');
+
+  return slug;
+};
 
 export default mongoose.model('User', UserSchema);

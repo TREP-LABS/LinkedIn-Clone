@@ -10,6 +10,7 @@ export const formatUserData = (userData) => ({
   firstname: userData.firstname,
   lastname: userData.lastname,
   email: userData.email,
+  slug: userData.slug,
 });
 
 /**
