@@ -10,3 +10,6 @@ This branch utilises the backend API to create the application flow.
 ### Get the source code
 `git clone https://github.com/TREP-LABS/LinkedIn-Clone.git`
 * Build project with Gradle and run the application
+
+### App Images
+<img src="app images/1.png" width="200">  <img src="app images/2.png" width="200">  <img src="app images/3.png" width="200">  <img src="app images/4.png" width="200"> 
