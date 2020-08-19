@@ -16,7 +16,8 @@ const options = { timestamps: { createdAt: 'createdAt' } };
 
 const UserSchema = new Schema(
   {
-    name: { type: String },
+    firstname: { type: String },
+    lastname: { type: String },
     email: {
       type: String,
       lowercase: true,

@@ -10,14 +10,15 @@ const { User } = db;
  * @returns {String} The created user token.
  */
 export const register = async (data) => {
-  const { name, email, password } = data;
+  const { firstname, lastname, email, password } = data;
 
   let user = await getUserByEmail(User, email);
 
   if (user) throw new ServiceError('User with this email already exist.', 400);
 
   let newUser = new User({
-    name,
+    firstname,
+    lastname,
     email,
     password,
   });

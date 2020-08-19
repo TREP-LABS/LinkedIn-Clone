@@ -4,7 +4,8 @@ import Joi from '@hapi/joi';
  * Generic user schema to be used in other Joi ObjectSchema.
  */
 const UserSchema = {
-  name: Joi.string().min(3).trim(true),
+  firstname: Joi.string().min(2).trim(true),
+  lastname: Joi.string().min(2).trim(true),
   email: Joi.string().email(),
   password: Joi.string().min(6).trim(true).prefs({ abortEarly: true }).messages({
     'string.min': 'Password must be at least 6 characters long.',
@@ -18,7 +19,8 @@ const UserSchema = {
  * Joi ObjectSchema to validate register inputs.
  */
 export const register = Joi.object({
-  name: UserSchema.name.required(),
+  firstname: UserSchema.firstname.required(),
+  lastname: UserSchema.lastname.required(),
   email: UserSchema.email.required(),
   password: UserSchema.password.required(),
   confirmPassword: UserSchema.confirmPassword.required().messages({

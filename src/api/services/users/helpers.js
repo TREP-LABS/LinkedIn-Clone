@@ -7,7 +7,8 @@ import jwt from 'jsonwebtoken';
  */
 export const formatUserData = (userData) => ({
   id: userData._id,
-  name: userData.name,
+  firstname: userData.firstname,
+  lastname: userData.lastname,
   email: userData.email,
 });
 
