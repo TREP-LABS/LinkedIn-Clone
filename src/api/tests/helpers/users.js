@@ -7,7 +7,8 @@ const should = chai.should();
 chai.use(chaiHttp);
 
 export const userDetails = {
-  name: 'test',
+  firstname: 'Test Firstname',
+  lastname: 'Test Lastname',
   email: 'test@gmail.com',
   password: 'Password123',
   confirmPassword: 'Password123',
