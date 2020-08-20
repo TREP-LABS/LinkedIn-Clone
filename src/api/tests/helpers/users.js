@@ -25,10 +25,19 @@ export const alterUserDetails = (newUserDetails) => ({
 });
 
 /**
- * An helper function to help create a user (signup).
+ * An helper function to help create a user.
  * @param {Object} userDetails Details of the user to create.
  * @param {Function} asertions The assertions to execute after the request is complete.
  */
 export const createUser = (userDetails, assertions) => {
   chai.request(app).post('/api/v1/auth/register').send(userDetails).end(assertions);
+};
+
+/**
+ * An helper function to login a user.
+ * @param {Object} userDetails The details of the user (email and password required).
+ * @param {Function} assertions The assertions to execute after the request is complete.
+ */
+export const loginUser = (userDetails, assertions) => {
+  chai.request(app).post('/api/v1/auth/login').send(userDetails).end(assertions);
 };

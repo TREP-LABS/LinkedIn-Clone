@@ -1,10 +1,10 @@
 import { BaseHelpers, UserHelpers } from '../helpers';
 
 const { failureAssertions } = BaseHelpers;
-const { userDetails, createUser, alterUserDetails } = UserHelpers;
+const { userDetails, createUser, loginUser, alterUserDetails } = UserHelpers;
 
 describe('User Endpoints', () => {
-  describe('Sign Up Endpoint', () => {
+  describe('Register Endpoint', () => {
     it('should create a new user', (done) => {
       createUser(userDetails, (err, res) => {
         res.should.have.status(201);
@@ -30,6 +30,34 @@ describe('User Endpoints', () => {
         alterUserDetails({ email: 'test@gmail.com' }),
         failureAssertions('User with this email already exist.', 400, done),
       );
+    });
+  });
+
+  describe('Login Endpoint', () => {
+    it('should not login a user that does not exist', (done) => {
+      loginUser(
+        alterUserDetails({ email: 'notregisteredemail@gmail.com' }),
+        failureAssertions('User with this email does not exist.', 404, done),
+      );
+    });
+
+    it('should not sign in a user if the password is wrong.', (done) => {
+      loginUser(
+        alterUserDetails({ password: 'wrongPassword' }),
+        failureAssertions('Incorrect password.', 400, done),
+      );
+    });
+
+    it('should login a user', (done) => {
+      loginUser(userDetails, (err, res) => {
+        res.should.have.status(200);
+        res.body.success.should.be.eql(true);
+        res.body.data.token.should.be.a('string');
+        res.body.data.user.should.be.a('object');
+        res.body.data.user.email.should.be.eql(userDetails.email);
+
+        done();
+      });
     });
   });
 });
