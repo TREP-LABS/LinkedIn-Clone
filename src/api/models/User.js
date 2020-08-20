@@ -15,6 +15,32 @@ const hashPassword = async (password) => {
 
 const options = { timestamps: { createdAt: 'createdAt' } };
 
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      User:
+ *        type: object
+ *        required:
+ *          - firstname
+ *          - lastname
+ *          - email
+ *          - password
+ *        properties:
+ *          firstname:
+ *            type: string
+ *          lastname:
+ *            type: string
+ *          email:
+ *            type: string
+ *          password:
+ *            type: string
+ *        example:
+ *          firstname: John
+ *          lastname: Doe
+ *          email: johndoe@gmail.com
+ *          password: Password123
+ */
 const UserSchema = new Schema(
   {
     firstname: { type: String },
