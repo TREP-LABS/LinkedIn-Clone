@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 /**
  * Format the user data to be returned to the client.
@@ -33,3 +34,12 @@ export const getUserByEmail = async (User, email) => {
   const user = await User.findOne({ email: email.toLowerCase() });
   return user;
 };
+
+/**
+ * Checks if a user input password is correct.
+ * @param {String} textPassword The user input password.
+ * @param {String} hashedPassword The hashed password.
+ * @returns {Boolean} Truthy or falsy values representing if the password is correct or not.
+ */
+export const verifyPassword = (textPassword, hashedPassword) =>
+  bcrypt.compareSync(textPassword, hashedPassword);

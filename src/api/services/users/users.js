@@ -1,5 +1,5 @@
 import db from '../../models';
-import { getUserByEmail, generateToken, formatUserData } from './helpers';
+import { getUserByEmail, generateToken, formatUserData, verifyPassword } from './helpers';
 import { ServiceError } from '../helpers';
 
 const { User } = db;
@@ -28,4 +28,25 @@ export const register = async (data) => {
   const token = generateToken(formatUserData(newUser));
 
   return token;
+};
+
+/**
+ * Login a user.
+ * @param {Object} data Request data fromt the controller.
+ * @returns {Object} Object containing the logged user token and user object.
+ */
+export const login = async (data) => {
+  const { email, password } = data;
+
+  const user = await getUserByEmail(User, email);
+
+  if (!user) throw new ServiceError('User with this email does not exist.', 404);
+
+  if (!verifyPassword(password, user.password)) {
+    throw new ServiceError('Incorrect password.', 400);
+  }
+
+  const token = generateToken(formatUserData(user));
+
+  return { token, user: formatUserData(user) };
 };

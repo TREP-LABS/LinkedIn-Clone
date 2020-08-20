@@ -21,3 +21,11 @@ export const register = Joi.object({
   email: UserSchema.email.required(),
   password: UserSchema.password.required(),
 });
+
+/**
+ * Joi ObjectSchema to validate login inputs.
+ */
+export const login = Joi.object({
+  email: UserSchema.email.required(),
+  password: UserSchema.password.required(),
+});
