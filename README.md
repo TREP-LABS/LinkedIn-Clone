@@ -2,6 +2,10 @@
 
 This is the backend API for the LinkindIn Clone project.
 
+## API Documentation
+
+- [Postman](https://documenter.getpostman.com/view/6500233/T1LTejTY?version=latest)
+
 ## Getting Started
 
 ### Installation
