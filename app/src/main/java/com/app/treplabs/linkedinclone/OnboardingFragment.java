@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.app.treplabs.linkedinclone.databinding.FragmentOnboardingBinding;
+
 public class OnboardingFragment extends Fragment {
-    private Button mJoinButton;
-    private Button mLogInButton;
+    //data binding
+    FragmentOnboardingBinding mBinding;
 
     public OnboardingFragment() {
         // Required empty public constructor
@@ -23,19 +25,17 @@ public class OnboardingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_onboarding, container, false);
-        mJoinButton = view.findViewById(R.id.onboarding_join_now_btn);
-        mLogInButton = view.findViewById(R.id.onboarding_login_btn);
-        return view;
+        mBinding = FragmentOnboardingBinding.inflate(inflater);
+        return mBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mJoinButton.setOnClickListener(
+        mBinding.onboardingJoinNowBtn.setOnClickListener(
                 Navigation.createNavigateOnClickListener(R.id.action_onboardingFragment_to_signUpFragment)
         );
-        mLogInButton.setOnClickListener(
+        mBinding.onboardingLoginBtn.setOnClickListener(
                 Navigation.createNavigateOnClickListener(R.id.action_onboardingFragment_to_logInFragment)
         );
     }
