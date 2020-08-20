@@ -11,7 +11,6 @@ export const userDetails = {
   lastname: 'Test Lastname',
   email: 'test@gmail.com',
   password: 'Password123',
-  confirmPassword: 'Password123',
 };
 
 /**

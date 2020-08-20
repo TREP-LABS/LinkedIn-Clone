@@ -10,9 +10,6 @@ const UserSchema = {
   password: Joi.string().min(6).trim(true).prefs({ abortEarly: true }).messages({
     'string.min': 'Password must be at least 6 characters long.',
   }),
-  confirmPassword: Joi.string().valid(Joi.ref('password')).messages({
-    'any.only': 'Confirm password must match password value.',
-  }),
 };
 
 /**
@@ -23,7 +20,4 @@ export const register = Joi.object({
   lastname: UserSchema.lastname.required(),
   email: UserSchema.email.required(),
   password: UserSchema.password.required(),
-  confirmPassword: UserSchema.confirmPassword.required().messages({
-    'any.required': 'Confirm password is required.',
-  }),
 });
