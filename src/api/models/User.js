@@ -22,11 +22,14 @@ const options = { timestamps: { createdAt: 'createdAt' } };
  *      User:
  *        type: object
  *        required:
+ *          - id
  *          - firstname
  *          - lastname
  *          - email
  *          - password
  *        properties:
+ *          id:
+ *            type: string
  *          firstname:
  *            type: string
  *          lastname:
@@ -36,6 +39,7 @@ const options = { timestamps: { createdAt: 'createdAt' } };
  *          password:
  *            type: string
  *        example:
+ *          id: 537e1f77bcf86cd799439011
  *          firstname: John
  *          lastname: Doe
  *          email: johndoe@gmail.com
