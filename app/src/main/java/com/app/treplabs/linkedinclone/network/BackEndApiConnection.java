@@ -9,4 +9,7 @@ import retrofit2.http.POST;
 public interface BackEndApiConnection {
     @POST(value = "login")
     Call<ResponseBody> logUserIn(@Body HashMap<String, String> map);
+
+    @POST(value = "register")
+    Call<ResponseBody> signUserIn(@Body HashMap<String, String> map);
 }

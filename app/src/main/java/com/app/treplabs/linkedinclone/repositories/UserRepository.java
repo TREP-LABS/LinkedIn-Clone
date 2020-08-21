@@ -20,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserRepository {
     private static final String BASE_URL = "http://192.168.43.100:5000/api/v1/auth/";
     private MutableLiveData<String> mLoginResponse;
+    private MutableLiveData<String> mSignUpResponse;
 
     private BackEndApiConnection invokeAPI(){
         return new Retrofit.Builder()
@@ -38,14 +39,14 @@ public class UserRepository {
                         if (response.isSuccessful()){
                             try {
                                 mLoginResponse.setValue(response.body().string());
-                                Log.d("UserRepo", "onResponse: isSuccessful");
+                                Log.d("UserRepo logIn", "onResponse: isSuccessful");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }else {
                             try {
                                 mLoginResponse.setValue(response.errorBody().string());
-                                Log.d("UserRepo", "onResponse: unSuccessful");
+                                Log.d("UserRepo logIn", "onResponse: unSuccessful");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -59,5 +60,37 @@ public class UserRepository {
                     }
                 });
         return mLoginResponse;
+    }
+
+    public LiveData<String> signUserIn(HashMap<String, String> map){
+        mSignUpResponse = new MutableLiveData<>();
+        invokeAPI().signUserIn(map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()){
+                            try {
+                                mSignUpResponse.setValue(response.body().string());
+                                Log.d("UserRepo signUp", "onResponse: isSuccessful");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }else {
+                            try {
+                                mSignUpResponse.setValue(response.errorBody().string());
+                                Log.d("UserRepo signUp", "onResponse: unSuccessful");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        mLoginResponse.setValue(t.getMessage());
+                        Log.d("UserRepo signUp", "onFailure:");
+                    }
+                });
+        return mSignUpResponse;
     }
 }

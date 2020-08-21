@@ -1,31 +1,42 @@
 package com.app.treplabs.linkedinclone;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
+import android.widget.Toast;
 import com.app.treplabs.linkedinclone.databinding.FragmentSignUpBinding;
+import com.app.treplabs.linkedinclone.interfaces.AuthStateListener;
+import com.app.treplabs.linkedinclone.viewmodels.AuthViewModel;
 
-public class SignUpFragment extends Fragment {
+public class SignUpFragment extends Fragment implements AuthStateListener {
     //data binding
     FragmentSignUpBinding mBinding;
+    //view model
+    AuthViewModel mAuthViewModel;
 
     public SignUpFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAuthViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        mAuthViewModel.setAuthStateListener(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentSignUpBinding.inflate(inflater);
+        mBinding.setAuthViewModel(mAuthViewModel);
         return mBinding.getRoot();
     }
 
@@ -35,5 +46,24 @@ public class SignUpFragment extends Fragment {
         mBinding.registerLogInButton.setOnClickListener(
                 Navigation.createNavigateOnClickListener(R.id.action_signUpFragment_to_logInFragment)
         );
+    }
+
+    private void showToast(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStarted() {
+        showToast("Login Started");
+    }
+
+    @Override
+    public void onSuccess(LiveData<String> signUpResponse) {
+        signUpResponse.observe(this, this::showToast);
+    }
+
+    @Override
+    public void onFailure(String message) {
+        showToast(message);
     }
 }
