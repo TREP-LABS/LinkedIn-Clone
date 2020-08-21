@@ -4,15 +4,12 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
 import com.app.treplabs.linkedinclone.interfaces.AuthStateListener;
-import com.app.treplabs.linkedinclone.network.BackEndApiConnection;
 import com.app.treplabs.linkedinclone.repositories.UserRepository;
 
 import java.util.HashMap;
-
-import retrofit2.Retrofit;
 
 public class AuthViewModel extends ViewModel {
     public String mFirstName;
@@ -25,10 +22,12 @@ public class AuthViewModel extends ViewModel {
         mAuthStateListener = authStateListener;
     }
 
-    public void onLoginButtonClicked(View view){
-        mAuthStateListener.onStarted();
-        if (mUserEmail == null || mUserPassword == null || mUserEmail.isEmpty() || mUserPassword.isEmpty()){
-            mAuthStateListener.onFailure("Invalid email or password");
+    public void onLoginButtonClicked(View view) {
+        if (!isEmailValid(mUserEmail)) {
+            mAuthStateListener.onFailure("Error in Email");
+            return;
+        }else if (!isPasswordValid(mUserPassword)){
+            mAuthStateListener.onFailure("Error in Password");
             return;
         }
         HashMap<String, String> hashMap = new HashMap<>();
@@ -40,13 +39,18 @@ public class AuthViewModel extends ViewModel {
         mAuthStateListener.onSuccess(mLoginResponse);
     }
 
-    public void onJoinNowButtonClicked(View view){
-        if (mFirstName == null || mLastName == null || mUserEmail == null || mUserPassword == null ||
-                mUserEmail.isEmpty() || mUserPassword.isEmpty() || mFirstName.isEmpty() || mLastName.isEmpty()){
-            mAuthStateListener.onFailure("Invalid credentials");
+    public void onJoinNowButtonClicked(View view) {
+        if (!isNameValid(mFirstName)) {
+            mAuthStateListener.onFailure("Error in First name");
             return;
-        }else if (mUserPassword.length() < 6){
-            mAuthStateListener.onFailure("Check that your password matches the criteria");
+        } else if (!isNameValid(mLastName)) {
+            mAuthStateListener.onFailure("Error in Last name");
+            return;
+        } else if (!isEmailValid(mUserEmail)) {
+            mAuthStateListener.onFailure("Error in Email");
+            return;
+        } else if (!isPasswordValid(mUserPassword)) {
+            mAuthStateListener.onFailure("Error in Password");
             return;
         }
         HashMap<String, String> hashMap = new HashMap<>();
@@ -58,5 +62,27 @@ public class AuthViewModel extends ViewModel {
         LiveData<String> mSignUpResponse = new UserRepository().signUserIn(hashMap);
         Log.d("AuthViewModel", "onLoginButtonClicked: " + mSignUpResponse.toString());
         mAuthStateListener.onSuccess(mSignUpResponse);
+    }
+
+    private boolean isEmailValid(String email) {
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        if (email == null || email.isEmpty())
+            return false;
+        else
+            return email.matches(regex);
+    }
+
+    private boolean isPasswordValid(String password) {
+        if (password == null || password.length() < 6)
+            return false;
+        else
+            return true;
+    }
+
+    private boolean isNameValid(String name) {
+        if (name == null || name.length() < 2)
+            return false;
+        else
+            return true;
     }
 }

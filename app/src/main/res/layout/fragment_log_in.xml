@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="authViewModel"
             type="com.app.treplabs.linkedinclone.viewmodels.AuthViewModel" />
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".LogInFragment"
         android:background="@color/layoutBackground"
+        android:overScrollMode="never"
         android:scrollbars="none"
-        android:overScrollMode="never">
+        tools:context=".LogInFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -44,18 +45,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:errorEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearances"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guideline2">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_email_edit_text"
                     android:layout_width="match_parent"
-                    android:text="@={authViewModel.mUserEmail}"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:text="@={authViewModel.mUserEmail}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,20 +66,22 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:hint="@string/password"
                 app:endIconMode="password_toggle"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:errorEnabled="true"
+                app:helperTextTextAppearance="@style/TextAppearances"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/email_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/login_password_edit_text"
                     android:layout_width="match_parent"
-                    android:text="@={authViewModel.mUserPassword}"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:text="@={authViewModel.mUserPassword}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,10 +89,10 @@
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:onClick="@{authViewModel::onLoginButtonClicked}"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/colorAccent"
                 android:fontFamily="@font/roboto"
+                android:onClick="@{authViewModel::onLoginButtonClicked}"
                 android:text="@string/log_in"
                 android:textAllCaps="false"
                 android:textStyle="bold"

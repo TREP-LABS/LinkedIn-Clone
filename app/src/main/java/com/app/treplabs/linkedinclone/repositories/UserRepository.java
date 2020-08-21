@@ -87,7 +87,7 @@ public class UserRepository {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        mLoginResponse.setValue(t.getMessage());
+                        mSignUpResponse.setValue(t.getMessage());
                         Log.d("UserRepo signUp", "onFailure:");
                     }
                 });

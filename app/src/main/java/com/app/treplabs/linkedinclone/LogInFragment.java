@@ -64,6 +64,20 @@ public class LogInFragment extends Fragment implements AuthStateListener {
 
     @Override
     public void onFailure(String message) {
-        showToast(message);
+        switch (message){
+            case "Error in Email":
+                mBinding.emailLayout.setError("Invalid Email");
+                mBinding.passwordLayout.setError(null);
+                break;
+            case "Error in Password":
+                mBinding.emailLayout.setError(null);
+                mBinding.passwordLayout.setError("Invalid Password");
+                break;
+            default:
+                mBinding.emailLayout.setError(null);
+                mBinding.passwordLayout.setError(null);
+                showToast(message);
+                break;
+        }
     }
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,9 +10,7 @@
             type="com.app.treplabs.linkedinclone.viewmodels.AuthViewModel" />
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/layoutBackground"
@@ -46,6 +46,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/first_name"
                 app:errorEnabled="true"
+                app:helperText="@string/required"
+                app:helperTextTextAppearance="@style/TextAppearances"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guideline2">
@@ -65,8 +67,11 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:hint="@string/last_name"
                 app:errorEnabled="true"
+                app:helperText="@string/required"
+                app:helperTextTextAppearance="@style/TextAppearances"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/first_name_layout">
@@ -86,8 +91,11 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:hint="@string/email"
                 app:errorEnabled="true"
+                app:helperText="*Required"
+                app:helperTextTextAppearance="@style/TextAppearances"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/last_name_layout">
@@ -107,6 +115,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:hint="@string/password"
                 app:endIconMode="password_toggle"
                 app:helperText="6 or more characters"

@@ -64,6 +64,38 @@ public class SignUpFragment extends Fragment implements AuthStateListener {
 
     @Override
     public void onFailure(String message) {
-        showToast(message);
+        switch (message){
+            case "Error in First name":
+                mBinding.firstNameLayout.setError("*Required (2 or more characters)");
+                mBinding.lastNameLayout.setError(null);
+                mBinding.emailLayout.setError(null);
+                mBinding.passwordLayout.setError(null);
+                break;
+            case "Error in Last name":
+                mBinding.firstNameLayout.setError(null);
+                mBinding.lastNameLayout.setError("*Required (2 or more characters)");
+                mBinding.emailLayout.setError(null);
+                mBinding.passwordLayout.setError(null);
+                break;
+            case "Error in Email":
+                mBinding.firstNameLayout.setError(null);
+                mBinding.lastNameLayout.setError(null);
+                mBinding.emailLayout.setError("Email of the form yourname@domain.xyz is needed");
+                mBinding.passwordLayout.setError(null);
+                break;
+            case "Error in Password":
+                mBinding.firstNameLayout.setError(null);
+                mBinding.lastNameLayout.setError(null);
+                mBinding.emailLayout.setError(null);
+                mBinding.passwordLayout.setError("6 or more characters");
+                break;
+            default:
+                mBinding.firstNameLayout.setError(null);
+                mBinding.lastNameLayout.setError(null);
+                mBinding.emailLayout.setError(null);
+                mBinding.passwordLayout.setError(null);
+                showToast(message);
+                break;
+        }
     }
 }
