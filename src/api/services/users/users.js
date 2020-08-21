@@ -1,5 +1,14 @@
 import db from '../../models';
-import { getUserByEmail, generateToken, formatUserData, verifyPassword } from './helpers';
+import {
+  getUserByEmail,
+  generateToken,
+  formatUserData,
+  verifyPassword,
+  getResetPasswordDetails,
+  sendResetPasswordEmail,
+  hashResetToken,
+  getUserByResetPasswordToken,
+} from './helpers';
 import { ServiceError } from '../helpers';
 
 const { User } = db;
@@ -49,4 +58,54 @@ export const login = async (data) => {
   const token = generateToken(formatUserData(user));
 
   return { token, user: formatUserData(user) };
+};
+
+/**
+ * Request password reset token.
+ * @param {Object} req The request object.
+ * @param {String} email The email of the user.
+ * @returns {String} Reset password token.
+ */
+export const forgotPassword = async (req, email) => {
+  const user = await getUserByEmail(User, email);
+
+  if (!user) throw new ServiceError('User with this email does not exist.', 404);
+
+  const { resetToken, resetTokenHash, resetPasswordExpire } = getResetPasswordDetails();
+
+  const sendEmail = await sendResetPasswordEmail(req, user, resetToken);
+
+  if (sendEmail) {
+    user.resetPasswordToken = resetTokenHash;
+    user.resetPasswordExpire = resetPasswordExpire;
+  }
+
+  await user.save({ validateBeforeSave: false });
+
+  return resetToken;
+};
+
+/**
+ * Resets the user's password.
+ * @param {String} resetToken The user's password reset token.
+ * @param {String} password The user's password.
+ * @returns {Boolean} Truthy value if the user's password is reset successfully.
+ */
+export const resetPassword = async (resetToken, password) => {
+  const resetPasswordToken = hashResetToken(resetToken);
+
+  const user = await getUserByResetPasswordToken(User, {
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) throw new ServiceError('Invalid reset token.', 400);
+
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  return true;
 };

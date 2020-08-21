@@ -29,3 +29,20 @@ export const login = Joi.object({
   email: UserSchema.email.required(),
   password: UserSchema.password.required(),
 });
+
+/**
+ * Joi ObjectSchema to validate forgotPassword input.
+ */
+export const forgotPassword = Joi.object({
+  email: UserSchema.email.required(),
+});
+
+/**
+ * Joi ObjectSchema to validate resetPassword inputs.
+ */
+export const resetPassword = Joi.object({
+  password: UserSchema.password.required(),
+  resetToken: Joi.string().required().messages({
+    'any.required': 'Reset token is required.',
+  }),
+});

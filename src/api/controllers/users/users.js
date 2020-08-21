@@ -23,3 +23,29 @@ export const login = asyncHandler(async (req, res) => {
 
   return successResponse(res, 'User logged in successfully.', { data: { token, user } }, 200);
 });
+
+/**
+ * Request reset email.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  await UserService.forgotPassword(req, email);
+
+  return successResponse(res, 'Password reset token has been sent to your email.');
+});
+
+/**
+ * Reset user's password.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const resetPassword = asyncHandler(async (req, res) => {
+  const { resetToken, password } = req.body;
+
+  await UserService.resetPassword(resetToken, password);
+
+  return successResponse(res, 'Password reset successfully.');
+});
