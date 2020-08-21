@@ -26,7 +26,7 @@ const options = { timestamps: { createdAt: 'createdAt' } };
  *          - firstname
  *          - lastname
  *          - email
- *          - password
+ *          - slug
  *        properties:
  *          id:
  *            type: string
@@ -36,14 +36,14 @@ const options = { timestamps: { createdAt: 'createdAt' } };
  *            type: string
  *          email:
  *            type: string
- *          password:
+ *          slug:
  *            type: string
  *        example:
  *          id: 537e1f77bcf86cd799439011
  *          firstname: John
  *          lastname: Doe
  *          email: johndoe@gmail.com
- *          password: Password123
+ *          slug: john-doe
  */
 const UserSchema = new Schema(
   {
