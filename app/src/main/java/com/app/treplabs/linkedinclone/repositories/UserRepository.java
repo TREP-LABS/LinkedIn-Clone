@@ -1,0 +1,63 @@
+package com.app.treplabs.linkedinclone.repositories;
+
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
+import com.app.treplabs.linkedinclone.network.BackEndApiConnection;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class UserRepository {
+    private static final String BASE_URL = "http://192.168.43.100:5000/api/v1/auth/";
+    private MutableLiveData<String> mLoginResponse;
+
+    private BackEndApiConnection invokeAPI(){
+        return new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(BackEndApiConnection.class);
+    }
+
+    public LiveData<String> logUserIn(HashMap<String, String> map){
+        mLoginResponse = new MutableLiveData<>();
+        invokeAPI().logUserIn(map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()){
+                            try {
+                                mLoginResponse.setValue(response.body().string());
+                                Log.d("UserRepo", "onResponse: isSuccessful");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }else {
+                            try {
+                                mLoginResponse.setValue(response.errorBody().string());
+                                Log.d("UserRepo", "onResponse: unSuccessful");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        mLoginResponse.setValue(t.getMessage());
+                        Log.d("UserRepo", "onFailure:");
+                    }
+                });
+        return mLoginResponse;
+    }
+}
