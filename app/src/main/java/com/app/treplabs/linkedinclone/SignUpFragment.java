@@ -89,12 +89,11 @@ public class SignUpFragment extends Fragment implements AuthStateListener {
                 mBinding.emailLayout.setError(null);
                 mBinding.passwordLayout.setError("6 or more characters");
                 break;
-            default:
+            case "No errors":
                 mBinding.firstNameLayout.setError(null);
                 mBinding.lastNameLayout.setError(null);
                 mBinding.emailLayout.setError(null);
                 mBinding.passwordLayout.setError(null);
-                showToast(message);
                 break;
         }
     }

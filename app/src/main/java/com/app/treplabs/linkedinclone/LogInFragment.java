@@ -73,10 +73,9 @@ public class LogInFragment extends Fragment implements AuthStateListener {
                 mBinding.emailLayout.setError(null);
                 mBinding.passwordLayout.setError("Invalid Password");
                 break;
-            default:
+            case "No errors":
                 mBinding.emailLayout.setError(null);
                 mBinding.passwordLayout.setError(null);
-                showToast(message);
                 break;
         }
     }

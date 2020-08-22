@@ -30,6 +30,7 @@ public class AuthViewModel extends ViewModel {
             mAuthStateListener.onFailure("Error in Password");
             return;
         }
+        mAuthStateListener.onFailure("No errors");
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("email", mUserEmail);
         hashMap.put("password", mUserPassword);
@@ -53,6 +54,7 @@ public class AuthViewModel extends ViewModel {
             mAuthStateListener.onFailure("Error in Password");
             return;
         }
+        mAuthStateListener.onFailure("No errors");
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("firstname", mFirstName);
         hashMap.put("lastname", mLastName);
