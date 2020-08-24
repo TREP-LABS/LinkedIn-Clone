@@ -169,7 +169,7 @@ router.post(
 
 /**
  * @swagger
- * /auth/password/request:
+ * /auth/password/reset:
  *  post:
  *    tags: [Users]
  *    summary: Reset the user's password.
