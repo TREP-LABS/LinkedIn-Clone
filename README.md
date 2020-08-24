@@ -4,6 +4,7 @@ This is the backend API for the LinkindIn Clone project.
 
 ## API Documentation
 
+- [Heroku](http://trep-lc-backend.herokuapp.com/api/v1/api-docs)
 - [Postman](https://documenter.getpostman.com/view/6500233/T1LTejTY?version=latest)
 
 ## Getting Started
