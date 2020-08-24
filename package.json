@@ -4,9 +4,11 @@
   "description": "LinkedIn Clone",
   "main": "index.js",
   "scripts": {
+    "start": "npm run build && node ./build/app.js",
     "dev": "nodemon ./src/app --exec babel-node --watch ./src",
     "test": "set NODE_ENV=test && npm run database:clear && mocha --require @babel/register ./src/api/tests/testPaths.js --timeout 30000 --exit",
-    "database:clear": "set NODE_ENV=test && babel-node ./src/clearDatabase"
+    "database:clear": "set NODE_ENV=test && babel-node ./src/clearDatabase",
+    "build": "babel ./src -d ./build"
   },
   "repository": {
     "type": "git",
