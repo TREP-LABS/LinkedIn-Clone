@@ -22,7 +22,9 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello, world!');
+  res.send(
+    '<center><h1>LinkedIn Clone</h1><a href="http://trep-lc-backend.herokuapp.com/api/v1/api-docs">Documentation</a></center>',
+  );
 });
 
 app.use(cors());
