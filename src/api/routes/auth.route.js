@@ -45,7 +45,10 @@ const router = express.Router();
  *                message:
  *                  type: string
  *                data:
- *                  $ref: '#/components/schemas/User'
+ *                  type: object
+ *                  properties:
+ *                    token:
+ *                      type: string
  *
  *       '400':
  *         description: 'Invalid inputs.'
