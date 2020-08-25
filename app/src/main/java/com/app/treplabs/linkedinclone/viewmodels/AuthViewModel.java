@@ -62,6 +62,10 @@ public class AuthViewModel extends ViewModel {
         mAuthStateListener.onSuccess(mSignUpResponse);
     }
 
+    public void onResetButtonClicked(View view){
+
+    }
+
     private boolean isEmailValid(String email) {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         if (email == null || email.isEmpty())
