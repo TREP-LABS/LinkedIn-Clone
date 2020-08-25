@@ -2,13 +2,10 @@ package com.app.treplabs.linkedinclone.viewmodels;
 
 import android.util.Log;
 import android.view.View;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.app.treplabs.linkedinclone.interfaces.AuthStateListener;
 import com.app.treplabs.linkedinclone.repositories.UserRepository;
-
 import java.util.HashMap;
 
 public class AuthViewModel extends ViewModel {
@@ -32,11 +29,10 @@ public class AuthViewModel extends ViewModel {
         }
         mAuthStateListener.onFailure("No errors");
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("email", mUserEmail);
-        hashMap.put("password", mUserPassword);
+        hashMap.put("email", mUserEmail.trim());
+        hashMap.put("password", mUserPassword.trim());
 
         LiveData<String> mLoginResponse = UserRepository.getInstance().logUserIn(hashMap);
-        Log.d("AuthViewModel", "onLoginButtonClicked: " + mLoginResponse.getValue());
         mAuthStateListener.onSuccess(mLoginResponse);
     }
 
@@ -56,12 +52,12 @@ public class AuthViewModel extends ViewModel {
         }
         mAuthStateListener.onFailure("No errors");
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("firstname", mFirstName);
-        hashMap.put("lastname", mLastName);
-        hashMap.put("email", mUserEmail);
+        hashMap.put("firstname", mFirstName.trim());
+        hashMap.put("lastname", mLastName.trim());
+        hashMap.put("email", mUserEmail.trim());
         hashMap.put("password", mUserPassword);
 
-        LiveData<String> mSignUpResponse = UserRepository.getInstance().signUserIn(hashMap);
+        LiveData<String> mSignUpResponse = UserRepository.getInstance().signUserUp(hashMap);
         Log.d("AuthViewModel", "onLoginButtonClicked: " + mSignUpResponse.getValue());
         mAuthStateListener.onSuccess(mSignUpResponse);
     }
