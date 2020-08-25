@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface BackEndApiConnection {
+public interface BackendAuthApi {
     @POST(value = "login")
     Call<ResponseBody> logUserIn(@Body HashMap<String, String> map);
 

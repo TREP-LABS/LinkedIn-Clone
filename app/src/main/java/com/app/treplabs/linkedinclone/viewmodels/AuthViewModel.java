@@ -36,7 +36,7 @@ public class AuthViewModel extends ViewModel {
         hashMap.put("password", mUserPassword);
 
         LiveData<String> mLoginResponse = new UserRepository().logUserIn(hashMap);
-        Log.d("AuthViewModel", "onLoginButtonClicked: " + mLoginResponse.toString());
+        Log.d("AuthViewModel", "onLoginButtonClicked: " + mLoginResponse.getValue());
         mAuthStateListener.onSuccess(mLoginResponse);
     }
 
@@ -62,7 +62,7 @@ public class AuthViewModel extends ViewModel {
         hashMap.put("password", mUserPassword);
 
         LiveData<String> mSignUpResponse = new UserRepository().signUserIn(hashMap);
-        Log.d("AuthViewModel", "onLoginButtonClicked: " + mSignUpResponse.toString());
+        Log.d("AuthViewModel", "onLoginButtonClicked: " + mSignUpResponse.getValue());
         mAuthStateListener.onSuccess(mSignUpResponse);
     }
 

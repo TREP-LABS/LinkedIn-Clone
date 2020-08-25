@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.app.treplabs.linkedinclone.network.BackEndApiConnection;
+import com.app.treplabs.linkedinclone.network.BackendAuthApi;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,16 +18,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserRepository {
-    private static final String BASE_URL = "http://192.168.43.100:5000/api/v1/auth/";
+    private static final String BASE_URL = "http://trep-lc-backend.herokuapp.com/api/v1/auth/";
     private MutableLiveData<String> mLoginResponse;
     private MutableLiveData<String> mSignUpResponse;
 
-    private BackEndApiConnection invokeAPI(){
+    private BackendAuthApi invokeAPI(){
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(BackEndApiConnection.class);
+                .create(BackendAuthApi.class);
     }
 
     public LiveData<String> logUserIn(HashMap<String, String> map){

@@ -5,8 +5,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +62,9 @@ public class LogInFragment extends Fragment implements AuthStateListener {
 
     @Override
     public void onSuccess(LiveData<String> loginResponse) {
-        loginResponse.observe(this, this::showToast);
+        loginResponse.observe(this, s -> {
+            Log.d("LoginFragment", s);
+        });
     }
 
     @Override
