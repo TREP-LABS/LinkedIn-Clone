@@ -1,15 +1,11 @@
 package com.app.treplabs.linkedinclone.repositories;
 
 import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.app.treplabs.linkedinclone.network.BackendAuthApi;
-
 import java.io.IOException;
 import java.util.HashMap;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,9 +14,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserRepository {
+    private static UserRepository instance = null;
     private static final String BASE_URL = "http://trep-lc-backend.herokuapp.com/api/v1/auth/";
     private MutableLiveData<String> mLoginResponse;
     private MutableLiveData<String> mSignUpResponse;
+
+    private UserRepository(){}
+
+    public static UserRepository getInstance(){
+        if (instance == null){
+            instance = new UserRepository();
+        }
+        return instance;
+    }
 
     private BackendAuthApi invokeAPI(){
         return new Retrofit.Builder()
