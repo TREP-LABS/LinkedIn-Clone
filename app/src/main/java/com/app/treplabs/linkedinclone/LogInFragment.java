@@ -47,6 +47,9 @@ public class LogInFragment extends Fragment implements AuthStateListener {
         mBinding.loginSignUpBtn.setOnClickListener(
                 Navigation.createNavigateOnClickListener(R.id.action_logInFragment_to_signUpFragment)
         );
+        mBinding.forgotPasswordBtn.setOnClickListener(
+                Navigation.createNavigateOnClickListener(R.id.action_logInFragment_to_resetPasswordFragment)
+        );
     }
 
     private void showToast(String message){

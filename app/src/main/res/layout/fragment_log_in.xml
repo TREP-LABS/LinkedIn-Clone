@@ -85,11 +85,25 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <Button
+                android:id="@+id/forgot_password_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:elevation="0dp"
+                android:fontFamily="@font/roboto"
+                android:padding="0dp"
+                android:text="@string/forgot_password"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password_layout" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="24dp"
                 android:backgroundTint="@color/colorAccent"
                 android:fontFamily="@font/roboto"
                 android:onClick="@{authViewModel::onLoginButtonClicked}"
@@ -99,7 +113,7 @@
                 app:cornerRadius="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/password_layout" />
+                app:layout_constraintTop_toBottomOf="@+id/forgot_password_btn" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -117,10 +131,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_sign_up_btn"
-                android:layout_width="90dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorTransparent"
                 android:fontFamily="@font/roboto"
+                android:padding="0dp"
                 android:text="@string/sign_up"
                 android:textAllCaps="false"
                 android:textColor="@color/colorAccent"

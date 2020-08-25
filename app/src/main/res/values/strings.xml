@@ -15,4 +15,7 @@
     <string name="dont_have_an_account">Don\'t have an account ?</string>
     <string name="sign_up">Sign Up</string>
     <string name="required">*Required (2 or more characters)</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="reset_password_message">Enter your Email to reset your Password</string>
 </resources>
