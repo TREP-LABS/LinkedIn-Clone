@@ -13,6 +13,7 @@ public class AuthViewModel extends ViewModel {
     public String mLastName;
     public String mUserEmail;
     public String mUserPassword;
+    public String mResetEmail;
     private AuthStateListener mAuthStateListener;
 
     public void setAuthStateListener(AuthStateListener authStateListener) {
@@ -32,8 +33,8 @@ public class AuthViewModel extends ViewModel {
         hashMap.put("email", mUserEmail.trim());
         hashMap.put("password", mUserPassword.trim());
 
-        LiveData<String> mLoginResponse = UserRepository.getInstance().logUserIn(hashMap);
-        mAuthStateListener.onSuccess(mLoginResponse);
+        LiveData<String> loginResponse = UserRepository.getInstance().logUserIn(hashMap);
+        mAuthStateListener.onSuccess(loginResponse);
     }
 
     public void onJoinNowButtonClicked(View view) {
@@ -63,7 +64,13 @@ public class AuthViewModel extends ViewModel {
     }
 
     public void onResetButtonClicked(View view){
-
+        if (!isEmailValid(mResetEmail)){
+            mAuthStateListener.onFailure("Error in Email");
+            return;
+        }
+//        mAuthStateListener.onFailure("No errors");
+        LiveData<String> resetPasswordResponse;
+        mAuthStateListener.onFailure("A link is sent to your email");
     }
 
     private boolean isEmailValid(String email) {
