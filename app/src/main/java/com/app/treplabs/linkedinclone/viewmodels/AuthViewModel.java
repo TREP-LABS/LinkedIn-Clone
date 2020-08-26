@@ -68,9 +68,11 @@ public class AuthViewModel extends ViewModel {
             mAuthStateListener.onFailure("Error in Email");
             return;
         }
-//        mAuthStateListener.onFailure("No errors");
-        LiveData<String> resetPasswordResponse;
-        mAuthStateListener.onFailure("A link is sent to your email");
+        mAuthStateListener.onFailure("No errors");
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("email", mResetEmail.trim());
+        LiveData<String> resetPasswordResponse = UserRepository.getInstance().resetUserPassword(hashMap);
+        mAuthStateListener.onSuccess(resetPasswordResponse);
     }
 
     private boolean isEmailValid(String email) {

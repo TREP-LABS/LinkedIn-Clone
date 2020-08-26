@@ -11,5 +11,8 @@ public interface BackendAuthApi {
     Call<ResponseBody> logUserIn(@Body HashMap<String, String> map);
 
     @POST(value = "register")
-    Call<ResponseBody> signUserIn(@Body HashMap<String, String> map);
+    Call<ResponseBody> signUserUp(@Body HashMap<String, String> map);
+
+    @POST(value = "password/request")
+    Call<ResponseBody> resetUserPassword(@Body HashMap<String, String> map);
 }

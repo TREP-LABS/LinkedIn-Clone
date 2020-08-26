@@ -1,14 +1,19 @@
 package com.app.treplabs.linkedinclone.repositories;
 
 import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.network.BackendAuthApi;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.HashMap;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,6 +26,7 @@ public class UserRepository {
     private static final String BASE_URL = "http://trep-lc-backend.herokuapp.com/api/v1/auth/";
     private MutableLiveData<String> mLoginResponse;
     private MutableLiveData<String> mSignUpResponse;
+    private MutableLiveData<String> mResetResponse;
     private String mMessage;
 
     private UserRepository() {
@@ -96,7 +102,7 @@ public class UserRepository {
 
     public LiveData<String> signUserUp(HashMap<String, String> map) {
         mSignUpResponse = new MutableLiveData<>();
-        invokeAPI().signUserIn(map)
+        invokeAPI().signUserUp(map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -131,9 +137,7 @@ public class UserRepository {
     private void getSignUpResponseFromJSON(HashMap<String, String> map, String string) throws JSONException {
         JSONObject parent = new JSONObject(string);
         boolean success = parent.getBoolean("success");
-        Log.d("UserRepo signUp", String.valueOf(success));
         mMessage = parent.getString("message");
-        Log.d("UserRepo signUp", mMessage);
         if (success) {
             JSONObject data = parent.getJSONObject("data");
             String token = data.getString("token");
@@ -142,5 +146,45 @@ public class UserRepository {
             User.getInstance().setLastName(map.get("lastname"));
             User.getInstance().setEmail(map.get("email"));
         }
+    }
+
+    public LiveData<String> resetUserPassword(HashMap<String, String> map) {
+        mResetResponse = new MutableLiveData<>();
+        invokeAPI().resetUserPassword(map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            try {
+                                getResetResponseFromJSON(response.body().string());
+                                mResetResponse.setValue(mMessage + " success");
+                                Log.d("UserRepo reset", "onResponse: isSuccessful");
+                            } catch (IOException | JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                getResetResponseFromJSON(response.errorBody().string());
+                                mResetResponse.setValue(mMessage);
+                                Log.d("UserRepo reset", "onResponse: unSuccessful");
+                            } catch (JSONException | IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        mResetResponse.setValue(t.getMessage());
+                        Log.d("UserRepo", "onFailure:");
+                    }
+                });
+        return mResetResponse;
+    }
+
+    private void getResetResponseFromJSON(String string) throws JSONException {
+        JSONObject parent = new JSONObject(string);
+        boolean success = parent.getBoolean("success");
+        mMessage = parent.getString("message");
     }
 }
