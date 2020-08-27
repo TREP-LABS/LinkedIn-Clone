@@ -17,6 +17,7 @@ import com.app.treplabs.linkedinclone.interfaces.AuthStateListener;
 import com.app.treplabs.linkedinclone.viewmodels.AuthViewModel;
 
 public class SignUpFragment extends Fragment implements AuthStateListener {
+    boolean mIsBtnClicked;
     //data binding
     FragmentSignUpBinding mBinding;
     //view model
@@ -29,6 +30,7 @@ public class SignUpFragment extends Fragment implements AuthStateListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mIsBtnClicked = false;
         mAuthViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         mAuthViewModel.setAuthStateListener(this);
     }
@@ -38,6 +40,7 @@ public class SignUpFragment extends Fragment implements AuthStateListener {
                              Bundle savedInstanceState) {
         mBinding = FragmentSignUpBinding.inflate(inflater);
         mBinding.setAuthViewModel(mAuthViewModel);
+        mBinding.setIsBtnClicked(mIsBtnClicked);
         return mBinding.getRoot();
     }
 
@@ -55,7 +58,7 @@ public class SignUpFragment extends Fragment implements AuthStateListener {
 
     @Override
     public void onStarted() {
-        showToast("Login Started");
+        mBinding.setIsBtnClicked(true);
     }
 
     @Override
@@ -64,6 +67,7 @@ public class SignUpFragment extends Fragment implements AuthStateListener {
             showToast(s);
             Log.d("SignUpFragment", s);
         });
+        mBinding.setIsBtnClicked(false);
     }
 
     @Override
