@@ -132,5 +132,8 @@ public class UserRepository {
         JSONObject parent = new JSONObject(string);
         boolean success = parent.getBoolean("success");
         mMessage = parent.getString("message");
+        if (success){
+            mMessage = mMessage + " success";
+        }
     }
 }
