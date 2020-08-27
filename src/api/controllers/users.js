@@ -1,6 +1,6 @@
-import { asyncHandler } from '../../middlewares';
-import { UserService } from '../../services';
-import { successResponse } from '../../utils/helpers';
+import { asyncHandler } from '../middlewares';
+import { UserService } from '../services';
+import { successResponse } from '../utils/helpers';
 
 /**
  * Registers a new user.
