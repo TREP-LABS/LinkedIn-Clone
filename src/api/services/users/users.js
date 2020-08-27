@@ -11,7 +11,7 @@ import {
 } from './helpers';
 import { ServiceError } from '../helpers';
 
-const { User } = db;
+const { User, Profile } = db;
 
 /**
  * Creates a new user.
@@ -33,6 +33,10 @@ export const register = async (data) => {
   });
 
   newUser = await newUser.save();
+
+  const profile = new Profile({ user: newUser._id });
+
+  profile.save();
 
   const token = generateToken(formatUserData(newUser));
 
