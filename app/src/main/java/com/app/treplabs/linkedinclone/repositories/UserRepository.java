@@ -24,9 +24,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserRepository {
     private static UserRepository instance = null;
     private static final String BASE_URL = "http://trep-lc-backend.herokuapp.com/api/v1/auth/";
-    private MutableLiveData<String> mLoginResponse;
-    private MutableLiveData<String> mSignUpResponse;
-    private MutableLiveData<String> mResetResponse;
     private String mMessage;
 
     private UserRepository() {
@@ -47,38 +44,21 @@ public class UserRepository {
                 .create(BackendAuthApi.class);
     }
 
-    public LiveData<String> logUserIn(HashMap<String, String> map) {
-        mLoginResponse = new MutableLiveData<>();
-        invokeAPI().logUserIn(map)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                getLoginResponseFromJSON(response.body().string());
-                                mLoginResponse.setValue(mMessage);
-                                Log.d("UserRepo logIn", "onResponse: isSuccessful");
-                            } catch (IOException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try {
-                                getLoginResponseFromJSON(response.errorBody().string());
-                                mLoginResponse.setValue(mMessage);
-                                Log.d("UserRepo logIn", "onResponse: unSuccessful");
-                            } catch (IOException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        mLoginResponse.setValue(t.getMessage());
-                        Log.d("UserRepo", "onFailure:");
-                    }
-                });
-        return mLoginResponse;
+    public String logUserIn(HashMap<String, String> map) {
+        Call<ResponseBody> call = invokeAPI().logUserIn(map);
+        try {
+            Response<ResponseBody> result = call.execute();
+            if (result.isSuccessful()){
+                Log.d("UserRepo", "logUserIn: isSuccessful");
+                getLoginResponseFromJSON(result.body().string());
+            }else {
+                Log.d("UserRepo", "logUserIn: unSuccessful");
+                getLoginResponseFromJSON(result.errorBody().string());
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return mMessage;
     }
 
     private void getLoginResponseFromJSON(String string) throws JSONException {
@@ -100,38 +80,21 @@ public class UserRepository {
         }
     }
 
-    public LiveData<String> signUserUp(HashMap<String, String> map) {
-        mSignUpResponse = new MutableLiveData<>();
-        invokeAPI().signUserUp(map)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                getSignUpResponseFromJSON(map, response.body().string());
-                                mSignUpResponse.setValue(mMessage);
-                                Log.d("UserRepo signUp", "onResponse: isSuccessful");
-                            } catch (IOException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try {
-                                getSignUpResponseFromJSON(map, response.errorBody().string());
-                                mSignUpResponse.setValue(mMessage);
-                                Log.d("UserRepo signUp", "onResponse: unSuccessful");
-                            } catch (IOException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        mSignUpResponse.setValue(t.getMessage());
-                        Log.d("UserRepo signUp", "onFailure:");
-                    }
-                });
-        return mSignUpResponse;
+    public String signUserUp(HashMap<String, String> map) {
+        Call<ResponseBody> call = invokeAPI().signUserUp(map);
+        try {
+            Response<ResponseBody> result = call.execute();
+            if (result.isSuccessful()){
+                Log.d("UserRepo", "logUserIn: isSuccessful");
+                getSignUpResponseFromJSON(map, result.body().string());
+            }else {
+                Log.d("UserRepo", "logUserIn: unSuccessful");
+                getSignUpResponseFromJSON(map, result.errorBody().string());
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return mMessage;
     }
 
     private void getSignUpResponseFromJSON(HashMap<String, String> map, String string) throws JSONException {
@@ -148,38 +111,21 @@ public class UserRepository {
         }
     }
 
-    public LiveData<String> resetUserPassword(HashMap<String, String> map) {
-        mResetResponse = new MutableLiveData<>();
-        invokeAPI().resetUserPassword(map)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                getResetResponseFromJSON(response.body().string());
-                                mResetResponse.setValue(mMessage + " success");
-                                Log.d("UserRepo reset", "onResponse: isSuccessful");
-                            } catch (IOException | JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try {
-                                getResetResponseFromJSON(response.errorBody().string());
-                                mResetResponse.setValue(mMessage);
-                                Log.d("UserRepo reset", "onResponse: unSuccessful");
-                            } catch (JSONException | IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        mResetResponse.setValue(t.getMessage());
-                        Log.d("UserRepo", "onFailure:");
-                    }
-                });
-        return mResetResponse;
+    public String resetUserPassword(HashMap<String, String> map) {
+        Call<ResponseBody> call = invokeAPI().resetUserPassword(map);
+        try {
+            Response<ResponseBody> result = call.execute();
+            if (result.isSuccessful()){
+                Log.d("UserRepo", "logUserIn: isSuccessful");
+                getResetResponseFromJSON(result.body().string());
+            }else {
+                Log.d("UserRepo", "logUserIn: unSuccessful");
+                getResetResponseFromJSON(result.errorBody().string());
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return mMessage;
     }
 
     private void getResetResponseFromJSON(String string) throws JSONException {

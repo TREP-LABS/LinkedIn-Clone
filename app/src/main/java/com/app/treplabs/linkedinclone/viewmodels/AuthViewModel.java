@@ -1,8 +1,11 @@
 package com.app.treplabs.linkedinclone.viewmodels;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.app.treplabs.linkedinclone.interfaces.AuthStateListener;
 import com.app.treplabs.linkedinclone.repositories.UserRepository;
@@ -15,6 +18,7 @@ public class AuthViewModel extends ViewModel {
     public String mUserPassword;
     public String mResetEmail;
     private AuthStateListener mAuthStateListener;
+    private MutableLiveData<String> mResponse;
 
     public void setAuthStateListener(AuthStateListener authStateListener) {
         mAuthStateListener = authStateListener;
@@ -33,8 +37,26 @@ public class AuthViewModel extends ViewModel {
         hashMap.put("email", mUserEmail.trim());
         hashMap.put("password", mUserPassword.trim());
 
-        LiveData<String> loginResponse = UserRepository.getInstance().logUserIn(hashMap);
-        mAuthStateListener.onSuccess(loginResponse);
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<HashMap<String, String>, Void, String> task =
+                new AsyncTask<HashMap<String, String>, Void, String>() {
+                    @Override
+                    protected void onPreExecute() {
+                        mAuthStateListener.onStarted();
+                    }
+                    @Override
+                    protected String doInBackground(HashMap<String, String>... hashMaps) {
+                        return UserRepository.getInstance().logUserIn(hashMaps[0]);
+                    }
+                    @Override
+                    protected void onPostExecute(String string) {
+                        mResponse = new MutableLiveData<>();
+                        mResponse.setValue(string);
+                        mAuthStateListener.onSuccess(mResponse);
+                    }
+
+                };
+        task.execute(hashMap);
     }
 
     public void onJoinNowButtonClicked(View view) {
@@ -58,9 +80,26 @@ public class AuthViewModel extends ViewModel {
         hashMap.put("email", mUserEmail.trim());
         hashMap.put("password", mUserPassword);
 
-        LiveData<String> mSignUpResponse = UserRepository.getInstance().signUserUp(hashMap);
-        Log.d("AuthViewModel", "onLoginButtonClicked: " + mSignUpResponse.getValue());
-        mAuthStateListener.onSuccess(mSignUpResponse);
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<HashMap<String, String>, Void, String> task =
+                new AsyncTask<HashMap<String, String>, Void, String>() {
+                    @Override
+                    protected void onPreExecute() {
+                        mAuthStateListener.onStarted();
+                    }
+                    @Override
+                    protected String doInBackground(HashMap<String, String>... hashMaps) {
+                        return UserRepository.getInstance().signUserUp(hashMaps[0]);
+                    }
+                    @Override
+                    protected void onPostExecute(String string) {
+                        mResponse = new MutableLiveData<>();
+                        mResponse.setValue(string);
+                        mAuthStateListener.onSuccess(mResponse);
+                    }
+
+                };
+        task.execute(hashMap);
     }
 
     public void onResetButtonClicked(View view){
@@ -71,8 +110,28 @@ public class AuthViewModel extends ViewModel {
         mAuthStateListener.onFailure("No errors");
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("email", mResetEmail.trim());
-        LiveData<String> resetPasswordResponse = UserRepository.getInstance().resetUserPassword(hashMap);
-        mAuthStateListener.onSuccess(resetPasswordResponse);
+
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<HashMap<String, String>, Void, String> task =
+                new AsyncTask<HashMap<String, String>, Void, String>() {
+                    @Override
+                    protected void onPreExecute() {
+                        mAuthStateListener.onStarted();
+                    }
+                    @Override
+                    protected String doInBackground(HashMap<String, String>... hashMaps) {
+                        return UserRepository.getInstance().resetUserPassword(hashMaps[0]);
+                    }
+                    @Override
+                    protected void onPostExecute(String string) {
+                        mResponse = new MutableLiveData<>();
+                        mResponse.setValue(string);
+                        mAuthStateListener.onSuccess(mResponse);
+                    }
+
+                };
+        task.execute(hashMap);
+
     }
 
     private boolean isEmailValid(String email) {
