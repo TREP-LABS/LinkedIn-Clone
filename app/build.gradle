@@ -39,6 +39,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:2.3.0"
     implementation "androidx.navigation:navigation-ui:2.3.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 
     //lifecycle dependencies
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
