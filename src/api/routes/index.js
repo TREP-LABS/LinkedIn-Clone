@@ -2,6 +2,7 @@ import express from 'express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import authRoutes from './auth.route';
+import profileRoutes from './profile.route';
 
 const router = express.Router();
 
@@ -40,6 +41,7 @@ router.use('/api-docs', swaggerUi.serve);
 
 router.get('/api-docs', swaggerUi.setup(specs, { explorer: true }));
 
+router.use('/profiles', profileRoutes);
 router.use('/auth', authRoutes);
 
 router.all('*', (req, res) => {

@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import Joi from 'joi';
 
 /**
  * Generic user schema to be used in other Joi ObjectSchema.
