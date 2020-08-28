@@ -19,6 +19,14 @@ const router = express.Router();
  *  post:
  *    tags: [Profile]
  *    summary: Adds a new education entry.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
  *    operationId: addEducation
  *    requestBody:
  *      required: true
