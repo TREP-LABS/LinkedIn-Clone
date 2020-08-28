@@ -3,6 +3,7 @@ import config from '../config/config';
 
 // Import models.
 import User from './User';
+import Profile from './Profile';
 
 /**
  * @swagger
@@ -24,11 +25,12 @@ import User from './User';
  *              items:
  *                type: string
  *
- *    UnauthorizedRequestResponse:
+ *    FailureResponse:
  *      type: object
  *      properties:
  *        success:
  *          type: boolean
+ *          example: false
  *        message:
  *          type: string
  */
@@ -45,4 +47,5 @@ mongoose.connect(presetConfig.dbUrl, {
 
 export default {
   User,
+  Profile,
 };
