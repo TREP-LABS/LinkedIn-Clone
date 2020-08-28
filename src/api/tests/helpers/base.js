@@ -11,3 +11,17 @@ export const failureAssertions = (message, statusCode = 400, done) => (req, res)
   res.body.success.should.be.eql(false);
   done();
 };
+
+/**
+ * An helper function that constructs assertions for a test that is meant-
+ * to fail because of authentication.
+ * @param {Function} done A callback from mocha to know when this test is complete.
+ * @param {String} message A custom message to assert.
+ * @returns {void}
+ */
+export const authFailureAssertions = (
+  done,
+  message = 'You are not authorized to access this route.',
+) => {
+  return failureAssertions(message, 401, done);
+};

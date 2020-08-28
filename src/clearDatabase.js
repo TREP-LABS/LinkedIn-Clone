@@ -4,14 +4,17 @@ import db from './api/models';
 
 dotenv.config();
 
-const { User } = db;
+const { User, Profile } = db;
 
 const clearDatabase = async () => {
   try {
     console.log('Clearing users collection...');
     const deleteUsers = User.deleteMany({});
 
-    Promise.all([deleteUsers]).then(() => {
+    console.log('Clearing profiles collection...');
+    const deleteProfiles = Profile.deleteMany({});
+
+    Promise.all([deleteUsers, deleteProfiles]).then(() => {
       console.log('\nDatabase cleared successfully.');
       process.exit();
     });
