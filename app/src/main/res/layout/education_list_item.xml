@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/education_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_school" />
+
+    <TextView
+        android:id="@+id/school_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="4dp"
+        android:fontFamily="@font/roboto"
+        android:text="Federal University of Technology Akure"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/education_img"
+        app:layout_constraintTop_toTopOf="@+id/education_img" />
+
+    <TextView
+        android:id="@+id/school_degree"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BE, Computer Engineering"
+        android:textColor="@color/subText"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/school_name"
+        app:layout_constraintTop_toBottomOf="@+id/school_name" />
+
+    <TextView
+        android:id="@+id/year_from_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2007 - 2017"
+        android:textColor="@color/subText"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/school_name"
+        app:layout_constraintTop_toBottomOf="@+id/school_degree" />
+
+    <View
+        android:id="@+id/education_view"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/layoutBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/school_name"
+        app:layout_constraintTop_toBottomOf="@+id/year_from_to" />
+</androidx.constraintlayout.widget.ConstraintLayout>

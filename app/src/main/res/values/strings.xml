@@ -19,4 +19,24 @@
     <string name="reset_password">Reset Password</string>
     <string name="reset_password_message">Enter your Email to reset your Password</string>
     <string name="lorem_ipsum">Lorem ipsum asdkms asdnskxms asjkdnzkx xnjs kama. dskmd</string>
+    <string name="sample_header_name">John Doe</string>
+    <string name="sample_job_title">UI/UX Designer at TREP LABS</string>
+    <string name="sample_location">Nigeria</string>
+    <string name="sample_connections">500+ connections</string>
+    <string name="about">About</string>
+    <string name="lorem_ipsum2">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</string>
+    <string name="your_dashboard">Your Dashboard</string>
+    <string name="private_to_you">Private to you</string>
+    <string name="sample_profile_views">1,208</string>
+    <string name="who_viewed_your_profile">Who viewed your profile</string>
+    <string name="post_views">Post Views</string>
+    <string name="sample_post_views">100</string>
+    <string name="sample_search_appearance">11,050</string>
+    <string name="experience">Experience</string>
+    <string name="education">Education</string>
+    <string name="see_all">See All</string>
+    <string name="search_appearance">Search Appearance</string>
+    <string name="skills_and_endorsement">Skills and Endorsement</string>
+    <string name="contact">Contact</string>
+    <string name="your_profile">Your Profile</string>
 </resources>
