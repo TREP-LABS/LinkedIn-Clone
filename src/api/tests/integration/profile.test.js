@@ -2,9 +2,15 @@ import { BaseHelpers, UserHelpers, ProfileHelpers } from '../helpers';
 
 const { authFailureAssertions } = BaseHelpers;
 const { userDetails, loginUser } = UserHelpers;
-const { educationDetails, alterEducationDetails, createEducation } = ProfileHelpers;
+const {
+  educationDetails,
+  alterEducationDetails,
+  createEducation,
+  updateEducation,
+} = ProfileHelpers;
 
 let userToken;
+let educationId;
 
 describe('Profile Endpoints', () => {
   before('Login the user', (done) => {
@@ -29,8 +35,34 @@ describe('Profile Endpoints', () => {
           res.body.data.education.should.be.a('object');
           res.body.data.education.schoolName.should.be.eql(educationDetails.schoolName);
 
+          educationId = res.body.data.education.id;
+
           done();
         });
+      });
+    });
+
+    describe('Update Education', () => {
+      it('should not allow guest users update an education entry', (done) => {
+        updateEducation(
+          alterEducationDetails({ schoolName: 'Havard University', token: null }),
+          educationId,
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should update an education entry', (done) => {
+        updateEducation(
+          alterEducationDetails({ schoolName: 'Havard University' }),
+          educationId,
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.success.should.be.eql(true);
+            res.body.data.education.schoolName.should.be.eql('Havard University');
+
+            done();
+          },
+        );
       });
     });
   });

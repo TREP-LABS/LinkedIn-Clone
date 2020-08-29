@@ -25,3 +25,9 @@ export const authFailureAssertions = (
 ) => {
   return failureAssertions(message, 401, done);
 };
+
+export const sendRequest = (chaiRequest, details, assertions) => {
+  if (details.token) chaiRequest.set('Authorization', `Bearer ${details.token}`);
+
+  chaiRequest.send(details).end(assertions);
+};

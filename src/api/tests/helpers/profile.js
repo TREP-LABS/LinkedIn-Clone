@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../app';
+import { sendRequest } from './base';
 
 const should = chai.should();
 
@@ -30,13 +31,17 @@ export const alterEducationDetails = (newEducationDetails) => ({
 
 /**
  * An helper function to create a new education entry.
- * @param {Object} userDetails Details of the education entry to add.
+ * @param {Object} educationDetails Details of the education entry to add.
  * @param {Function} asertions The assertions to execute after the request is complete.
  */
 export const createEducation = (educationDetails, assertions) => {
   const chaiRequest = chai.request(app).post('/api/v1/profiles/educations');
 
-  if (educationDetails.token) chaiRequest.set('Authorization', `Bearer ${educationDetails.token}`);
+  sendRequest(chaiRequest, educationDetails, assertions);
+};
 
-  chaiRequest.send(educationDetails).end(assertions);
+export const updateEducation = (educationDetails, educationId, assertions) => {
+  const chaiRequest = chai.request(app).put(`/api/v1/profiles/educations/${educationId}`);
+
+  sendRequest(chaiRequest, educationDetails, assertions);
 };
