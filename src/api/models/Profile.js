@@ -50,6 +50,42 @@ const EducationSchema = new Schema({
   notes: { type: String },
 });
 
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Profile:
+ *        type: object
+ *        required:
+ *          - id
+ *          - firstname
+ *          - lastname
+ *          - email
+ *          - slug
+ *        properties:
+ *          id:
+ *            type: string
+ *            example: 537e1f77bcf86cd799439011
+ *          firstname:
+ *            type: string
+ *            example: John
+ *          lastname:
+ *            type: string
+ *            example: Doe
+ *          email:
+ *            type: string
+ *            example: johndoe@gmail.com
+ *          slug:
+ *            type: string
+ *            example: john-doe
+ *          profile:
+ *            type: object
+ *            properties:
+ *              educations:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/Education'
+ */
 const ProfileSchema = new Schema({
   educations: [EducationSchema],
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
