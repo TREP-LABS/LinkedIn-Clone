@@ -8,44 +8,44 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import com.app.treplabs.linkedinclone.R;
-import com.app.treplabs.linkedinclone.databinding.ExperienceListItemBinding;
-import com.app.treplabs.linkedinclone.models.UserExperience;
+import com.app.treplabs.linkedinclone.databinding.EducationListItemBinding;
+import com.app.treplabs.linkedinclone.models.UserEducation;
 import java.util.List;
 
-public class UserExperienceAdapter extends RecyclerView.Adapter<UserExperienceAdapter.BindingHolder> {
-    private List<UserExperience> mUserExperiences;
+public class UserEducationAdapter extends RecyclerView.Adapter<UserEducationAdapter.BindingHolder> {
+    private List<UserEducation> mUserEducations;
     private Context mContext;
 
-    public UserExperienceAdapter(List<UserExperience> userExperiences, Context context) {
-        mUserExperiences = userExperiences;
+    public UserEducationAdapter(List<UserEducation> userEducations, Context context) {
+        mUserEducations = userEducations;
         mContext = context;
     }
 
     @NonNull
     @Override
     public BindingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ExperienceListItemBinding binding = DataBindingUtil.inflate(
-                LayoutInflater.from(mContext), R.layout.experience_list_item, parent, false);
+        EducationListItemBinding binding = DataBindingUtil.inflate(
+                LayoutInflater.from(mContext), R.layout.education_list_item, parent, false);
         return new BindingHolder(binding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(@NonNull BindingHolder holder, int position) {
-        UserExperience userExperience = mUserExperiences.get(position);
-        if (position == mUserExperiences.size() - 1)
+        UserEducation userEducation = mUserEducations.get(position);
+        if (position == mUserEducations.size() - 1)
             holder.mBinding.setIsLastItem(true);
-        holder.mBinding.setUserExperience(userExperience);
+        holder.mBinding.setUserEducation(userEducation);
         holder.mBinding.executePendingBindings();
     }
 
     @Override
     public int getItemCount() {
-        return mUserExperiences.size();
+        return mUserEducations.size();
     }
 
     public class BindingHolder extends RecyclerView.ViewHolder {
         boolean isLastItem = false;
-        ExperienceListItemBinding mBinding;
+        EducationListItemBinding mBinding;
 
         public BindingHolder(@NonNull View itemView) {
             super(itemView);

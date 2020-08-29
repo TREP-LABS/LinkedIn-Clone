@@ -4,7 +4,9 @@ import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.treplabs.linkedinclone.adapters.UserEducationAdapter;
 import com.app.treplabs.linkedinclone.adapters.UserExperienceAdapter;
+import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 
 import java.util.List;
@@ -21,6 +23,20 @@ public class ProfileBindingAdapters {
         UserExperienceAdapter adapter = (UserExperienceAdapter) view.getAdapter();
         if (adapter == null){
             adapter = new UserExperienceAdapter(experiences, view.getContext());
+            view.setAdapter(adapter);
+        }
+    }
+
+    @BindingAdapter("userEducationList")
+    public static void setUserEducationList(RecyclerView view, List<UserEducation> educations){
+        if (educations == null)
+            return;
+        RecyclerView.LayoutManager layoutManager = view.getLayoutManager();
+        if (layoutManager == null)
+            view.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false));
+        UserEducationAdapter adapter = (UserEducationAdapter) view.getAdapter();
+        if (adapter == null){
+            adapter = new UserEducationAdapter(educations, view.getContext());
             view.setAdapter(adapter);
         }
     }

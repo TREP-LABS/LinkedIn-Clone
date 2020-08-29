@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
     <data>
-
         <import type="com.app.treplabs.linkedinclone.models.UserExperience" />
-
+        <import type="com.app.treplabs.linkedinclone.models.UserEducation" />
         <import type="java.util.List" />
-
         <variable
             name="experiences"
             type="List&lt;UserExperience>" />
+        <variable
+            name="educations"
+            type="List&lt;UserEducation>" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -402,9 +402,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:overScrollMode="never"
                         android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        userEducationList="@{educations}"
                         app:layout_constraintStart_toStartOf="@+id/textView16"
                         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 

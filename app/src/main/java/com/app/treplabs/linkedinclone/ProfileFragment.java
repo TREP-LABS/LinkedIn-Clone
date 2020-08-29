@@ -47,5 +47,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mProfileViewModel.getUserExperienceLD().observe(getViewLifecycleOwner(),
                 experiences -> mBinding.setExperiences(experiences));
+        mProfileViewModel.getUserEducationLD().observe(getViewLifecycleOwner(),
+                educations -> mBinding.setEducations(educations));
     }
 }
