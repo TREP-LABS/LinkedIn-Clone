@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
+        <import type="android.view.View"/>
         <variable
             name="userExperience"
             type="com.app.treplabs.linkedinclone.models.UserExperience" />
-
+        <variable
+            name="isLastItem"
+            type="java.lang.Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,6 +90,7 @@
             android:background="@color/layoutBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{isLastItem ? View.GONE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="@+id/job_title"
             app:layout_constraintTop_toBottomOf="@+id/date_from_to" />
     </androidx.constraintlayout.widget.ConstraintLayout>

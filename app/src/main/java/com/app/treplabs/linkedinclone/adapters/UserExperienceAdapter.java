@@ -32,6 +32,9 @@ public class UserExperienceAdapter extends RecyclerView.Adapter<UserExperienceAd
     @Override
     public void onBindViewHolder(@NonNull BindingHolder holder, int position) {
         UserExperience userExperience = mUserExperiences.get(position);
+        if (position == mUserExperiences.size() - 1){
+            holder.mBinding.setIsLastItem(true);
+        }
         holder.mBinding.setUserExperience(userExperience);
         holder.mBinding.executePendingBindings();
     }
@@ -42,11 +45,13 @@ public class UserExperienceAdapter extends RecyclerView.Adapter<UserExperienceAd
     }
 
     public class BindingHolder extends RecyclerView.ViewHolder {
+        boolean isLastItem = false;
         ExperienceListItemBinding mBinding;
 
         public BindingHolder(@NonNull View itemView) {
             super(itemView);
             mBinding = DataBindingUtil.bind(itemView);
+            mBinding.setIsLastItem(isLastItem);
         }
     }
 }
