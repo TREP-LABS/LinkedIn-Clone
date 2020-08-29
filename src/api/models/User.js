@@ -27,6 +27,7 @@ const options = { timestamps: { createdAt: 'createdAt' } };
  *          - lastname
  *          - email
  *          - slug
+ *          - profile
  *        properties:
  *          id:
  *            type: string
@@ -38,12 +39,15 @@ const options = { timestamps: { createdAt: 'createdAt' } };
  *            type: string
  *          slug:
  *            type: string
+ *          profile:
+ *            type: string
  *        example:
  *          id: 537e1f77bcf86cd799439011
  *          firstname: John
  *          lastname: Doe
  *          email: johndoe@gmail.com
  *          slug: john-doe
+ *          profile: 537e1f77bcf86cd799439011
  */
 const UserSchema = new Schema(
   {
@@ -56,6 +60,7 @@ const UserSchema = new Schema(
     },
     slug: { type: String },
     password: { type: String },
+    profile: { type: Schema.Types.ObjectId, ref: 'Profile' },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
