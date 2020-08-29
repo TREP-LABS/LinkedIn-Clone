@@ -29,6 +29,10 @@ export const alterEducationDetails = (newEducationDetails) => ({
   ...newEducationDetails,
 });
 
+export const getProfile = (type, userId, assertions) => {
+  chai.request(app).get(`/api/v1/profiles/${type}/${userId}`).end(assertions);
+};
+
 export const createEducation = (educationDetails, assertions) => {
   const chaiRequest = chai.request(app).post('/api/v1/profiles/educations');
 
