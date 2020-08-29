@@ -7,6 +7,7 @@ const {
   alterEducationDetails,
   createEducation,
   updateEducation,
+  deleteEducation,
 } = ProfileHelpers;
 
 let userToken;
@@ -63,6 +64,24 @@ describe('Profile Endpoints', () => {
             done();
           },
         );
+      });
+    });
+
+    describe('Delete Education', () => {
+      it('should not allow guest users delete an education entry', (done) => {
+        deleteEducation(
+          alterEducationDetails({ token: null }),
+          educationId,
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should update an education entry', (done) => {
+        deleteEducation(educationDetails, educationId, (err, res) => {
+          res.should.have.status(204);
+
+          done();
+        });
       });
     });
   });

@@ -29,11 +29,6 @@ export const alterEducationDetails = (newEducationDetails) => ({
   ...newEducationDetails,
 });
 
-/**
- * An helper function to create a new education entry.
- * @param {Object} educationDetails Details of the education entry to add.
- * @param {Function} asertions The assertions to execute after the request is complete.
- */
 export const createEducation = (educationDetails, assertions) => {
   const chaiRequest = chai.request(app).post('/api/v1/profiles/educations');
 
@@ -42,6 +37,12 @@ export const createEducation = (educationDetails, assertions) => {
 
 export const updateEducation = (educationDetails, educationId, assertions) => {
   const chaiRequest = chai.request(app).put(`/api/v1/profiles/educations/${educationId}`);
+
+  sendRequest(chaiRequest, educationDetails, assertions);
+};
+
+export const deleteEducation = (educationDetails, educationId, assertions) => {
+  const chaiRequest = chai.request(app).delete(`/api/v1/profiles/educations/${educationId}`);
 
   sendRequest(chaiRequest, educationDetails, assertions);
 };
