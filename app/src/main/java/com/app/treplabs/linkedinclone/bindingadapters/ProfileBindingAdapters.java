@@ -1,0 +1,27 @@
+package com.app.treplabs.linkedinclone.bindingadapters;
+
+import androidx.databinding.BindingAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.app.treplabs.linkedinclone.adapters.UserExperienceAdapter;
+import com.app.treplabs.linkedinclone.models.UserExperience;
+
+import java.util.List;
+
+public class ProfileBindingAdapters {
+
+    @BindingAdapter("userExperienceList")
+    public static void setUserExperienceList(RecyclerView view, List<UserExperience> experiences){
+        if (experiences == null)
+            return;
+        RecyclerView.LayoutManager layoutManager = view.getLayoutManager();
+        if (layoutManager == null)
+            view.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false));
+        UserExperienceAdapter adapter = (UserExperienceAdapter) view.getAdapter();
+        if (adapter == null){
+            adapter = new UserExperienceAdapter(experiences, view.getContext());
+            view.setAdapter(adapter);
+        }
+    }
+}
