@@ -25,3 +25,16 @@ export const updateEducation = asyncHandler(async (req, res) => {
 
   return successResponse(res, 'Education updated successfully.', { data: { education } }, 200);
 });
+
+/**
+ * Add new education entry to the user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const deleteEducation = asyncHandler(async (req, res) => {
+  const { educationId } = req.params;
+
+  await ProfileService.deleteEducation(req.user, educationId);
+
+  return successResponse(res, 'Education deleted successfully.', { data: {} }, 204);
+});

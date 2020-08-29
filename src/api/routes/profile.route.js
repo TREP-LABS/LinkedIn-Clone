@@ -191,4 +191,43 @@ router.put(
   profile.updateEducation,
 );
 
+/**
+ * @swagger
+ * /profiles/educations/{educationId}:
+ *  delete:
+ *    tags: [Profile]
+ *    summary: Deletes an existing education entry.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *      - name: educationId
+ *        in: path
+ *        required: true
+ *        description: ID of the education entry to delete.
+ *        schema:
+ *          type: string
+ *    operationId: deleteEducation
+ *    responses:
+ *       '204':
+ *         description: Education deleted successfully.
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
+router.delete('/educations/:educationId', isUser, profile.deleteEducation);
+
 export default router;

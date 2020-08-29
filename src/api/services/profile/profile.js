@@ -51,3 +51,21 @@ export const updateEducation = async (user, educationId, data) => {
 
   return formatEducationData(education);
 };
+
+/**
+ * Delete an education entry in the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {String} educationId The ID of the education to update.
+ * @returns {boolean} Truthy value.
+ */
+export const deleteEducation = async (user, educationId) => {
+  let profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  profile.educations.id(educationId).remove();
+
+  await profile.save();
+
+  return true;
+};
