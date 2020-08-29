@@ -36,7 +36,11 @@ export const register = async (data) => {
 
   const profile = new Profile({ user: newUser._id });
 
-  profile.save();
+  await profile.save();
+
+  newUser.profile = profile._id;
+
+  await newUser.save();
 
   const token = generateToken(formatUserData(newUser));
 
