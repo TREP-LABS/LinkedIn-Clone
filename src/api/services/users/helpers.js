@@ -1,7 +1,11 @@
+import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import sendEmail from '../../utils/sendEmail';
+import { formatProfileData } from '../profile/helpers';
+
+const { ObjectId } = mongoose.Types.ObjectId;
 
 /**
  * Format the user data to be returned to the client.
@@ -14,6 +18,9 @@ export const formatUserData = (userData) => ({
   lastname: userData.lastname,
   email: userData.email,
   slug: userData.slug,
+  profile: ObjectId.isValid(userData.profile)
+    ? userData.profile
+    : formatProfileData(userData.profile),
 });
 
 /**

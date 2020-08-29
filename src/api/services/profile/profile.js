@@ -2,8 +2,35 @@ import moment from 'moment';
 import db from '../../models';
 import { ServiceError } from '../helpers';
 import { getProfileByUser, formatEducationData, getEducationById } from './helpers';
+import { formatUserData } from '../users/helpers';
 
-const { Profile } = db;
+const { User, Profile } = db;
+
+/**
+ * Get the user's basic profile.
+ * @param {Object} user The authenticated user object.
+ * @returns {Object} The returned user's profile.
+ */
+export const getBasicProfile = async (userId) => {
+  const user = await User.findOne({ _id: userId });
+
+  if (!user) throw new ServiceError('User profile does not exist.', 404);
+
+  return formatUserData(user);
+};
+
+/**
+ * Get the user's full profile.
+ * @param {Object} user The authenticated user object.
+ * @returns {Object} The returned user's profile.
+ */
+export const getFullProfile = async (userId) => {
+  const user = await User.findOne({ _id: userId }).populate('profile');
+
+  if (!user) throw new ServiceError('User profile does not exist.', 404);
+
+  return formatUserData(user);
+};
 
 /**
  * Add new education entry to the user's profile.

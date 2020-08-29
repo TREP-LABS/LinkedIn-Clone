@@ -7,6 +7,32 @@ import { ProfileService } from '../services';
  * @param {Function} controller The controller function.
  * @returns {Object} The response object containing some response data.
  */
+export const getBasicProfile = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  const user = await ProfileService.getBasicProfile(userId);
+
+  return successResponse(res, 'Basic profile retrieved successfully.', { data: { user } }, 200);
+});
+
+/**
+ * Add new education entry to the user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const getFullProfile = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  const user = await ProfileService.getFullProfile(userId);
+
+  return successResponse(res, 'Full profile retrieved successfully.', { data: { user } }, 200);
+});
+
+/**
+ * Add new education entry to the user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
 export const addEducation = asyncHandler(async (req, res) => {
   const education = await ProfileService.addEducation(req.user, req.body);
 

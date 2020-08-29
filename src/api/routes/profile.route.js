@@ -15,6 +15,86 @@ const router = express.Router();
 
 /**
  * @swagger
+ * /profiles/basic/{userId}:
+ *  get:
+ *    tags: [Profile]
+ *    summary: Gets a user's basic profile.
+ *    parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        description: ID of the user's profile to get.
+ *        schema:
+ *          type: string
+ *    operationId: getBasicProfile
+ *    responses:
+ *       '200':
+ *         description: Basic profile retrieved successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    user:
+ *                      $ref: '#/components/schemas/User'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
+router.get('/basic/:userId', profile.getBasicProfile);
+
+/**
+ * @swagger
+ * /profiles/full/{userId}:
+ *  get:
+ *    tags: [Profile]
+ *    summary: Gets a user's full profile.
+ *    parameters:
+ *      - name: userId
+ *        in: path
+ *        required: true
+ *        description: ID of the user's profile to get.
+ *        schema:
+ *          type: string
+ *    operationId: getFullProfile
+ *    responses:
+ *       '200':
+ *         description: Full profile retrieved successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    user:
+ *                      $ref: '#/components/schemas/Profile'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
+router.get('/full/:userId', profile.getFullProfile);
+
+/**
+ * @swagger
  * /profiles/educations:
  *  post:
  *    tags: [Profile]
@@ -69,9 +149,7 @@ const router = express.Router();
  *                data:
  *                  type: object
  *                  properties:
- *                    token:
- *                      type: string
- *                    user:
+ *                    education:
  *                      $ref: '#/components/schemas/Education'
  *       '400':
  *         description: 'Invalid inputs.'
@@ -161,9 +239,7 @@ router.post(
  *                data:
  *                  type: object
  *                  properties:
- *                    token:
- *                      type: string
- *                    user:
+ *                    education:
  *                      $ref: '#/components/schemas/Education'
  *       '400':
  *         description: 'Invalid inputs.'

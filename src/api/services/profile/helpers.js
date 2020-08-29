@@ -1,4 +1,17 @@
 /**
+ * Format the profile data to be returned to the client.
+ * @param {Object} profileData The raw user data gotten from the database
+ * @returns {Object} The formatted profile data.
+ */
+export const formatProfileData = (profileData) => {
+  const educations = profileData.educations.map((education) => formatEducationData(education));
+
+  return {
+    educations,
+  };
+};
+
+/**
  * Format the education data to be returned to the client.
  * @param {Object} educationData The raw user data gotten from the database
  * @returns {Object} The formatted education data.
