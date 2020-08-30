@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <import type="com.app.treplabs.linkedinclone.models.UserExperience" />
+
         <import type="com.app.treplabs.linkedinclone.models.UserEducation" />
+
+        <import type="com.app.treplabs.linkedinclone.models.UserSkill" />
+
         <import type="java.util.List" />
+
         <variable
             name="experiences"
             type="List&lt;UserExperience>" />
+
         <variable
             name="educations"
             type="List&lt;UserEducation>" />
+
+        <variable
+            name="skills"
+            type="List&lt;UserSkill>" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -399,14 +411,14 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/education_rv"
+                        userEducationList="@{educations}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:overScrollMode="never"
                         android:layout_marginBottom="16dp"
+                        android:overScrollMode="never"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        userEducationList="@{educations}"
                         app:layout_constraintStart_toStartOf="@+id/textView16"
                         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -474,9 +486,11 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/skills_rv"
+                        userSkillList="@{skills}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
+                        android:overScrollMode="never"
                         android:layout_marginBottom="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

@@ -2,13 +2,14 @@ package com.app.treplabs.linkedinclone.repositories;
 
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
+import com.app.treplabs.linkedinclone.models.UserSkill;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserProfileRepository {
     private List<UserExperience> mUserExperiences = new ArrayList<>();
-
+    private List<UserSkill> mUserSkills = new ArrayList<>();
     private List<UserEducation> mUserEducations = new ArrayList<>();
     private static UserProfileRepository instance;
 
@@ -17,6 +18,7 @@ public class UserProfileRepository {
             instance = new UserProfileRepository();
             instance.initializeSampleExperience();
             instance.initializeSampleEducation();
+            instance.initializeSampleSkills();
         }
         return instance;
     }
@@ -39,11 +41,24 @@ public class UserProfileRepository {
                 "1999 - 2000"));
     }
 
+    private void initializeSampleSkills(){
+        mUserSkills.add(new UserSkill("UI Design"));
+        mUserSkills.add(new UserSkill("Graphics Design"));
+        mUserSkills.add(new UserSkill("Adobe Photoshop"));
+        mUserSkills.add(new UserSkill("Adobe Illustrator"));
+        mUserSkills.add(new UserSkill("Android"));
+        mUserSkills.add(new UserSkill("Web Development"));
+    }
+
     public List<UserEducation> getUserEducations() {
         return mUserEducations;
     }
 
     public List<UserExperience> getUserExperiences() {
         return mUserExperiences;
+    }
+
+    public List<UserSkill> getUserSkills() {
+        return mUserSkills;
     }
 }

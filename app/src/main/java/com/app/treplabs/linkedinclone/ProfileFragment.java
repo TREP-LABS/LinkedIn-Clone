@@ -49,5 +49,7 @@ public class ProfileFragment extends Fragment {
                 experiences -> mBinding.setExperiences(experiences));
         mProfileViewModel.getUserEducationLD().observe(getViewLifecycleOwner(),
                 educations -> mBinding.setEducations(educations));
+        mProfileViewModel.getUserSkillLD().observe(getViewLifecycleOwner(),
+                skills -> mBinding.setSkills(skills));
     }
 }
