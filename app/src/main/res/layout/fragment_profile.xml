@@ -374,6 +374,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:overScrollMode="never"
+                        android:nestedScrollingEnabled="false"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/textView15"
                         app:layout_constraintTop_toBottomOf="@+id/textView15" />
@@ -416,6 +417,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
+                        android:nestedScrollingEnabled="false"
                         android:overScrollMode="never"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -492,6 +494,7 @@
                         android:layout_marginTop="4dp"
                         android:overScrollMode="never"
                         android:layout_marginBottom="16dp"
+                        android:nestedScrollingEnabled="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/textView17"
