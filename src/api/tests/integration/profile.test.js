@@ -1,18 +1,14 @@
 import { BaseHelpers, UserHelpers, ProfileHelpers } from '../helpers';
 
-const { failureAssertions, authFailureAssertions } = BaseHelpers;
-const { userDetails, loginUser } = UserHelpers;
 const {
-  educationDetails,
-  positionDetails,
-  alterEducationDetails,
-  alterPositionDetails,
-  getProfile,
-  createEducation,
-  updateEducation,
-  deleteEducation,
-  createPosition,
-} = ProfileHelpers;
+  failureAssertions,
+  authFailureAssertions,
+  makeRequest,
+  getEndpoint,
+  alterDetails,
+} = BaseHelpers;
+const { userDetails, loginUser } = UserHelpers;
+const { educationDetails, positionDetails, getProfile } = ProfileHelpers;
 
 let userToken;
 let userId;
@@ -25,7 +21,6 @@ describe('Profile Endpoints', () => {
     loginUser(userDetails, (err, res) => {
       userToken = res.body.data.token;
       userId = res.body.data.user.id;
-      educationDetails.token = userToken;
 
       done();
     });
@@ -63,36 +58,44 @@ describe('Profile Endpoints', () => {
 
     describe('Create Education', () => {
       it('should not allow guest users create new education entry', (done) => {
-        createEducation(alterEducationDetails({ token: null }), authFailureAssertions(done));
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/educations') },
+          alterDetails(educationDetails, { token: null }),
+          authFailureAssertions(done),
+        );
       });
 
       it('should create a new education entry', (done) => {
-        createEducation(educationDetails, (err, res) => {
-          res.should.have.status(201);
-          res.body.success.should.be.eql(true);
-          res.body.data.education.should.be.a('object');
-          res.body.data.education.schoolName.should.be.eql(educationDetails.schoolName);
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/educations') },
+          alterDetails(educationDetails, { token: userToken }),
+          (err, res) => {
+            res.should.have.status(201);
+            res.body.success.should.be.eql(true);
+            res.body.data.education.should.be.a('object');
+            res.body.data.education.schoolName.should.be.eql(educationDetails.schoolName);
 
-          educationId = res.body.data.education.id;
+            educationId = res.body.data.education.id;
 
-          done();
-        });
+            done();
+          },
+        );
       });
     });
 
     describe('Update Education', () => {
       it('should not allow guest users update an education entry', (done) => {
-        updateEducation(
-          alterEducationDetails({ schoolName: 'Havard University', token: null }),
-          educationId,
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint(`profiles/educations/${educationId}`) },
+          alterDetails(educationDetails, { schoolName: 'Havard University', token: null }),
           authFailureAssertions(done),
         );
       });
 
       it('should update an education entry', (done) => {
-        updateEducation(
-          alterEducationDetails({ schoolName: 'Havard University' }),
-          educationId,
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint(`profiles/educations/${educationId}`) },
+          alterDetails(educationDetails, { schoolName: 'Havard University', token: userToken }),
           (err, res) => {
             res.should.have.status(200);
             res.body.success.should.be.eql(true);
@@ -106,19 +109,23 @@ describe('Profile Endpoints', () => {
 
     describe('Delete Education', () => {
       it('should not allow guest users delete an education entry', (done) => {
-        deleteEducation(
-          alterEducationDetails({ token: null }),
-          educationId,
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/educations/${educationId}`) },
+          alterDetails(educationDetails, { token: null }),
           authFailureAssertions(done),
         );
       });
 
       it('should update an education entry', (done) => {
-        deleteEducation(educationDetails, educationId, (err, res) => {
-          res.should.have.status(204);
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/educations/${educationId}`) },
+          alterDetails(educationDetails, { token: userToken }),
+          (err, res) => {
+            res.should.have.status(204);
 
-          done();
-        });
+            done();
+          },
+        );
       });
     });
   });
@@ -126,20 +133,28 @@ describe('Profile Endpoints', () => {
   describe('Position Endpoints', () => {
     describe('Create Position', () => {
       it('should not allow guest users create new position entry', (done) => {
-        createPosition(alterPositionDetails({ token: null }), authFailureAssertions(done));
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/positions') },
+          alterDetails(positionDetails, { token: null }),
+          authFailureAssertions(done),
+        );
       });
 
       it('should create a new position entry', (done) => {
-        createPosition(alterPositionDetails({ token: userToken }), (err, res) => {
-          res.should.status(201);
-          res.body.success.should.be.eql(true);
-          res.body.data.position.should.be.a('object');
-          res.body.data.position.title.should.be.eql(positionDetails.title);
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/positions') },
+          alterDetails(positionDetails, { token: userToken }),
+          (err, res) => {
+            res.should.status(201);
+            res.body.success.should.be.eql(true);
+            res.body.data.position.should.be.a('object');
+            res.body.data.position.title.should.be.eql(positionDetails.title);
 
-          positionId = res.body.data.position.id;
+            positionId = res.body.data.position.id;
 
-          done();
-        });
+            done();
+          },
+        );
       });
     });
   });
