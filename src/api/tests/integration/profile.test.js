@@ -1,20 +1,23 @@
 import { BaseHelpers, UserHelpers, ProfileHelpers } from '../helpers';
-import { failureAssertions } from '../helpers/base';
 
-const { authFailureAssertions } = BaseHelpers;
+const { failureAssertions, authFailureAssertions } = BaseHelpers;
 const { userDetails, loginUser } = UserHelpers;
 const {
   educationDetails,
+  positionDetails,
   alterEducationDetails,
+  alterPositionDetails,
   getProfile,
   createEducation,
   updateEducation,
   deleteEducation,
+  createPosition,
 } = ProfileHelpers;
 
 let userToken;
 let userId;
 let educationId;
+let positionId;
 let wrongUserId = '5f4a2f6db262d23d4808948b';
 
 describe('Profile Endpoints', () => {
@@ -113,6 +116,27 @@ describe('Profile Endpoints', () => {
       it('should update an education entry', (done) => {
         deleteEducation(educationDetails, educationId, (err, res) => {
           res.should.have.status(204);
+
+          done();
+        });
+      });
+    });
+  });
+
+  describe('Position Endpoints', () => {
+    describe('Create Position', () => {
+      it('should not allow guest users create new position entry', (done) => {
+        createPosition(alterPositionDetails({ token: null }), authFailureAssertions(done));
+      });
+
+      it('should create a new position entry', (done) => {
+        createPosition(alterPositionDetails({ token: userToken }), (err, res) => {
+          res.should.status(201);
+          res.body.success.should.be.eql(true);
+          res.body.data.position.should.be.a('object');
+          res.body.data.position.title.should.be.eql(positionDetails.title);
+
+          positionId = res.body.data.position.id;
 
           done();
         });
