@@ -1,3 +1,11 @@
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import app from '../../../app';
+
+const should = chai.should();
+
+chai.use(chaiHttp);
+
 /**
  * An helper function that constructs assertions for a test that is meant to fail.
  * @param {String} message The message expected in the response body.
@@ -26,8 +34,39 @@ export const authFailureAssertions = (
   return failureAssertions(message, 401, done);
 };
 
-export const sendRequest = (chaiRequest, details, assertions) => {
+/**
+ *
+ * @param {Object} request A request object containing the request method and endpoint.
+ * @param {*} details The request body.
+ * @param {*} assertions The assertions to execute after the request is complete.
+ */
+export const makeRequest = (request, details, assertions) => {
+  const { method, endpoint } = request;
+
+  const chaiRequest = chai.request(app)[method](endpoint);
+
   if (details.token) chaiRequest.set('Authorization', `Bearer ${details.token}`);
 
   chaiRequest.send(details).end(assertions);
 };
+
+/**
+ * Get full endpoint url.
+ * @param {String} url The endpoint url.
+ * @return {String} The full endpoint url.
+ */
+export const getEndpoint = (url) => {
+  return `/api/v1/${url}`;
+};
+
+/**
+ * An helper function to alter some or all the properties in -
+ * the education details (educationDetails).
+ * @param {Object} oldDetails The old details object.
+ * @param {Object} newDetails This object would be used to update the education details.
+ * @returns {Object} The updated education details.
+ */
+export const alterDetails = (oldDetails, newDetails) => ({
+  ...oldDetails,
+  ...newDetails,
+});
