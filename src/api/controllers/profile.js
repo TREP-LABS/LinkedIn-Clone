@@ -64,3 +64,14 @@ export const deleteEducation = asyncHandler(async (req, res) => {
 
   return successResponse(res, 'Education deleted successfully.', { data: {} }, 204);
 });
+
+/**
+ * Add new position entry to the user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const addPosition = asyncHandler(async (req, res) => {
+  const position = await ProfileService.addPosition(req.user, req.body);
+
+  return successResponse(res, 'Position added successfully.', { data: { position } }, 201);
+});

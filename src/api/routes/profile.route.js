@@ -306,4 +306,11 @@ router.put(
  */
 router.delete('/educations/:educationId', isUser, profile.deleteEducation);
 
+router.post(
+  '/positions',
+  isUser,
+  validateInputs('ProfileSchemas', 'PositionSchema'),
+  profile.addPosition,
+);
+
 export default router;

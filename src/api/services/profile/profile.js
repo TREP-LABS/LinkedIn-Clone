@@ -1,7 +1,7 @@
 import moment from 'moment';
 import db from '../../models';
 import { ServiceError } from '../helpers';
-import { getProfileByUser, formatEducationData, getEducationById } from './helpers';
+import { getProfileByUser, formatEducationData, formatPositionData } from './helpers';
 import { formatUserData } from '../users/helpers';
 
 const { User, Profile } = db;
@@ -95,4 +95,24 @@ export const deleteEducation = async (user, educationId) => {
   await profile.save();
 
   return true;
+};
+
+/**
+ * Add new position entry to the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {Object} data Request data from the controller.
+ * @returns {Object} The added position entry.
+ */
+export const addPosition = async (user, data) => {
+  let profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  data.isCurrent = data.endDate ? false : true;
+
+  profile.positions.push(data);
+
+  await profile.save();
+
+  return formatPositionData(profile.positions[profile.positions.length - 1]);
 };

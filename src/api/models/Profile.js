@@ -50,6 +50,15 @@ const EducationSchema = new Schema({
   notes: { type: String },
 });
 
+const PositionSchema = new Schema({
+  title: { type: String, required: true },
+  summary: { type: String },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date },
+  isCurrent: { type: Boolean },
+  company: { type: String, required: true },
+});
+
 /**
  * @swagger
  *  components:
@@ -88,6 +97,7 @@ const EducationSchema = new Schema({
  */
 const ProfileSchema = new Schema({
   educations: [EducationSchema],
+  positions: [PositionSchema],
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 });
 

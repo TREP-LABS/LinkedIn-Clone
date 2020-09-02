@@ -8,6 +8,7 @@ const Joi = JoiBase.extend(JoiDatePackage);
  */
 export const GenericSchema = {
   stringField: Joi.string().min(2).trim(true),
-  dateField: Joi.date().format('MMM, YYYY'),
+  booleanField: Joi.boolean(),
+  monthYearField: Joi.date().format('MMM, YYYY'),
   yearField: Joi.date().format('YYYY'),
 };
