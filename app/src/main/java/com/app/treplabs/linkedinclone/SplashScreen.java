@@ -2,7 +2,6 @@ package com.app.treplabs.linkedinclone;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 

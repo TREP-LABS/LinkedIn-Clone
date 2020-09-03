@@ -1,21 +1,17 @@
 package com.app.treplabs.linkedinclone.repositories;
 
 import android.util.Log;
-
 import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import com.app.treplabs.linkedinclone.network.BackendProfileApi;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;

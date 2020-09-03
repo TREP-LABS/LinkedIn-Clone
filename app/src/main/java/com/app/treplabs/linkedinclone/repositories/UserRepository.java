@@ -1,22 +1,14 @@
 package com.app.treplabs.linkedinclone.repositories;
 
 import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.network.BackendAuthApi;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.HashMap;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

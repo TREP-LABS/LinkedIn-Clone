@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -25,7 +25,6 @@
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -76,15 +75,15 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_edit_black"
-                        android:tint="@color/colorAccent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/colorAccent" />
 
                     <TextView
                         android:id="@+id/user_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="26dp"
                         android:fontFamily="@font/roboto"
                         android:text="@string/sample_header_name"
                         android:textColor="@color/colorBlack"
@@ -124,10 +123,10 @@
                         android:layout_height="6dp"
                         android:layout_marginStart="4dp"
                         android:src="@drawable/onboarding_eclipse"
-                        android:tint="@color/colorBlack"
                         app:layout_constraintBottom_toBottomOf="@+id/user_location"
                         app:layout_constraintStart_toEndOf="@+id/user_location"
-                        app:layout_constraintTop_toTopOf="@+id/user_location" />
+                        app:layout_constraintTop_toTopOf="@+id/user_location"
+                        app:tint="@color/colorBlack" />
 
                     <TextView
                         android:id="@+id/user_connections"
@@ -161,9 +160,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_edit_black"
-                        android:tint="@color/colorAccent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/colorAccent" />
 
                     <TextView
                         android:id="@+id/textView7"
@@ -351,9 +350,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_edit_black"
-                        android:tint="@color/colorAccent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/colorAccent" />
 
                     <TextView
                         android:id="@+id/textView15"
@@ -394,9 +393,9 @@
                         android:layout_height="24dp"
                         android:layout_marginTop="24dp"
                         android:src="@drawable/ic_edit_black"
-                        android:tint="@color/colorAccent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/view" />
+                        app:layout_constraintTop_toBottomOf="@id/view"
+                        app:tint="@color/colorAccent" />
 
                     <TextView
                         android:id="@+id/textView16"
@@ -470,9 +469,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_edit_black"
-                        android:tint="@color/colorAccent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/colorAccent" />
 
                     <TextView
                         android:id="@+id/textView17"
@@ -546,9 +545,9 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_edit_black"
-                        android:tint="@color/colorAccent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/colorAccent" />
 
                     <TextView
                         android:id="@+id/textView18"

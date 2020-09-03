@@ -2,9 +2,7 @@ package com.app.treplabs.linkedinclone;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
 import android.os.Bundle;
-
 import com.app.treplabs.linkedinclone.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {

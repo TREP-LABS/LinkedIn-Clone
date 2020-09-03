@@ -3,14 +3,12 @@ package com.app.treplabs.linkedinclone.bindingadapters;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.app.treplabs.linkedinclone.adapters.UserEducationAdapter;
 import com.app.treplabs.linkedinclone.adapters.UserExperienceAdapter;
 import com.app.treplabs.linkedinclone.adapters.UserSkillAdapter;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
-
 import java.util.List;
 
 public class ProfileBindingAdapters {

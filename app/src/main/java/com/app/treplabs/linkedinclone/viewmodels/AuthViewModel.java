@@ -2,9 +2,7 @@ package com.app.treplabs.linkedinclone.viewmodels;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.app.treplabs.linkedinclone.interfaces.AuthStateListener;
