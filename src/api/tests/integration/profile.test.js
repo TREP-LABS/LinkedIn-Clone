@@ -156,6 +156,20 @@ describe('Profile Endpoints', () => {
           },
         );
       });
+
+      it('should have isCurrent value as true if endDate is empty', (done) => {
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/positions') },
+          alterDetails(positionDetails, { token: userToken, endDate: undefined }),
+          (err, res) => {
+            res.should.status(201);
+            res.body.data.position.should.be.a('object');
+            res.body.data.position.isCurrent.should.be.eql(true);
+
+            done();
+          },
+        );
+      });
     });
   });
 });
