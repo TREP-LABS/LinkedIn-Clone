@@ -7,9 +7,11 @@ import moment from 'moment';
  */
 export const formatProfileData = (profileData) => {
   const educations = profileData.educations.map((education) => formatEducationData(education));
+  const positions = profileData.positions.map((position) => formatPositionData(position));
 
   return {
     educations,
+    positions,
   };
 };
 
