@@ -4,6 +4,9 @@ public class User {
     private static User instance = null;
     private String mFirstName;
     private String mLastName;
+    private String mEmail;
+    private String mUserId;
+    private String mSlug;
 
     public String getFirstName() {
         return mFirstName;
@@ -29,7 +32,21 @@ public class User {
         mEmail = email;
     }
 
-    private String mEmail;
+    public String getUserId() {
+        return mUserId;
+    }
+
+    public void setUserId(String userId) {
+        mUserId = userId;
+    }
+
+    public String getSlug() {
+        return mSlug;
+    }
+
+    public void setSlug(String slug) {
+        mSlug = slug;
+    }
 
     private User(){}
 

@@ -73,10 +73,13 @@ public class UserRepository {
             String firstname = user.getString("firstname");
             String lastname = user.getString("lastname");
             String email = user.getString("email");
+            String slug = user.getString("slug");
 
             User.getInstance().setFirstName(firstname);
             User.getInstance().setLastName(lastname);
             User.getInstance().setEmail(email);
+            User.getInstance().setUserId(id);
+            User.getInstance().setSlug(slug);
         }
     }
 
