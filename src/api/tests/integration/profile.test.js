@@ -107,7 +107,7 @@ describe('Profile Endpoints', () => {
       });
     });
 
-    describe('Delete Education', () => {
+    describe('Remove Education', () => {
       it('should not allow guest users delete an education entry', (done) => {
         makeRequest(
           { method: 'delete', endpoint: getEndpoint(`profiles/educations/${educationId}`) },
@@ -190,6 +190,28 @@ describe('Profile Endpoints', () => {
             res.body.success.should.be.eql(true);
             res.body.data.position.should.be.a('object');
             res.body.data.position.title.should.be.eql('Research Student');
+
+            done();
+          },
+        );
+      });
+    });
+
+    describe('Remove Position', () => {
+      it('should not allow guest users remove position entry', (done) => {
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/positions/${positionId}`) },
+          alterDetails(positionDetails, { token: null }),
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should remove an position entry', (done) => {
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/positions/${positionId}`) },
+          alterDetails(positionDetails, { token: userToken }),
+          (err, res) => {
+            res.should.have.status(204);
 
             done();
           },
