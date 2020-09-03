@@ -116,3 +116,28 @@ export const addPosition = async (user, data) => {
 
   return formatPositionData(profile.positions[profile.positions.length - 1]);
 };
+
+/**
+ * Update position entry in the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {String} positionId The ID of the position to update.
+ * @param {Object} data Request data from the controller.
+ * @returns {Object} The updated position entry.
+ */
+export const updatePosition = async (user, positionId, data) => {
+  let profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  const position = profile.positions.id(positionId);
+
+  if (!position) throw new ServiceError('Position entry does not exist.', 404);
+
+  data.isCurrent = data.endDate ? false : true;
+
+  Object.assign(position, data);
+
+  await profile.save();
+
+  return formatPositionData(position);
+};

@@ -126,8 +126,10 @@ router.get('/full/:userId', profile.getFullProfile);
  *                type: string
  *              startDate:
  *                type: string
+ *                example: 2020
  *              endDate:
  *                type: string
+ *                example: 2020
  *              degree:
  *                type: string
  *              activities:
@@ -216,8 +218,10 @@ router.post(
  *                type: string
  *              startDate:
  *                type: string
+ *                example: 2020
  *              endDate:
  *                type: string
+ *                example: 2020
  *              degree:
  *                type: string
  *              activities:
@@ -338,8 +342,10 @@ router.delete('/educations/:educationId', isUser, profile.deleteEducation);
  *                type: string
  *              startDate:
  *                type: string
+ *                example: Jun, 2020
  *              endDate:
  *                type: string
+ *                example: Jun, 2020
  *              isCurrent:
  *                type: boolean
  *              company:
@@ -385,6 +391,95 @@ router.post(
   isUser,
   validateInputs('ProfileSchemas', 'PositionSchema'),
   profile.addPosition,
+);
+
+/**
+ * @swagger
+ * /profiles/positions/{positionId}:
+ *  put:
+ *    tags: [Profile]
+ *    summary: Updates an existing position entry.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *      - name: positionId
+ *        in: path
+ *        required: true
+ *        description: ID of the position entry to update.
+ *        schema:
+ *          type: string
+ *    operationId: updatePosition
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - title
+ *              - startDate
+ *              - company
+ *            properties:
+ *              title:
+ *                type: string
+ *              summary:
+ *                type: string
+ *              startDate:
+ *                type: string
+ *                example: Jun, 2020
+ *              endDate:
+ *                type: string
+ *                example: Jun, 2020
+ *              isCurrent:
+ *                type: boolean
+ *              company:
+ *                type: string
+ *    responses:
+ *       '200':
+ *         description: Position updated successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    position:
+ *                      $ref: '#/components/schemas/Position'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
+router.put(
+  '/positions/:positionId',
+  isUser,
+  validateInputs('ProfileSchemas', 'PositionSchema'),
+  profile.updatePosition,
 );
 
 export default router;

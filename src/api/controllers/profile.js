@@ -75,3 +75,16 @@ export const addPosition = asyncHandler(async (req, res) => {
 
   return successResponse(res, 'Position added successfully.', { data: { position } }, 201);
 });
+
+/**
+ * Add new position entry to the user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const updatePosition = asyncHandler(async (req, res) => {
+  const { positionId } = req.params;
+
+  const position = await ProfileService.updatePosition(req.user, positionId, req.body);
+
+  return successResponse(res, 'Position updated successfully.', { data: { position } }, 200);
+});
