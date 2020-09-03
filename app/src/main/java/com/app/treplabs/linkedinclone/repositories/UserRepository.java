@@ -72,6 +72,7 @@ public class UserRepository {
             User.getInstance().setEmail(email);
             User.getInstance().setUserId(id);
             User.getInstance().setSlug(slug);
+            User.getInstance().setToken(token);
         }
     }
 
@@ -103,6 +104,7 @@ public class UserRepository {
             User.getInstance().setFirstName(map.get("firstname"));
             User.getInstance().setLastName(map.get("lastname"));
             User.getInstance().setEmail(map.get("email"));
+            User.getInstance().setToken(token);
         }
     }
 

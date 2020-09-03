@@ -7,6 +7,7 @@ public class User {
     private String mEmail;
     private String mUserId;
     private String mSlug;
+    private String mToken;
 
     public String getFirstName() {
         return mFirstName;
@@ -46,6 +47,14 @@ public class User {
 
     public void setSlug(String slug) {
         mSlug = slug;
+    }
+
+    public String getToken() {
+        return mToken;
+    }
+
+    public void setToken(String token) {
+        mToken = token;
     }
 
     private User(){}

@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -119,6 +120,38 @@ public class UserProfileRepository {
                 mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
                         startDate + " - " + endDate));
             }
+        }
+    }
+
+    public String addNewEducation(HashMap<String, String> map, String token){
+        Call<ResponseBody> call = invokeAPI().addNewEducation(token, map);
+        try {
+            Response<ResponseBody> result = call.execute();
+            if (result.isSuccessful()){
+                Log.d("UserProfileRepo", "addNewEducation: isSuccessful");
+                getResponseFromAddNewEducation(result.body().string());
+            } else {
+                Log.d("UserProfileRepo", "addNewEducation: unSuccessful");
+                getResponseFromAddNewEducation(result.errorBody().string());
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return mMessage;
+    }
+
+    private void getResponseFromAddNewEducation(String string) throws JSONException {
+        JSONObject parent = new JSONObject(string);
+        mSuccess = parent.getBoolean("success");
+        mMessage = parent.getString("message");
+        if (mSuccess){
+            JSONObject education = parent.getJSONObject("data");
+            String schoolName = education.getString("schoolName");
+            String fieldOfStudy = education.getString("fieldOfStudy");
+            int startDate = education.getInt("startDate");
+            int endDate = education.getInt("endDate");
+            mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
+                    startDate + " - " + endDate));
         }
     }
 
