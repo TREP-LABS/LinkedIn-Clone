@@ -60,9 +60,9 @@ export const updateEducation = asyncHandler(async (req, res) => {
 export const deleteEducation = asyncHandler(async (req, res) => {
   const { educationId } = req.params;
 
-  await ProfileService.deleteEducation(req.user, educationId);
+  ProfileService.deleteEducation(req.user, educationId);
 
-  return successResponse(res, 'Education deleted successfully.', { data: {} }, 204);
+  return successResponse(res, 'Education removed successfully.', { data: {} }, 204);
 });
 
 /**
@@ -87,4 +87,17 @@ export const updatePosition = asyncHandler(async (req, res) => {
   const position = await ProfileService.updatePosition(req.user, positionId, req.body);
 
   return successResponse(res, 'Position updated successfully.', { data: { position } }, 200);
+});
+
+/**
+ * Add new position entry to the user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const deletePosition = asyncHandler((req, res) => {
+  const { positionId } = req.params;
+
+  ProfileService.deletePosition(req.user, positionId);
+
+  return successResponse(res, 'Position removed successfully.', { data: {} }, 204);
 });

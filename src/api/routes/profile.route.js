@@ -276,7 +276,7 @@ router.put(
  * /profiles/educations/{educationId}:
  *  delete:
  *    tags: [Profile]
- *    summary: Deletes an existing education entry.
+ *    summary: Removes an existing education entry.
  *    parameters:
  *      - name: Authorization
  *        in: header
@@ -481,5 +481,44 @@ router.put(
   validateInputs('ProfileSchemas', 'PositionSchema'),
   profile.updatePosition,
 );
+
+/**
+ * @swagger
+ * /profiles/positions/{positionId}:
+ *  delete:
+ *    tags: [Profile]
+ *    summary: Removes an existing position entry.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *      - name: educationId
+ *        in: path
+ *        required: true
+ *        description: ID of the position entry to delete.
+ *        schema:
+ *          type: string
+ *    operationId: deletePosition
+ *    responses:
+ *       '204':
+ *         description: Position deleted successfully.
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
+router.delete('/positions/:positionId', isUser, profile.deletePosition);
 
 export default router;

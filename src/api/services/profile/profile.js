@@ -90,7 +90,11 @@ export const deleteEducation = async (user, educationId) => {
 
   if (!profile) throw new ServiceError('User profile does not exist.', 404);
 
-  profile.educations.id(educationId).remove();
+  const education = profile.educations.id(educationId);
+
+  if (!education) throw new ServiceError('Education entry does not exist.', 404);
+
+  education.remove();
 
   await profile.save();
 
@@ -140,4 +144,26 @@ export const updatePosition = async (user, positionId, data) => {
   await profile.save();
 
   return formatPositionData(position);
+};
+
+/**
+ * Delete a position entry in the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {String} positionId The ID of the position to update.
+ * @returns {boolean} Truthy value.
+ */
+export const deletePosition = async (user, positionId) => {
+  let profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  const position = profile.positions.id(positionId);
+
+  if (!position) throw new ServiceError('Position entry does not exist.', 404);
+
+  position.remove();
+
+  await profile.save();
+
+  return true;
 };
