@@ -116,7 +116,7 @@ describe('Profile Endpoints', () => {
         );
       });
 
-      it('should update an education entry', (done) => {
+      it('should delete an education entry', (done) => {
         makeRequest(
           { method: 'delete', endpoint: getEndpoint(`profiles/educations/${educationId}`) },
           alterDetails(educationDetails, { token: userToken }),
@@ -162,9 +162,34 @@ describe('Profile Endpoints', () => {
           { method: 'post', endpoint: getEndpoint('profiles/positions') },
           alterDetails(positionDetails, { token: userToken, endDate: undefined }),
           (err, res) => {
-            res.should.status(201);
+            res.should.have.status(201);
             res.body.data.position.should.be.a('object');
             res.body.data.position.isCurrent.should.be.eql(true);
+
+            done();
+          },
+        );
+      });
+    });
+
+    describe('Update Position', () => {
+      it('should not allow guest users create new position entry', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint(`profiles/positions/${positionId}`) },
+          alterDetails(positionDetails, { token: null }),
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should update a position entry', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint(`profiles/positions/${positionId}`) },
+          alterDetails(positionDetails, { token: userToken, title: 'Research Student' }),
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.success.should.be.eql(true);
+            res.body.data.position.should.be.a('object');
+            res.body.data.position.title.should.be.eql('Research Student');
 
             done();
           },
