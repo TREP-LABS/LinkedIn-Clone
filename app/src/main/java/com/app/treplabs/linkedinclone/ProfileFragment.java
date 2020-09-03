@@ -33,6 +33,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProfileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        mProfileViewModel.getFullProfileFromRepo("5f4a2f6db262d23d4808948b");
     }
 
     @Override
