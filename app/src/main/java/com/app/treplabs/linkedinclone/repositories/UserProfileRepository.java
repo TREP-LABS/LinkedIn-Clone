@@ -8,6 +8,7 @@ import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import com.app.treplabs.linkedinclone.network.BackendProfileApi;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,20 +29,21 @@ public class UserProfileRepository {
     private List<UserEducation> mUserEducations = new ArrayList<>();
     private static UserProfileRepository instance;
     private String mMessage;
+    private boolean mSuccess;
 
-    public static UserProfileRepository getInstance(){
-        if (instance == null){
+    public static UserProfileRepository getInstance() {
+        if (instance == null) {
             instance = new UserProfileRepository();
             instance.initializeSampleExperience();
-            instance.initializeSampleEducation();
             instance.initializeSampleSkills();
         }
         return instance;
     }
 
-    private UserProfileRepository(){}
+    private UserProfileRepository() {
+    }
 
-    private BackendProfileApi invokeAPI(){
+    private BackendProfileApi invokeAPI() {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -49,14 +51,14 @@ public class UserProfileRepository {
                 .create(BackendProfileApi.class);
     }
 
-    public String getBasicProfile(String userId){
+    public String getBasicProfile(String userId) {
         Call<ResponseBody> call = invokeAPI().getBasicProfile(userId);
         try {
             Response<ResponseBody> result = call.execute();
-            if (result.isSuccessful()){
+            if (result.isSuccessful()) {
                 Log.d("UserProfileRepo", "getBasicProfile: isSuccessful");
                 getBasicProfileResponseFromJSON(result.body().string());
-            }else {
+            } else {
                 Log.d("UserProfileRepo", "getBasicProfile: unSuccessful");
                 getBasicProfileResponseFromJSON(result.errorBody().string());
             }
@@ -68,9 +70,9 @@ public class UserProfileRepository {
 
     private void getBasicProfileResponseFromJSON(String string) throws JSONException {
         JSONObject parent = new JSONObject(string);
-        boolean success = parent.getBoolean("success");
+        mSuccess = parent.getBoolean("success");
         mMessage = parent.getString("message");
-        if (success){
+        if (mSuccess) {
             JSONObject data = parent.getJSONObject("data");
             JSONObject user = data.getJSONObject("user");
             String id = user.getString("id");
@@ -87,7 +89,44 @@ public class UserProfileRepository {
         }
     }
 
-    private void initializeSampleExperience(){
+    public String getFullProfile(String userId) {
+        Call<ResponseBody> call = invokeAPI().getFullProfile(userId);
+        try {
+            Response<ResponseBody> result = call.execute();
+            if (result.isSuccessful()) {
+                Log.d("UserProfileRepo", "getFullProfile: isSuccessful");
+                getFullProfileResponseFromJSON(result.body().string());
+            } else {
+                Log.d("UserProfileRepo", "getFullProfile: unSuccessful");
+                getFullProfileResponseFromJSON(result.errorBody().string());
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return mMessage;
+    }
+
+    private void getFullProfileResponseFromJSON(String string) throws JSONException {
+        getBasicProfileResponseFromJSON(string);
+        if (mSuccess) {
+            JSONObject profile = new JSONObject(string)
+                    .getJSONObject("data")
+                    .getJSONObject("user")
+                    .getJSONObject("profile");
+            JSONArray educations = profile.getJSONArray("educations");
+            for (int i = 0; i < educations.length(); i++) {
+                JSONObject education = (JSONObject) educations.get(i);
+                String schoolName = education.getString("schoolName");
+                String fieldOfStudy = education.getString("fieldOfStudy");
+                int startDate = education.getInt("startDate");
+                int endDate = education.getInt("endDate");
+                mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
+                        startDate + " - " + endDate));
+            }
+        }
+    }
+
+    private void initializeSampleExperience() {
         mUserExperiences.add(new UserExperience("UI/UX Designer", "WhatsApp",
                 "Jun 2007 - July 2017", 10));
         mUserExperiences.add(new UserExperience("Android Developer", "Apple",
@@ -96,14 +135,7 @@ public class UserProfileRepository {
                 "Jun 2029 - July 2039", 10));
     }
 
-    private void initializeSampleEducation(){
-        mUserEducations.add(new UserEducation("University of ABC", "BSc. CDE",
-                "2000 - 2001"));
-        mUserEducations.add(new UserEducation("ABC High School", "High School Cert",
-                "1999 - 2000"));
-    }
-
-    private void initializeSampleSkills(){
+    private void initializeSampleSkills() {
         mUserSkills.add(new UserSkill("UI Design"));
         mUserSkills.add(new UserSkill("Graphics Design"));
         mUserSkills.add(new UserSkill("Adobe Photoshop"));
