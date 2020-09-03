@@ -306,6 +306,80 @@ router.put(
  */
 router.delete('/educations/:educationId', isUser, profile.deleteEducation);
 
+/**
+ * @swagger
+ * /profiles/positions:
+ *  post:
+ *    tags: [Profile]
+ *    summary: Adds a new position entry.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *    operationId: addPosition
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - title
+ *              - startDate
+ *              - company
+ *            properties:
+ *              title:
+ *                type: string
+ *              summary:
+ *                type: string
+ *              startDate:
+ *                type: string
+ *              endDate:
+ *                type: string
+ *              isCurrent:
+ *                type: boolean
+ *              company:
+ *                type: string
+ *    responses:
+ *       '200':
+ *         description: Position added successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    position:
+ *                      $ref: '#/components/schemas/Position'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.post(
   '/positions',
   isUser,

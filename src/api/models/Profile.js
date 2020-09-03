@@ -50,6 +50,34 @@ const EducationSchema = new Schema({
   notes: { type: String },
 });
 
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Position:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: string
+ *          title:
+ *            type: string
+ *            example: Software Engineer
+ *          summary:
+ *            type: string
+ *            example: Software Engineer at TREP Labs
+ *          startDate:
+ *            type: string
+ *            example: May, 2019
+ *          endDate:
+ *            type: string
+ *            example: Jun, 2020
+ *          isCurrent:
+ *            type: boolean
+ *            example: false
+ *          company:
+ *            type: string
+ *            example: TREP Labs
+ */
 const PositionSchema = new Schema({
   title: { type: String, required: true },
   summary: { type: String },
