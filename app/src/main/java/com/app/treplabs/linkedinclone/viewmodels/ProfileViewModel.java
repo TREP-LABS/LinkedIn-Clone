@@ -18,6 +18,10 @@ public class ProfileViewModel extends ViewModel {
     private MutableLiveData<List<UserEducation>> mUserEducationLD = new MutableLiveData<>();
     private MutableLiveData<List<UserSkill>> mUserSkillLD = new MutableLiveData<>();
 
+    public void setProfileStateListener(ProfileStateListener profileStateListener) {
+        mProfileStateListener = profileStateListener;
+    }
+
     public void getFullProfileFromRepo(String userId) {
         if (userId == null || userId.isEmpty()) {
             mProfileStateListener.onGetProfileFailure("No user is logged in");

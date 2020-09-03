@@ -11,15 +11,17 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.app.treplabs.linkedinclone.databinding.FragmentProfileBinding;
+import com.app.treplabs.linkedinclone.interfaces.ProfileStateListener;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.repositories.UserProfileRepository;
 import com.app.treplabs.linkedinclone.viewmodels.ProfileViewModel;
 
 import java.util.List;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements ProfileStateListener {
     //data binding
     FragmentProfileBinding mBinding;
     //view model
@@ -33,6 +35,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mProfileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        mProfileViewModel.setProfileStateListener(this);
         mProfileViewModel.getFullProfileFromRepo("5f4a2f6db262d23d4808948b");
     }
 
@@ -52,5 +55,19 @@ public class ProfileFragment extends Fragment {
                 educations -> mBinding.setEducations(educations));
         mProfileViewModel.getUserSkillLD().observe(getViewLifecycleOwner(),
                 skills -> mBinding.setSkills(skills));
+    }
+
+    private void showToast(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGetProfileFailure(String message) {
+        showToast(message);
+    }
+
+    @Override
+    public void onGetProfileSuccess(String s) {
+        showToast(s);
     }
 }
