@@ -523,4 +523,6 @@ router.delete('/positions/:positionId', isUser, profile.deletePosition);
 
 router.post('/skills', isUser, validateInputs('ProfileSchemas', 'SkillSchema'), profile.addSkills);
 
+router.get('/skills', isUser, profile.searchSkills);
+
 export default router;

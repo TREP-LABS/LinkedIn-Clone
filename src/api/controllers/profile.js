@@ -103,7 +103,7 @@ export const deletePosition = asyncHandler((req, res) => {
 });
 
 /**
- * Add new position entry to the user's profile.
+ * Add new skills to the user's profile.
  * @param {Function} controller The controller function.
  * @returns {Object} The response object containing some response data.
  */
@@ -111,4 +111,17 @@ export const addSkills = asyncHandler(async (req, res) => {
   const skills = await ProfileService.addSkills(req.user, req.body);
 
   return successResponse(res, 'Skills added successfully.', { data: { skills } }, 200);
+});
+
+/**
+ * Search for skills in the DB..
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const searchSkills = asyncHandler(async (req, res) => {
+  const { q } = req.query;
+
+  const skills = await ProfileService.searchSkills(req.user, q);
+
+  return successResponse(res, 'Skills search result.', { data: { skills } }, 200);
 });

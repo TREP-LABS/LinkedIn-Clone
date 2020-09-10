@@ -207,3 +207,20 @@ export const addSkills = async (user, data) => {
 
   return profile.skills.map((skill) => formatSkillData(skill));
 };
+
+/**
+ * Search DB for skills matching a query string.
+ * @param {Object} user The authenticated user object.
+ * @param {String} query The search query.
+ */
+export const searchSkills = async (user, query) => {
+  const profile = await getProfileByUser(Profile, user.id);
+
+  let skills = await Skill.find({ name: { $regex: `.*${query}.*`, $options: 'i' } }).limit(20);
+
+  skills = skills.filter(
+    (skill) => !profile.skills.some((profileSkill) => profileSkill.skill.equals(skill._id)),
+  );
+
+  return skills.map((skill) => formatSkillData(skill));
+};
