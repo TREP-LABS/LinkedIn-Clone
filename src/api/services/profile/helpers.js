@@ -53,7 +53,7 @@ export const formatPositionData = (positionData) => ({
  */
 export const formatSkillData = (skillData) => ({
   id: skillData._id,
-  name: skillData.skill.name,
+  name: skillData.skill ? skillData.skill.name : skillData.name,
 });
 
 /**
