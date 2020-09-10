@@ -101,3 +101,14 @@ export const deletePosition = asyncHandler((req, res) => {
 
   return successResponse(res, 'Position removed successfully.', { data: {} }, 204);
 });
+
+/**
+ * Add new position entry to the user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const addSkills = asyncHandler(async (req, res) => {
+  const skills = await ProfileService.addSkills(req.user, req.body);
+
+  return successResponse(res, 'Skills added successfully.', { data: { skills } }, 200);
+});

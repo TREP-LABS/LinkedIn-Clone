@@ -25,3 +25,10 @@ export const PositionSchema = Joi.object({
   isCurrent: GenericSchema.booleanField,
   company: GenericSchema.stringField.required(),
 });
+
+/**
+ * Joi ObjectSchema to validate skill inputs.
+ */
+export const SkillSchema = Joi.object({
+  name: Joi.array(),
+});

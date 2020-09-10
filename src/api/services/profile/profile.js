@@ -1,10 +1,15 @@
 import moment from 'moment';
 import db from '../../models';
 import { ServiceError } from '../helpers';
-import { getProfileByUser, formatEducationData, formatPositionData } from './helpers';
+import {
+  getProfileByUser,
+  formatEducationData,
+  formatPositionData,
+  formatSkillData,
+} from './helpers';
 import { formatUserData } from '../users/helpers';
 
-const { User, Profile } = db;
+const { User, Profile, Skill } = db;
 
 /**
  * Get the user's basic profile.
@@ -166,4 +171,39 @@ export const deletePosition = async (user, positionId) => {
   await profile.save();
 
   return true;
+};
+
+/**
+ * Adds a skills to the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {Object} data Request data from the controller.
+ */
+export const addSkills = async (user, data) => {
+  let profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  const skills = profile.skills;
+
+  for (const skill of data.skills) {
+    // Check if skill is already in DB.
+    const foundSkill = await Skill.findOne({ name: skill });
+
+    if (foundSkill) {
+      // If skill is in the DB and skill is not in the user's array of skills;
+      // Push the skill into the user's array of skills.
+      if (!skills.some((skill) => skill.skill.equals(foundSkill._id)))
+        skills.push({ skill: foundSkill._id });
+    } else {
+      // If skill is not in the DB, create the skill and push the skill into the user's array of skills.
+      const newSkill = await Skill.create({ name: skill });
+      skills.push({ skill: newSkill._id });
+    }
+  }
+
+  await profile.save();
+
+  profile = await getProfileByUser(Profile, user.id, ['skills.skill']);
+
+  return profile.skills.map((skill) => formatSkillData(skill));
 };

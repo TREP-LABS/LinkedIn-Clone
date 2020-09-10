@@ -87,6 +87,11 @@ const PositionSchema = new Schema({
   company: { type: String, required: true },
 });
 
+const EmbedSkillSchema = new Schema({
+  skill: { type: Schema.Types.ObjectId, ref: 'Skill' },
+  endorsments: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+});
+
 /**
  * @swagger
  *  components:
@@ -126,6 +131,7 @@ const PositionSchema = new Schema({
 const ProfileSchema = new Schema({
   educations: [EducationSchema],
   positions: [PositionSchema],
+  skills: [EmbedSkillSchema],
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 });
 
