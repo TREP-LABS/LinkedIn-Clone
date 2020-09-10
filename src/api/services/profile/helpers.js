@@ -47,12 +47,29 @@ export const formatPositionData = (positionData) => ({
 });
 
 /**
+ * Format the skill data to be returned to the client.
+ * @param {Object} skill The raw position data gotten from the database.
+ * @returns {Object} The formatted skill data.
+ */
+export const formatSkillData = (skillData) => ({
+  id: skillData._id,
+  name: skillData.skill.name,
+});
+
+/**
  * Get a profile from the database using the user's ID.
  * @param {Object} Profile The query interface for profile in the database.
  * @param {String} user The user ID of the profile to get.
  * @returns {Object} The profile gotten from the database.
  */
-export const getProfileByUser = async (Profile, user) => {
-  let profile = await Profile.findOne({ user });
+export const getProfileByUser = async (Profile, user, populate = []) => {
+  let query = Profile.findOne({ user });
+
+  if (populate && populate.length) {
+    query.populate(populate);
+  }
+
+  const profile = await query;
+
   return profile;
 };
