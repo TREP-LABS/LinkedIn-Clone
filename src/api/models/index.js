@@ -4,6 +4,7 @@ import config from '../config/config';
 // Import models.
 import User from './User';
 import Profile from './Profile';
+import Skill from './Skill';
 
 /**
  * @swagger
@@ -48,4 +49,5 @@ mongoose.connect(presetConfig.dbUrl, {
 export default {
   User,
   Profile,
+  Skill,
 };
