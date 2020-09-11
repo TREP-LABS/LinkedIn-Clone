@@ -521,6 +521,73 @@ router.put(
  */
 router.delete('/positions/:positionId', isUser, profile.deletePosition);
 
+/**
+ * @swagger
+ * /profiles/skills:
+ *  post:
+ *    tags: [Profile]
+ *    summary: Adds skills to user's profile..
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *    operationId: addSkills
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - skills
+ *            properties:
+ *              skills:
+ *                type: array
+ *                items:
+ *                  type: string
+ *    responses:
+ *       '200':
+ *         description: Skills added successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    skills:
+ *                      type: array
+ *                      items:
+ *                        type: object
+ *                        $ref: '#/components/schemas/Skill'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.post('/skills', isUser, validateInputs('ProfileSchemas', 'SkillSchema'), profile.addSkills);
 
 router.put(
@@ -530,8 +597,98 @@ router.put(
   profile.updateSkills,
 );
 
+/**
+ * @swagger
+ * /profiles/skills/{skillId}:
+ *  delete:
+ *    tags: [Profile]
+ *    summary: Removes a skill from user's profile.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *      - name: skillId
+ *        in: path
+ *        required: true
+ *        description: ID of the skill to remove.
+ *        schema:
+ *          type: string
+ *    operationId: removeSkill
+ *    responses:
+ *       '204':
+ *         description: Skill removed successfully.
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.delete('/skills/:skillId', isUser, profile.removeSkill);
 
+/**
+ * @swagger
+ * /profiles/skills:
+ *  get:
+ *    tags: [Profile]
+ *    summary: Search for skill matching a query string.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *      - name: q
+ *        in: query
+ *        description: Search query string
+ *        schema:
+ *          type: string
+ *    operationId: searchSkills
+ *    responses:
+ *       '200':
+ *         description: Skills search result.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    skills:
+ *                      type: array
+ *                      items:
+ *                        type: object
+ *                        $ref: '#/components/schemas/Skill'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.get('/skills', isUser, profile.searchSkills);
 
 export default router;
