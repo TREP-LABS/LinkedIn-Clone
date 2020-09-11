@@ -114,6 +114,17 @@ export const addSkills = asyncHandler(async (req, res) => {
 });
 
 /**
+ * Updates skills in the user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const updateSkills = asyncHandler(async (req, res) => {
+  const skills = await ProfileService.updateSkills(req.user, req.body);
+
+  return successResponse(res, 'SKills updated successfully.', { data: { skills } }, 200);
+});
+
+/**
  * Search for skills in the DB..
  * @param {Function} controller The controller function.
  * @returns {Object} The response object containing some response data.

@@ -205,6 +205,29 @@ export const addSkills = async (user, data) => {
 
   profile = await getProfileByUser(Profile, user.id, ['skills.skill']);
 
+  console.log(profile.skills[0]);
+
+  return profile.skills.map((skill) => formatSkillData(skill));
+};
+
+/**
+ * Updates skills in the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {Object} data Request data from the controller.
+ */
+export const updateSkills = async (user, data) => {
+  let profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  profile.skills = profile.skills.filter((profileSkill) =>
+    data.skills.some((skill) => profileSkill._id.equals(skill.id)),
+  );
+
+  await profile.save();
+
+  profile = await getProfileByUser(Profile, user.id, ['skills.skill']);
+
   return profile.skills.map((skill) => formatSkillData(skill));
 };
 
