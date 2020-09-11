@@ -146,12 +146,13 @@ public class UserProfileRepository {
         mMessage = parent.getString("message");
         if (mSuccess){
             JSONObject education = parent.getJSONObject("data");
+            String educationId = education.getString("id");
             String schoolName = education.getString("schoolName");
             String fieldOfStudy = education.getString("fieldOfStudy");
             int startDate = education.getInt("startDate");
             int endDate = education.getInt("endDate");
             mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
-                    startDate + " - " + endDate));
+                    startDate + " - " + endDate, educationId));
         }
     }
 

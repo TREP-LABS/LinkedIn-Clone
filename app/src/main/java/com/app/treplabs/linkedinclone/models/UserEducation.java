@@ -4,6 +4,14 @@ public class UserEducation {
     private String mSchoolName;
     private String mSchoolDegree;
     private String mFromYearToYear;
+    private String mEducationId;
+
+    public UserEducation(String schoolName, String schoolDegree, String fromYearToYear, String educationId) {
+        mSchoolName = schoolName;
+        mSchoolDegree = schoolDegree;
+        mFromYearToYear = fromYearToYear;
+        mEducationId = educationId;
+    }
 
     public UserEducation(String schoolName, String schoolDegree, String fromYearToYear) {
         mSchoolName = schoolName;
@@ -33,5 +41,13 @@ public class UserEducation {
 
     public void setFromYearToYear(String fromYearToYear) {
         mFromYearToYear = fromYearToYear;
+    }
+
+    public String getEducationId() {
+        return mEducationId;
+    }
+
+    public void setEducationId(String educationId) {
+        mEducationId = educationId;
     }
 }
