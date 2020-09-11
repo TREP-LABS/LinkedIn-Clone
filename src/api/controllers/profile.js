@@ -142,10 +142,10 @@ export const searchSkills = asyncHandler(async (req, res) => {
  * @param {Function} controller The controller function.
  * @returns {Object} The response object containing some response data.
  */
-export const deleteSkill = asyncHandler(async (req, res) => {
+export const removeSkill = asyncHandler(async (req, res) => {
   const { skillId } = req.params;
 
-  ProfileService.deleteSkill(req.user, skillId);
+  ProfileService.removeSkill(req.user, skillId);
 
   return successResponse(res, 'Skill deleted successfully.', { data: {} }, 204);
 });

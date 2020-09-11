@@ -238,7 +238,7 @@ export const updateSkills = async (user, data) => {
  * @param {Object} user The authenticated user object.
  * @param {String} skillId The id of the skill to delete from user's profile.
  */
-export const deleteSkill = async (user, skillId) => {
+export const removeSkill = async (user, skillId) => {
   let profile = await getProfileByUser(Profile, user.id);
 
   if (!profile) throw new ServiceError('User profile does not exist.', 404);

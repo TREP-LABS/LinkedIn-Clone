@@ -530,7 +530,7 @@ router.put(
   profile.updateSkills,
 );
 
-router.delete('/skills/:skillId', isUser, profile.deleteSkill);
+router.delete('/skills/:skillId', isUser, profile.removeSkill);
 
 router.get('/skills', isUser, profile.searchSkills);
 
