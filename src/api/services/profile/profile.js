@@ -209,8 +209,6 @@ export const addSkills = async (user, data) => {
 
   profile = await getProfileByUser(Profile, user.id, ['skills.skill']);
 
-  console.log(profile.skills[0]);
-
   return profile.skills.map((skill) => formatSkillData(skill));
 };
 
