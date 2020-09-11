@@ -30,9 +30,13 @@ export const getBasicProfile = async (userId) => {
  * @returns {Object} The returned user's profile.
  */
 export const getFullProfile = async (userId) => {
-  const user = await User.findOne({ _id: userId }).populate('profile');
+  const user = await User.findOne({ _id: userId });
 
   if (!user) throw new ServiceError('User profile does not exist.', 404);
+
+  const profile = await getProfileByUser(Profile, userId, ['skills.skill']);
+
+  user.profile = profile;
 
   return formatUserData(user);
 };
