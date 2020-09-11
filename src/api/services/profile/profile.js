@@ -245,5 +245,5 @@ export const searchSkills = async (user, query) => {
     (skill) => !profile.skills.some((profileSkill) => profileSkill.skill.equals(skill._id)),
   );
 
-  return skills.map((skill) => formatSkillData(skill));
+  return skills.map((skill) => skill.name);
 };
