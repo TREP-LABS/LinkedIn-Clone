@@ -14,6 +14,7 @@ let userToken;
 let userId;
 let educationId;
 let positionId;
+let skillId;
 let wrongUserId = '5f4a2f6db262d23d4808948b';
 
 describe('Profile Endpoints', () => {
@@ -212,6 +213,72 @@ describe('Profile Endpoints', () => {
           alterDetails(positionDetails, { token: userToken }),
           (err, res) => {
             res.should.have.status(204);
+
+            done();
+          },
+        );
+      });
+    });
+  });
+
+  describe('Skills Endpoints', () => {
+    describe('Add Skills', () => {
+      it('should not allow guest users add skills to profile', (done) => {
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/skills') },
+          { skills: ['Nodejs', 'Express'], token: null },
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should add new skills to profile', (done) => {
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/skills') },
+          { skills: ['Nodejs', 'Express'], token: userToken },
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.success.should.be.eql(true);
+            res.body.data.skills[0].name.should.be.eql('Nodejs');
+            res.body.data.skills[1].name.should.be.eql('Express');
+
+            skillId = res.body.data.skills[0].id;
+
+            done();
+          },
+        );
+      });
+    });
+
+    describe('Remove Skill', () => {
+      it('should not allow guest delete skills', (done) => {
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/skills/${skillId}`) },
+          { token: null },
+          authFailureAssertions(done),
+        );
+      });
+
+      it("should delete skill from user's profile", (done) => {
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/skills/${skillId}`) },
+          { token: userToken },
+          (err, res) => {
+            res.should.have.status(204);
+
+            done();
+          },
+        );
+      });
+    });
+
+    describe('Search Skills', () => {
+      it('should not return skills that user already have', (done) => {
+        makeRequest(
+          { method: 'get', endpoint: getEndpoint('profiles/skills?Nod') },
+          { token: userToken },
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.data.skills.should.be.eql([]);
 
             done();
           },
