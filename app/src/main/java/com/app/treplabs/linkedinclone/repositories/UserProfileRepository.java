@@ -161,6 +161,24 @@ public class UserProfileRepository {
         return mMessage;
     }
 
+    public String deleteEducation(String token, String educationId){
+        Call<ResponseBody> call = invokeAPI().deleteEducation(token, educationId);
+        try {
+            Response<ResponseBody> result = call.execute();
+            if (result.isSuccessful()) {
+                Log.d("UserProfileRepo", "deleteEducation: isSuccessful");
+                mMessage = "Deleted User Education Successfully";
+            }else {
+                Log.d("UserProfileRepo", "deleteEducation: unSuccessful");
+                JSONObject parent = new JSONObject(result.errorBody().string());
+                mMessage = parent.getString("message");
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return mMessage;
+    }
+
     private void getResponseFromEducationRequest(String string) throws JSONException {
         JSONObject parent = new JSONObject(string);
         mSuccess = parent.getBoolean("success");

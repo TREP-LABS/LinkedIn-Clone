@@ -5,6 +5,7 @@ import java.util.HashMap;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -26,4 +27,6 @@ public interface BackendProfileApi {
     Call<ResponseBody> updateExistingEducation(String token, @Path("educationId") String educationId,
                                                @Body HashMap<String, String> map);
 
+    @DELETE("educations/{educationId}")
+    Call<ResponseBody> deleteEducation(String token, @Path("educationId") String educationId);
 }
