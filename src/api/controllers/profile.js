@@ -125,7 +125,7 @@ export const updateSkills = asyncHandler(async (req, res) => {
 });
 
 /**
- * Search for skills in the DB..
+ * Search for skills in the DB.
  * @param {Function} controller The controller function.
  * @returns {Object} The response object containing some response data.
  */
@@ -135,4 +135,17 @@ export const searchSkills = asyncHandler(async (req, res) => {
   const skills = await ProfileService.searchSkills(req.user, q);
 
   return successResponse(res, 'Skills search result.', { data: { skills } }, 200);
+});
+
+/**
+ * Delete skill from a user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const deleteSkill = asyncHandler(async (req, res) => {
+  const { skillId } = req.params;
+
+  ProfileService.deleteSkill(req.user, skillId);
+
+  return successResponse(res, 'Skill deleted successfully.', { data: {} }, 204);
 });
