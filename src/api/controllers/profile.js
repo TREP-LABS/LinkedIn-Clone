@@ -147,5 +147,5 @@ export const removeSkill = asyncHandler(async (req, res) => {
 
   ProfileService.removeSkill(req.user, skillId);
 
-  return successResponse(res, 'Skill deleted successfully.', { data: {} }, 204);
+  return successResponse(res, 'Skill removed successfully.', { data: {} }, 204);
 });
