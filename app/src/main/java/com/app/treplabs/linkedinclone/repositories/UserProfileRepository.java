@@ -122,7 +122,7 @@ public class UserProfileRepository {
                 int startDate = education.getInt("startDate");
                 int endDate = education.getInt("endDate");
                 mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
-                        startDate + " - " + endDate));
+                        startDate + " - " + endDate, ""));
             }
         }
     }
