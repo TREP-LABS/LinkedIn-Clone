@@ -159,7 +159,7 @@ export const updatePosition = async (user, positionId, data) => {
 /**
  * Delete a position entry in the user's profile.
  * @param {Object} user The authenticated user object.
- * @param {String} positionId The ID of the position to update.
+ * @param {String} positionId The ID of the position to delete.
  * @returns {boolean} Truthy value.
  */
 export const deletePosition = async (user, positionId) => {
@@ -313,4 +313,26 @@ export const updateCertification = async (user, certificationId, data) => {
   await profile.save();
 
   return formatCertificationData(certification);
+};
+
+/**
+ * Delete a certification entry in the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {String} certificationId The ID of the certificate to delete.
+ * @returns {boolean} Truthy value.
+ */
+export const deleteCertification = async (user, certificationId) => {
+  const profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  const certification = profile.certifications.id(certificationId);
+
+  if (!certification) throw new ServiceError('Certification entry does not exist.', 404);
+
+  certification.remove();
+
+  await profile.save();
+
+  return true;
 };

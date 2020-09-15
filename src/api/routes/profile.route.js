@@ -705,4 +705,6 @@ router.put(
   profile.updateCertification,
 );
 
+router.delete('/certifications/:certificationId', isUser, profile.deleteCertification);
+
 export default router;
