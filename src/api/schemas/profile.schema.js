@@ -32,3 +32,15 @@ export const PositionSchema = Joi.object({
 export const SkillSchema = Joi.object({
   name: Joi.array(),
 });
+
+/**
+ * Joi ObjectSchema to validate certification inputs.
+ */
+export const CertificationSchema = Joi.object({
+  name: GenericSchema.stringField.required(),
+  authority: GenericSchema.stringField,
+  number: GenericSchema.stringField,
+  startDate: GenericSchema.monthYearField,
+  endDate: GenericSchema.monthYearField,
+  url: GenericSchema.stringField,
+});
