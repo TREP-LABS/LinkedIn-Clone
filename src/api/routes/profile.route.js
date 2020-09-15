@@ -691,6 +691,80 @@ router.delete('/skills/:skillId', isUser, profile.removeSkill);
  */
 router.get('/skills', isUser, profile.searchSkills);
 
+/**
+ * @swagger
+ * /profiles/certifications:
+ *  post:
+ *    tags: [Certification]
+ *    summary: Adds a new certification entry.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *    operationId: addCertification
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name
+ *            properties:
+ *              name:
+ *                type: string
+ *              authority:
+ *                type: string
+ *              number:
+ *                type: string
+ *              startDate:
+ *                type: string
+ *                example: Jun, 2020
+ *              endDate:
+ *                type: string
+ *                example: Jun, 2020
+ *              url:
+ *                type: string
+ *    responses:
+ *       '200':
+ *         description: Certification added successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    certification:
+ *                      $ref: '#/components/schemas/Certification'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.post(
   '/certifications',
   isUser,
@@ -698,6 +772,86 @@ router.post(
   profile.addCertification,
 );
 
+/**
+ * @swagger
+ * /profiles/certifications/{certificationId}:
+ *  put:
+ *    tags: [Certification]
+ *    summary: Updates an existing certification entry in user's profile.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *      - name: certificationId
+ *        in: path
+ *        required: true
+ *        description: ID of the certification entry to update.
+ *        schema:
+ *          type: string
+ *    operationId: updateCertification
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name
+ *            properties:
+ *              name:
+ *                type: string
+ *              authority:
+ *                type: string
+ *              number:
+ *                type: string
+ *              startDate:
+ *                type: string
+ *                example: Jun, 2020
+ *              endDate:
+ *                type: string
+ *                example: Jun, 2020
+ *              url:
+ *                type: string
+ *    responses:
+ *       '200':
+ *         description: Certification updated successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    certification:
+ *                      $ref: '#/components/schemas/Certification'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.put(
   '/certifications/:certificationId',
   isUser,
@@ -705,6 +859,43 @@ router.put(
   profile.updateCertification,
 );
 
+/**
+ * @swagger
+ * /profiles/certifications/{certificationId}:
+ *  delete:
+ *    tags: [Certification]
+ *    summary: Removes a certification from user's profile.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *      - name: skillId
+ *        in: path
+ *        required: true
+ *        description: ID of the certification to remove.
+ *        schema:
+ *          type: string
+ *    operationId: removeCertification
+ *    responses:
+ *       '204':
+ *         description: Certification removed successfully.
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.delete('/certifications/:certificationId', isUser, profile.deleteCertification);
 
 export default router;

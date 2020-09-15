@@ -92,6 +92,38 @@ const EmbedSkillSchema = new Schema({
   endorsments: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });
 
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Certification:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: string
+ *          name:
+ *            type: string
+ *            example: Complete Web Developer Course
+ *            required: true
+ *          authority:
+ *            type: string
+ *            example: Udemy
+ *          number:
+ *            type: string
+ *            example: 100243783872
+ *          startDate:
+ *            type: string
+ *            example: May, 2019
+ *          endDate:
+ *            type: string
+ *            example: Jun, 2020
+ *          isPresent:
+ *            type: boolean
+ *            example: false
+ *          url:
+ *            type: string
+ *            example: https://certificates.udemy.com/100243783872
+ */
 const CertificationSchema = new Schema({
   name: { type: String, required: true },
   authority: { type: String },
