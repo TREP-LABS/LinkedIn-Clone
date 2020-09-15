@@ -1,24 +1,21 @@
 package com.app.treplabs.linkedinclone.repositories;
 
 import android.util.Log;
-
 import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import com.app.treplabs.linkedinclone.network.BackendProfileApi;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -52,6 +49,7 @@ public class UserProfileRepository {
                 .create(BackendProfileApi.class);
     }
 
+    //profile
     public String getBasicProfile(String userId) {
         Call<ResponseBody> call = invokeAPI().getBasicProfile(userId);
         try {
@@ -127,6 +125,7 @@ public class UserProfileRepository {
         }
     }
 
+    //education
     public String addNewEducation(HashMap<String, String> map, String token) {
         Call<ResponseBody> call = invokeAPI().addNewEducation(token, map);
         try {
@@ -161,14 +160,14 @@ public class UserProfileRepository {
         return mMessage;
     }
 
-    public String deleteEducation(String token, String educationId){
+    public String deleteEducation(String token, String educationId) {
         Call<ResponseBody> call = invokeAPI().deleteEducation(token, educationId);
         try {
             Response<ResponseBody> result = call.execute();
             if (result.isSuccessful()) {
                 Log.d("UserProfileRepo", "deleteEducation: isSuccessful");
                 mMessage = "Deleted User Education Successfully";
-            }else {
+            } else {
                 Log.d("UserProfileRepo", "deleteEducation: unSuccessful");
                 JSONObject parent = new JSONObject(result.errorBody().string());
                 mMessage = parent.getString("message");
@@ -184,7 +183,8 @@ public class UserProfileRepository {
         mSuccess = parent.getBoolean("success");
         mMessage = parent.getString("message");
         if (mSuccess) {
-            JSONObject education = parent.getJSONObject("data");
+            JSONObject jsonObject = parent.getJSONObject("data");
+            JSONObject education = jsonObject.getJSONObject("education");
             String educationId = education.getString("id");
             String schoolName = education.getString("schoolName");
             String fieldOfStudy = education.getString("fieldOfStudy");
@@ -195,13 +195,62 @@ public class UserProfileRepository {
         }
     }
 
+    //experience
+    public String addNewExperience(HashMap<String, String> map, String token) {
+        invokeAPI().addNewExperience(token, map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.d("UserProfileRepo", "OnSuccess: " + response.body().string());
+                                getResponseFromExperienceRequest(response.body().string());
+                            } else {
+                                Log.d("UserProfileRepo", "UnSuccess: " + response.errorBody());
+                                getResponseFromExperienceRequest(response.errorBody().string());
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
+        return mMessage;
+    }
+
+    private void getResponseFromExperienceRequest(String string) throws JSONException {
+        JSONObject parent = new JSONObject(string);
+        mSuccess = parent.getBoolean("success");
+        mMessage = parent.getString("message");
+        if (mSuccess) {
+            JSONObject jsonObject = parent.getJSONObject("data");
+            JSONObject experience = jsonObject.getJSONObject("position");
+            String experienceId = experience.getString("id");
+            String jobTitle = experience.getString("title");
+            String jobSummary = experience.getString("summary");
+            String startDate = experience.getString("startDate");
+            String endDate = experience.getString("endDate");
+            boolean isCurrent = experience.getBoolean("isCurrent");
+            String company = experience.getString("company");
+            int noOfYears = Integer.parseInt(endDate.split(" ")[1]) -
+                    Integer.parseInt(startDate.split(" ")[1]);
+            mUserExperiences.add(new UserExperience(jobTitle, company,
+                    startDate + " - " + endDate, noOfYears, isCurrent, jobSummary));
+        }
+    }
+
     private void initializeSampleExperience() {
         mUserExperiences.add(new UserExperience("UI/UX Designer", "WhatsApp",
-                "Jun 2007 - July 2017", 10));
+                "Jun 2007 - July 2017", 10, false, ""));
         mUserExperiences.add(new UserExperience("Android Developer", "Apple",
-                "Jun 2018 - July 2028", 10));
+                "Jun 2018 - July 2028", 10, false, ""));
         mUserExperiences.add(new UserExperience("BackEnd Engineer", "LinkedIn",
-                "Jun 2029 - July 2039", 10));
+                "Jun 2029 - July 2039", 10, false, ""));
     }
 
     private void initializeSampleSkills() {
@@ -224,4 +273,5 @@ public class UserProfileRepository {
     public List<UserSkill> getUserSkills() {
         return mUserSkills;
     }
+
 }
