@@ -21,12 +21,12 @@ public interface BackendProfileApi {
     Call<ResponseBody> getFullProfile(@Path("userId") String userId);
 
     @POST("educations")
-    Call<ResponseBody> addNewEducation(String token, @Body HashMap<String, String> map);
+    Call<ResponseBody> addNewEducation(@Header("Authorization") String token, @Body HashMap<String, String> map);
 
     @PUT("educations/{educationId}")
-    Call<ResponseBody> updateExistingEducation(String token, @Path("educationId") String educationId,
+    Call<ResponseBody> updateExistingEducation(@Header("Authorization") String token, @Path("educationId") String educationId,
                                                @Body HashMap<String, String> map);
 
     @DELETE("educations/{educationId}")
-    Call<ResponseBody> deleteEducation(String token, @Path("educationId") String educationId);
+    Call<ResponseBody> deleteEducation(@Header("Authorization") String token, @Path("educationId") String educationId);
 }
