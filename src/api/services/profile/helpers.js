@@ -68,8 +68,12 @@ export const formatCertificationData = (certificationData) => ({
   name: certificationData.name,
   authority: certificationData.authority,
   number: certificationData.number,
-  startDate: certificationData.startDate,
-  endDate: certificationData.endDate,
+  startDate: certificationData.startDate
+    ? moment(certificationData.startDate).format('MMM, YYYY')
+    : undefined,
+  endDate: certificationData.endDate
+    ? moment(certificationData.endDate).format('MMM, YYYY')
+    : undefined,
   isPresent: certificationData.startDate && !certificationData.endDate ? true : false,
   url: certificationData.url,
 });
