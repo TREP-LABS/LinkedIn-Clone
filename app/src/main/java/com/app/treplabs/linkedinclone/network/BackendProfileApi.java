@@ -29,4 +29,15 @@ public interface BackendProfileApi {
 
     @DELETE("educations/{educationId}")
     Call<ResponseBody> deleteEducation(@Header("Authorization") String token, @Path("educationId") String educationId);
+
+    //positions is used in place of experience in the backend API
+    @POST("positions")
+    Call<ResponseBody> addNewExperience(@Header("Authorization") String token, @Body HashMap<String, String> map);
+
+    @PUT("positions/{positionId}")
+    Call<ResponseBody> updateExistingExperience(@Header("Authorization") String token, @Path("positionId") String experienceId,
+                                               @Body HashMap<String, String> map);
+
+    @DELETE("positions/{positionId}")
+    Call<ResponseBody> deleteExperience(@Header("Authorization") String token, @Path("positionId") String experienceId);
 }
