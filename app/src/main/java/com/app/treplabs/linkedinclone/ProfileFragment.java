@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import com.app.treplabs.linkedinclone.databinding.FragmentProfileBinding;
 import com.app.treplabs.linkedinclone.interfaces.ProfileStateListener;
+import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.viewmodels.ProfileViewModel;
 
 public class ProfileFragment extends Fragment implements ProfileStateListener {
@@ -61,6 +62,7 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
 
     @Override
     public void onGetProfileSuccess(String s) {
+        mBinding.setUser(User.INSTANCE);
         showToast(s);
     }
 }
