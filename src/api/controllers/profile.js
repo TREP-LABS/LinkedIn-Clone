@@ -198,5 +198,5 @@ export const deleteCertification = asyncHandler(async (req, res) => {
 
   ProfileService.deleteCertification(req.user, certificationId);
 
-  return successResponse(res, 'Certification deleted successfully.', {}, 204);
+  return successResponse(res, 'Certification removed successfully.', {}, 204);
 });
