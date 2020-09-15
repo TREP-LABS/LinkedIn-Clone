@@ -289,3 +289,28 @@ export const addCertification = async (user, data) => {
 
   return formatCertificationData(profile.certifications[profile.certifications.length - 1]);
 };
+
+/**
+ * Update certification entry in the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {String} certificationId The ID of the certification to update.
+ * @param {Object} data Request data from the controller.
+ * @returns {Object} The updated certification entry.
+ */
+export const updateCertification = async (user, certificationId, data) => {
+  const profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  const certification = profile.certifications.id(certificationId);
+
+  if (!certification) throw new ServiceError('Certification entry does not exist.', 404);
+
+  Object.assign(certification, data);
+
+  certification.endDate = !data.endDate ? undefined : certification.endDate;
+
+  await profile.save();
+
+  return formatCertificationData(certification);
+};

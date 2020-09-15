@@ -165,3 +165,25 @@ export const addCertification = asyncHandler(async (req, res) => {
     201,
   );
 });
+
+/**
+ * Delete skill from a user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const updateCertification = asyncHandler(async (req, res) => {
+  const { certificationId } = req.params;
+
+  const certification = await ProfileService.updateCertification(
+    req.user,
+    certificationId,
+    req.body,
+  );
+
+  return successResponse(
+    res,
+    'Certification updated successfully.',
+    { data: { certification } },
+    200,
+  );
+});

@@ -698,4 +698,11 @@ router.post(
   profile.addCertification,
 );
 
+router.put(
+  '/certifications/:certificationId',
+  isUser,
+  validateInputs('ProfileSchemas', 'CertificationSchema'),
+  profile.updateCertification,
+);
+
 export default router;
