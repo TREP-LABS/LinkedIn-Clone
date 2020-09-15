@@ -191,13 +191,13 @@ public class UserProfileRepository {
             int startDate = education.getInt("startDate");
             int endDate = education.getInt("endDate");
 
-            for (UserEducation userEducation: mUserEducations){
-                if (educationId.equals(userEducation.getEducationId())){
+            for (UserEducation userEducation : mUserEducations) {
+                if (educationId.equals(userEducation.getEducationId())) {
                     userEducation.setEducationId(educationId);
                     userEducation.setFromYearToYear(startDate + " - " + endDate);
                     userEducation.setSchoolDegree(fieldOfStudy);
                     userEducation.setSchoolName(schoolName);
-                }else {
+                } else {
                     mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
                             startDate + " - " + endDate, educationId));
                 }
@@ -213,7 +213,7 @@ public class UserProfileRepository {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
                             if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "OnSuccess: " + response.body().string());
+                                Log.d("UserProfileRepo", "addNewExperience OnSuccess: " + response.body().string());
                                 getResponseFromExperienceRequest(response.body().string());
                             } else {
                                 Log.d("UserProfileRepo", "UnSuccess: " + response.errorBody());
@@ -233,13 +233,13 @@ public class UserProfileRepository {
         return mMessage;
     }
 
-    public String updateExperience(String token, String experienceId, HashMap<String, String> map){
+    public String updateExperience(String token, String experienceId, HashMap<String, String> map) {
         invokeAPI().updateExistingEducation(token, experienceId, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
-                            if (response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "Update OnSuccess: " + response.body().string());
                                 getResponseFromExperienceRequest(response.body().string());
                             } else {
@@ -254,6 +254,36 @@ public class UserProfileRepository {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.d("UserProfileRepo", "Update OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
+        return mMessage;
+    }
+
+    public String deleteExperience(String token, String experienceId) {
+        invokeAPI().deleteExperience(token, experienceId)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.d("UserProfileRepo", "deleteExperience OnSuccess: " +
+                                        response.body().string());
+                                mMessage = "Deleted User Experience Successfully";
+                            } else {
+                                Log.d("UserProfileRepo", "deleteExperience UnSuccess: " +
+                                        response.body().string());
+                                JSONObject parent = new JSONObject(response.errorBody().string());
+                                mMessage = parent.getString("message");
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "deleteExperience OnFailure: " + t.getMessage());
                         mMessage = t.getMessage();
                     }
                 });
@@ -277,8 +307,8 @@ public class UserProfileRepository {
             int noOfYears = Integer.parseInt(endDate.split(" ")[1]) -
                     Integer.parseInt(startDate.split(" ")[1]);
 
-            for (UserExperience userExperience: mUserExperiences){
-                if (experienceId.equals(userExperience.getExperienceId())){
+            for (UserExperience userExperience : mUserExperiences) {
+                if (experienceId.equals(userExperience.getExperienceId())) {
                     userExperience.setJobTitle(jobTitle);
                     userExperience.setCompany(company);
                     userExperience.setCurrent(isCurrent);
@@ -286,7 +316,7 @@ public class UserProfileRepository {
                     userExperience.setSummary(jobSummary);
                     userExperience.setFromDateToDate(startDate + " - " + endDate);
                     userExperience.setNoOfYears(noOfYears);
-                }else {
+                } else {
                     mUserExperiences.add(new UserExperience(jobTitle, company,
                             startDate + " - " + endDate, noOfYears, isCurrent,
                             jobSummary, experienceId));
@@ -295,6 +325,7 @@ public class UserProfileRepository {
         }
     }
 
+    //samples
     private void initializeSampleExperience() {
         mUserExperiences.add(new UserExperience("UI/UX Designer", "WhatsApp",
                 "Jun 2007 - July 2017", 10, false, "", ""));
