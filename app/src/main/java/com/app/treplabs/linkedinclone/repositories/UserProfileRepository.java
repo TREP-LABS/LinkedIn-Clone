@@ -82,11 +82,11 @@ public class UserProfileRepository {
             String email = user.getString("email");
             String slug = user.getString("slug");
 
-            User.getInstance().setFirstName(firstname);
-            User.getInstance().setLastName(lastname);
-            User.getInstance().setUserId(id);
-            User.getInstance().setEmail(email);
-            User.getInstance().setSlug(slug);
+            User.INSTANCE.setFirstName(firstname);
+            User.INSTANCE.setLastName(lastname);
+            User.INSTANCE.setUserId(id);
+            User.INSTANCE.setEmail(email);
+            User.INSTANCE.setSlug(slug);
         }
     }
 
