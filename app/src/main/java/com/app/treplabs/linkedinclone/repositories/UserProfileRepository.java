@@ -240,17 +240,18 @@ public class UserProfileRepository {
             int noOfYears = Integer.parseInt(endDate.split(" ")[1]) -
                     Integer.parseInt(startDate.split(" ")[1]);
             mUserExperiences.add(new UserExperience(jobTitle, company,
-                    startDate + " - " + endDate, noOfYears, isCurrent, jobSummary));
+                    startDate + " - " + endDate, noOfYears, isCurrent,
+                    jobSummary, experienceId));
         }
     }
 
     private void initializeSampleExperience() {
         mUserExperiences.add(new UserExperience("UI/UX Designer", "WhatsApp",
-                "Jun 2007 - July 2017", 10, false, ""));
+                "Jun 2007 - July 2017", 10, false, "", ""));
         mUserExperiences.add(new UserExperience("Android Developer", "Apple",
-                "Jun 2018 - July 2028", 10, false, ""));
+                "Jun 2018 - July 2028", 10, false, "", ""));
         mUserExperiences.add(new UserExperience("BackEnd Engineer", "LinkedIn",
-                "Jun 2029 - July 2039", 10, false, ""));
+                "Jun 2029 - July 2039", 10, false, "", ""));
     }
 
     private void initializeSampleSkills() {
