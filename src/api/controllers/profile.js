@@ -149,3 +149,19 @@ export const removeSkill = asyncHandler(async (req, res) => {
 
   return successResponse(res, 'Skill removed successfully.', { data: {} }, 204);
 });
+
+/**
+ * Delete skill from a user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const addCertification = asyncHandler(async (req, res) => {
+  const certification = await ProfileService.addCertification(req.user, req.body);
+
+  return successResponse(
+    res,
+    'Certification added successfully.',
+    { data: { certification } },
+    201,
+  );
+});

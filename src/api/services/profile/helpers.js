@@ -59,6 +59,22 @@ export const formatSkillData = (skillData) => ({
 });
 
 /**
+ * Format the certification data to be returned to the client.
+ * @param {Object} certificationData The raw position data gotten from the database.
+ * @returns {Object} The formatted certification data.
+ */
+export const formatCertificationData = (certificationData) => ({
+  id: certificationData._id,
+  name: certificationData.name,
+  authority: certificationData.authority,
+  number: certificationData.number,
+  startDate: certificationData.startDate,
+  endDate: certificationData.endDate,
+  isPresent: certificationData.startDate && !certificationData.endDate ? true : false,
+  url: certificationData.url,
+});
+
+/**
  * Get a profile from the database using the user's ID.
  * @param {Object} Profile The query interface for profile in the database.
  * @param {String} user The user ID of the profile to get.

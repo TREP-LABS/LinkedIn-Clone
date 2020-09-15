@@ -691,4 +691,11 @@ router.delete('/skills/:skillId', isUser, profile.removeSkill);
  */
 router.get('/skills', isUser, profile.searchSkills);
 
+router.post(
+  '/certifications',
+  isUser,
+  validateInputs('ProfileSchemas', 'CertificationSchema'),
+  profile.addCertification,
+);
+
 export default router;

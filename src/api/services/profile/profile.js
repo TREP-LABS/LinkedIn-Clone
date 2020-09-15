@@ -6,6 +6,7 @@ import {
   formatEducationData,
   formatPositionData,
   formatSkillData,
+  formatCertificationData,
 } from './helpers';
 import { formatUserData } from '../users/helpers';
 
@@ -269,4 +270,22 @@ export const searchSkills = async (user, query) => {
   );
 
   return skills.map((skill) => skill.name);
+};
+
+/**
+ * Adds a certificate to the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {Object} data Request data from the controller.
+ * @returns {Object} The added certification entry.
+ */
+export const addCertification = async (user, data) => {
+  let profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  profile.certifications.push(data);
+
+  await profile.save();
+
+  return formatCertificationData(profile.certifications[profile.certifications.length - 1]);
 };
