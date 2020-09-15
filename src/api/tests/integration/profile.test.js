@@ -8,13 +8,14 @@ const {
   alterDetails,
 } = BaseHelpers;
 const { userDetails, loginUser } = UserHelpers;
-const { educationDetails, positionDetails, getProfile } = ProfileHelpers;
+const { educationDetails, positionDetails, certificationDetails, getProfile } = ProfileHelpers;
 
 let userToken;
 let userId;
 let educationId;
 let positionId;
 let skillId;
+let certificationId;
 let wrongUserId = '5f4a2f6db262d23d4808948b';
 
 describe('Profile Endpoints', () => {
@@ -279,6 +280,84 @@ describe('Profile Endpoints', () => {
           (err, res) => {
             res.should.have.status(200);
             res.body.data.skills.should.be.eql([]);
+
+            done();
+          },
+        );
+      });
+    });
+  });
+
+  describe('Certifications Endpoints', () => {
+    describe('Add Certification', () => {
+      it('should not allow guest users add certification to profile', (done) => {
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/certifications') },
+          alterDetails(certificationDetails, { token: null }),
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should add new certification to profile', (done) => {
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/certifications') },
+          alterDetails(certificationDetails, { token: userToken }),
+          (err, res) => {
+            res.should.have.status(201);
+            res.body.success.should.be.eql(true);
+            res.body.data.certification.name.should.be.eql(certificationDetails.name);
+
+            certificationId = res.body.data.certification.id;
+
+            done();
+          },
+        );
+      });
+    });
+
+    describe('Update Certification', () => {
+      it('should not allow guest users create new certification entry', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint(`profiles/certifications/${certificationId}`) },
+          alterDetails(certificationDetails, { token: null }),
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should update a certification entry', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint(`profiles/certifications/${certificationId}`) },
+          alterDetails(certificationDetails, {
+            token: userToken,
+            name: 'Complete Web Developer Course 2.0',
+          }),
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.success.should.be.eql(true);
+            res.body.data.certification.should.be.a('object');
+            res.body.data.certification.name.should.be.eql('Complete Web Developer Course 2.0');
+
+            done();
+          },
+        );
+      });
+    });
+
+    describe('Delete Certification', () => {
+      it('should not allow guest users delete certification entry', (done) => {
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/certifications/${certificationId}`) },
+          alterDetails(positionDetails, { token: null }),
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should delete a certification entry', (done) => {
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/certifications/${certificationId}`) },
+          alterDetails({ token: userToken }),
+          (err, res) => {
+            res.should.have.status(204);
 
             done();
           },

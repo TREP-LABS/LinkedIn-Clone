@@ -25,6 +25,15 @@ export const positionDetails = {
   token: null,
 };
 
+export const certificationDetails = {
+  name: 'Complete Web Developer Course',
+  authority: 'Udemy, Inc',
+  number: '100243783872',
+  startDate: 'Feb, 2020',
+  endDate: 'Feb, 2021',
+  url: 'https://certificates.udemy.com/100243783872',
+};
+
 export const getProfile = (type, userId, assertions) => {
   chai.request(app).get(`/api/v1/profiles/${type}/${userId}`).end(assertions);
 };
