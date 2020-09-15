@@ -190,8 +190,18 @@ public class UserProfileRepository {
             String fieldOfStudy = education.getString("fieldOfStudy");
             int startDate = education.getInt("startDate");
             int endDate = education.getInt("endDate");
-            mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
-                    startDate + " - " + endDate, educationId));
+
+            for (UserEducation userEducation: mUserEducations){
+                if (educationId.equals(userEducation.getEducationId())){
+                    userEducation.setEducationId(educationId);
+                    userEducation.setFromYearToYear(startDate + " - " + endDate);
+                    userEducation.setSchoolDegree(fieldOfStudy);
+                    userEducation.setSchoolName(schoolName);
+                }else {
+                    mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
+                            startDate + " - " + endDate, educationId));
+                }
+            }
         }
     }
 
@@ -266,9 +276,22 @@ public class UserProfileRepository {
             String company = experience.getString("company");
             int noOfYears = Integer.parseInt(endDate.split(" ")[1]) -
                     Integer.parseInt(startDate.split(" ")[1]);
-            mUserExperiences.add(new UserExperience(jobTitle, company,
-                    startDate + " - " + endDate, noOfYears, isCurrent,
-                    jobSummary, experienceId));
+
+            for (UserExperience userExperience: mUserExperiences){
+                if (experienceId.equals(userExperience.getExperienceId())){
+                    userExperience.setJobTitle(jobTitle);
+                    userExperience.setCompany(company);
+                    userExperience.setCurrent(isCurrent);
+                    userExperience.setExperienceId(experienceId);
+                    userExperience.setSummary(jobSummary);
+                    userExperience.setFromDateToDate(startDate + " - " + endDate);
+                    userExperience.setNoOfYears(noOfYears);
+                }else {
+                    mUserExperiences.add(new UserExperience(jobTitle, company,
+                            startDate + " - " + endDate, noOfYears, isCurrent,
+                            jobSummary, experienceId));
+                }
+            }
         }
     }
 
