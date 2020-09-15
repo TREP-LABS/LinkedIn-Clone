@@ -67,12 +67,12 @@ public class UserRepository {
             String email = user.getString("email");
             String slug = user.getString("slug");
 
-            User.getInstance().setFirstName(firstname);
-            User.getInstance().setLastName(lastname);
-            User.getInstance().setEmail(email);
-            User.getInstance().setUserId(id);
-            User.getInstance().setSlug(slug);
-            User.getInstance().setToken(token);
+            User.INSTANCE.setFirstName(firstname);
+            User.INSTANCE.setLastName(lastname);
+            User.INSTANCE.setEmail(email);
+            User.INSTANCE.setUserId(id);
+            User.INSTANCE.setSlug(slug);
+            User.INSTANCE.setToken(token);
         }
     }
 
@@ -101,10 +101,10 @@ public class UserRepository {
             JSONObject data = parent.getJSONObject("data");
             String token = data.getString("token");
 
-            User.getInstance().setFirstName(map.get("firstname"));
-            User.getInstance().setLastName(map.get("lastname"));
-            User.getInstance().setEmail(map.get("email"));
-            User.getInstance().setToken(token);
+            User.INSTANCE.setFirstName(map.get("firstname"));
+            User.INSTANCE.setLastName(map.get("lastname"));
+            User.INSTANCE.setEmail(map.get("email"));
+            User.INSTANCE.setToken(token);
         }
     }
 
