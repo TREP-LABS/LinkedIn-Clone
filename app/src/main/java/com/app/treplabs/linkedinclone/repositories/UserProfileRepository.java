@@ -223,6 +223,33 @@ public class UserProfileRepository {
         return mMessage;
     }
 
+    public String updateExperience(String token, String experienceId, HashMap<String, String> map){
+        invokeAPI().updateExistingEducation(token, experienceId, map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()){
+                                Log.d("UserProfileRepo", "Update OnSuccess: " + response.body().string());
+                                getResponseFromExperienceRequest(response.body().string());
+                            } else {
+                                Log.d("UserProfileRepo", "Update UnSuccess: " + response.errorBody());
+                                getResponseFromExperienceRequest(response.errorBody().string());
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "Update OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
+        return mMessage;
+    }
+
     private void getResponseFromExperienceRequest(String string) throws JSONException {
         JSONObject parent = new JSONObject(string);
         mSuccess = parent.getBoolean("success");
