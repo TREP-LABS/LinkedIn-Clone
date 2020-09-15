@@ -97,7 +97,7 @@ router.get('/full/:userId', profile.getFullProfile);
  * @swagger
  * /profiles/educations:
  *  post:
- *    tags: [Profile]
+ *    tags: [Educations]
  *    summary: Adds a new education entry.
  *    parameters:
  *      - name: Authorization
@@ -183,7 +183,7 @@ router.post(
  * @swagger
  * /profiles/educations/{educationId}:
  *  put:
- *    tags: [Profile]
+ *    tags: [Educations]
  *    summary: Updates an existing education entry.
  *    parameters:
  *      - name: Authorization
@@ -275,7 +275,7 @@ router.put(
  * @swagger
  * /profiles/educations/{educationId}:
  *  delete:
- *    tags: [Profile]
+ *    tags: [Educations]
  *    summary: Removes an existing education entry.
  *    parameters:
  *      - name: Authorization
@@ -314,7 +314,7 @@ router.delete('/educations/:educationId', isUser, profile.deleteEducation);
  * @swagger
  * /profiles/positions:
  *  post:
- *    tags: [Profile]
+ *    tags: [Positions]
  *    summary: Adds a new position entry.
  *    parameters:
  *      - name: Authorization
@@ -397,7 +397,7 @@ router.post(
  * @swagger
  * /profiles/positions/{positionId}:
  *  put:
- *    tags: [Profile]
+ *    tags: [Positions]
  *    summary: Updates an existing position entry.
  *    parameters:
  *      - name: Authorization
@@ -486,7 +486,7 @@ router.put(
  * @swagger
  * /profiles/positions/{positionId}:
  *  delete:
- *    tags: [Profile]
+ *    tags: [Positions]
  *    summary: Removes an existing position entry.
  *    parameters:
  *      - name: Authorization
@@ -525,7 +525,7 @@ router.delete('/positions/:positionId', isUser, profile.deletePosition);
  * @swagger
  * /profiles/skills:
  *  post:
- *    tags: [Profile]
+ *    tags: [Skills]
  *    summary: Adds skills to user's profile..
  *    parameters:
  *      - name: Authorization
@@ -601,7 +601,7 @@ router.put(
  * @swagger
  * /profiles/skills/{skillId}:
  *  delete:
- *    tags: [Profile]
+ *    tags: [Skills]
  *    summary: Removes a skill from user's profile.
  *    parameters:
  *      - name: Authorization
@@ -640,7 +640,7 @@ router.delete('/skills/:skillId', isUser, profile.removeSkill);
  * @swagger
  * /profiles/skills:
  *  get:
- *    tags: [Profile]
+ *    tags: [Skills]
  *    summary: Search for skill matching a query string.
  *    parameters:
  *      - name: Authorization
@@ -695,7 +695,7 @@ router.get('/skills', isUser, profile.searchSkills);
  * @swagger
  * /profiles/certifications:
  *  post:
- *    tags: [Certification]
+ *    tags: [Certifications]
  *    summary: Adds a new certification entry.
  *    parameters:
  *      - name: Authorization
@@ -776,7 +776,7 @@ router.post(
  * @swagger
  * /profiles/certifications/{certificationId}:
  *  put:
- *    tags: [Certification]
+ *    tags: [Certifications]
  *    summary: Updates an existing certification entry in user's profile.
  *    parameters:
  *      - name: Authorization
@@ -863,7 +863,7 @@ router.put(
  * @swagger
  * /profiles/certifications/{certificationId}:
  *  delete:
- *    tags: [Certification]
+ *    tags: [Certifications]
  *    summary: Removes a certification from user's profile.
  *    parameters:
  *      - name: Authorization
