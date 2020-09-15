@@ -92,6 +92,15 @@ const EmbedSkillSchema = new Schema({
   endorsments: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });
 
+const CertificationSchema = new Schema({
+  name: { type: String, required: true },
+  authority: { type: String },
+  number: { type: String },
+  startDate: { type: Date },
+  endDate: { type: Date },
+  url: { type: String },
+});
+
 /**
  * @swagger
  *  components:
@@ -132,6 +141,7 @@ const ProfileSchema = new Schema({
   educations: [EducationSchema],
   positions: [PositionSchema],
   skills: [EmbedSkillSchema],
+  certifications: [CertificationSchema],
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 });
 
