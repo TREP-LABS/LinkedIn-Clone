@@ -336,12 +336,12 @@ public class UserProfileRepository {
     }
 
     private void initializeSampleSkills() {
-        mUserSkills.add(new UserSkill("UI Design"));
-        mUserSkills.add(new UserSkill("Graphics Design"));
-        mUserSkills.add(new UserSkill("Adobe Photoshop"));
-        mUserSkills.add(new UserSkill("Adobe Illustrator"));
-        mUserSkills.add(new UserSkill("Android"));
-        mUserSkills.add(new UserSkill("Web Development"));
+        mUserSkills.add(new UserSkill("UI Design", ""));
+        mUserSkills.add(new UserSkill("Graphics Design", ""));
+        mUserSkills.add(new UserSkill("Adobe Photoshop", ""));
+        mUserSkills.add(new UserSkill("Adobe Illustrator", ""));
+        mUserSkills.add(new UserSkill("Android", ""));
+        mUserSkills.add(new UserSkill("Web Development", ""));
     }
 
     public List<UserEducation> getUserEducations() {
