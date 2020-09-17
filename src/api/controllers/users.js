@@ -49,3 +49,36 @@ export const resetPassword = asyncHandler(async (req, res) => {
 
   return successResponse(res, 'Password reset successfully.');
 });
+
+/**
+ * Update user's headline.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const updateHeadline = asyncHandler(async (req, res) => {
+  const user = await UserService.updateUserDetails(req.user, 'headline', req.body.headline);
+
+  return successResponse(res, 'Headline updated successfully.', { data: { user } }, 200);
+});
+
+/**
+ * Update user's firstname.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const updateFirstName = asyncHandler(async (req, res) => {
+  const user = await UserService.updateUserDetails(req.user, 'firstname', req.body.firstname);
+
+  return successResponse(res, 'Firstname updated successfully.', { data: { user } }, 200);
+});
+
+/**
+ * Update user's lastname.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const updateLastName = asyncHandler(async (req, res) => {
+  const user = await UserService.updateUserDetails(req.user, 'lastname', req.body.lastname);
+
+  return successResponse(res, 'Lastname updated successfully.', { data: { user } }, 200);
+});

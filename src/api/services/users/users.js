@@ -117,3 +117,19 @@ export const resetPassword = async (resetToken, password) => {
 
   return true;
 };
+
+/**
+ * Updates a string field given the field name and the value.
+ * @param {Object} user The authenticated user object.
+ * @param {String} field The field in the profile model to update.
+ * @param {String} value The value of the field to updated.
+ */
+export const updateUserDetails = async (authUser, field, value) => {
+  const user = await getUserByEmail(User, authUser.email);
+  if (!user) throw new ServiceError('User does not exist.', 404);
+
+  user[field] = value;
+  await user.save();
+
+  return formatUserData(user);
+};
