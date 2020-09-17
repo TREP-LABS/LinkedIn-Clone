@@ -233,8 +233,8 @@ public class UserProfileRepository {
         return mMessage;
     }
 
-    public String updateExperience(String token, String experienceId, HashMap<String, String> map) {
-        invokeAPI().updateExistingEducation(token, experienceId, map)
+    public String updateExistingExperience(String token, String experienceId, HashMap<String, String> map) {
+        invokeAPI().updateExistingExperience(token, experienceId, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
