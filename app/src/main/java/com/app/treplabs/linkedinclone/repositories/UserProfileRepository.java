@@ -380,6 +380,36 @@ public class UserProfileRepository {
         return mMessage;
     }
 
+    public String deleteSkill(String token, String skillId){
+        invokeAPI().deleteSkill(token, skillId)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.d("UserProfileRepo", "deleteSkill OnSuccess: " +
+                                        response.body().string());
+                                mMessage = "Deleted User Skill Successfully";
+                            } else {
+                                Log.d("UserProfileRepo", "deleteSkill UnSuccess: " +
+                                        response.body().string());
+                                JSONObject parent = new JSONObject(response.errorBody().string());
+                                mMessage = parent.getString("message");
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "deleteSkill OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
+        return mMessage;
+    }
+
     private void getResponseFromSkillRequest(String string) throws JSONException {
         JSONObject parent = new JSONObject(string);
         mSuccess = parent.getBoolean("success");
