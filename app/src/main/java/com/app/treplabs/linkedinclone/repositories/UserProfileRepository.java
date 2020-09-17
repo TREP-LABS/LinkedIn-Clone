@@ -32,7 +32,6 @@ public class UserProfileRepository {
     public static UserProfileRepository getInstance() {
         if (instance == null) {
             instance = new UserProfileRepository();
-            instance.initializeSampleExperience();
             instance.initializeSampleSkills();
         }
         return instance;
@@ -115,12 +114,29 @@ public class UserProfileRepository {
             JSONArray educations = profile.getJSONArray("educations");
             for (int i = 0; i < educations.length(); i++) {
                 JSONObject education = (JSONObject) educations.get(i);
+                String educationId = education.getString("id");
                 String schoolName = education.getString("schoolName");
                 String fieldOfStudy = education.getString("fieldOfStudy");
                 int startDate = education.getInt("startDate");
                 int endDate = education.getInt("endDate");
                 mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
-                        startDate + " - " + endDate, ""));
+                        startDate + " - " + endDate, educationId));
+            }
+            JSONArray experiences = profile.getJSONArray("positions");
+            for (int i = 0; i < experiences.length(); i++) {
+                JSONObject experience = (JSONObject) experiences.get(i);
+                String experienceId = experience.getString("id");
+                String title = experience.getString("title");
+                String summary = experience.getString("summary");
+                String startDate = experience.getString("startDate");
+                String endDate = experience.getString("endDate");
+                boolean isCurrent = experience.getBoolean("isCurrent");
+                String company = experience.getString("company");
+                int noOfYears = Integer.parseInt(endDate.split(" ")[1]) -
+                        Integer.parseInt(startDate.split(" ")[1]);
+                mUserExperiences.add(new UserExperience(title, company,
+                        startDate + " - " + endDate, noOfYears, isCurrent,
+                        summary, experienceId));
             }
         }
     }
@@ -326,7 +342,7 @@ public class UserProfileRepository {
     }
 
     //skills
-    public String addNewSkill(HashMap<String, String> map, String token){
+    public String addNewSkill(HashMap<String, String> map, String token) {
         invokeAPI().addNewSkill(token, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -353,7 +369,7 @@ public class UserProfileRepository {
         return mMessage;
     }
 
-    public String searchSkill(String token, String searchText){
+    public String searchSkill(String token, String searchText) {
         invokeAPI().searchForSkill(token, searchText)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -380,7 +396,7 @@ public class UserProfileRepository {
         return mMessage;
     }
 
-    public String deleteSkill(String token, String skillId){
+    public String deleteSkill(String token, String skillId) {
         invokeAPI().deleteSkill(token, skillId)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -417,7 +433,7 @@ public class UserProfileRepository {
         if (mSuccess) {
             JSONObject jsonObject = parent.getJSONObject("data");
             JSONArray skillArray = jsonObject.getJSONArray("skills");
-            for (int i = 0; i<skillArray.length(); i++){
+            for (int i = 0; i < skillArray.length(); i++) {
                 JSONObject object = (JSONObject) skillArray.get(i);
                 String skillId = object.getString("id");
                 String name = object.getString("name");
@@ -427,15 +443,6 @@ public class UserProfileRepository {
     }
 
     //samples
-    private void initializeSampleExperience() {
-        mUserExperiences.add(new UserExperience("UI/UX Designer", "WhatsApp",
-                "Jun 2007 - July 2017", 10, false, "", ""));
-        mUserExperiences.add(new UserExperience("Android Developer", "Apple",
-                "Jun 2018 - July 2028", 10, false, "", ""));
-        mUserExperiences.add(new UserExperience("BackEnd Engineer", "LinkedIn",
-                "Jun 2029 - July 2039", 10, false, "", ""));
-    }
-
     private void initializeSampleSkills() {
         mUserSkills.add(new UserSkill("UI Design", ""));
         mUserSkills.add(new UserSkill("Graphics Design", ""));

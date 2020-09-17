@@ -40,6 +40,7 @@ public class ProfileViewModel extends ViewModel {
             @Override
             protected void onPostExecute(String s) {
                 mUserEducations = UserProfileRepository.getInstance().getUserEducations();
+                mUserExperiences = UserProfileRepository.getInstance().getUserExperiences();
                 mProfileStateListener.onGetProfileSuccess(s);
             }
         };
@@ -47,7 +48,6 @@ public class ProfileViewModel extends ViewModel {
     }
 
     public ProfileViewModel() {
-        mUserExperiences = UserProfileRepository.getInstance().getUserExperiences();
         mUserSkills = UserProfileRepository.getInstance().getUserSkills();
     }
 
