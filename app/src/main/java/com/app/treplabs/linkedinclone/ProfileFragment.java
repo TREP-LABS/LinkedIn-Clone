@@ -1,7 +1,6 @@
 package com.app.treplabs.linkedinclone;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -30,7 +29,7 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
         super.onCreate(savedInstanceState);
         mProfileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         mProfileViewModel.setProfileStateListener(this);
-        mProfileViewModel.getFullProfileFromRepo("5f4a2f6db262d23d4808948b");
+        mProfileViewModel.getFullProfileFromRepo(User.INSTANCE.getUserId());
     }
 
     @Override
