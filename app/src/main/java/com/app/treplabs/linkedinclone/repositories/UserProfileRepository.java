@@ -325,6 +325,50 @@ public class UserProfileRepository {
         }
     }
 
+    //skills
+    public String addNewSkill(HashMap<String, String> map, String token){
+        invokeAPI().addNewSkill(token, map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.d("UserProfileRepo", "addNewSkill OnSuccess: " + response.body().string());
+                                getResponseFromSkillRequest(response.body().string());
+                            } else {
+                                Log.d("UserProfileRepo", "addNewSkill UnSuccess: " + response.errorBody());
+                                getResponseFromSkillRequest(response.errorBody().string());
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "addNewSkill OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
+        return mMessage;
+    }
+
+    private void getResponseFromSkillRequest(String string) throws JSONException {
+        JSONObject parent = new JSONObject(string);
+        mSuccess = parent.getBoolean("success");
+        mMessage = parent.getString("message");
+        if (mSuccess) {
+            JSONObject jsonObject = parent.getJSONObject("data");
+            JSONArray skillArray = jsonObject.getJSONArray("skills");
+            for (int i = 0; i<skillArray.length(); i++){
+                JSONObject object = (JSONObject) skillArray.get(i);
+                String skillId = object.getString("id");
+                String name = object.getString("name");
+                mUserSkills.add(new UserSkill(name, skillId));
+            }
+        }
+    }
+
     //samples
     private void initializeSampleExperience() {
         mUserExperiences.add(new UserExperience("UI/UX Designer", "WhatsApp",
