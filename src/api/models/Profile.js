@@ -170,6 +170,7 @@ const CertificationSchema = new Schema({
  *                  $ref: '#/components/schemas/Education'
  */
 const ProfileSchema = new Schema({
+  summary: { type: String },
   educations: [EducationSchema],
   positions: [PositionSchema],
   skills: [EmbedSkillSchema],

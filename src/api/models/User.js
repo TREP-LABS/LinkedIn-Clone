@@ -58,6 +58,7 @@ const UserSchema = new Schema(
       lowercase: true,
       unique: true,
     },
+    headline: { type: String },
     slug: { type: String },
     password: { type: String },
     profile: { type: Schema.Types.ObjectId, ref: 'Profile' },
