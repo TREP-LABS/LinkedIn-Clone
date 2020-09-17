@@ -353,6 +353,33 @@ public class UserProfileRepository {
         return mMessage;
     }
 
+    public String searchSkill(String token, String searchText){
+        invokeAPI().searchForSkill(token, searchText)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.d("UserProfileRepo", "searchSkill OnSuccess: " + response.body().string());
+                                getResponseFromSkillRequest(response.body().string());
+                            } else {
+                                Log.d("UserProfileRepo", "searchSkill UnSuccess: " + response.errorBody());
+                                getResponseFromSkillRequest(response.errorBody().string());
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "searchSkill OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
+        return mMessage;
+    }
+
     private void getResponseFromSkillRequest(String string) throws JSONException {
         JSONObject parent = new JSONObject(string);
         mSuccess = parent.getBoolean("success");
