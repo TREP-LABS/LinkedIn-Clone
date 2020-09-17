@@ -71,6 +71,7 @@ public class LogInFragment extends Fragment implements AuthStateListener {
             Log.d("LoginFragment", s);
         });
         mBinding.setIsBtnClicked(false);
+        Navigation.findNavController(getView()).navigate(R.id.action_logInFragment_to_profileFragment);
     }
 
     @Override
