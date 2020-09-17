@@ -18,9 +18,8 @@ export const formatUserData = (userData) => ({
   lastname: userData.lastname,
   email: userData.email,
   slug: userData.slug,
-  profile: ObjectId.isValid(userData.profile)
-    ? userData.profile
-    : formatProfileData(userData.profile),
+  headline: userData.headline,
+  profile: ObjectId.isValid(userData.profile) ? undefined : formatProfileData(userData.profile),
 });
 
 /**
