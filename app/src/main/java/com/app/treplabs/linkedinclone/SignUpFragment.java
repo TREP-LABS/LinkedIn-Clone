@@ -1,17 +1,19 @@
 package com.app.treplabs.linkedinclone;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.app.treplabs.linkedinclone.databinding.FragmentSignUpBinding;
 import com.app.treplabs.linkedinclone.interfaces.AuthStateListener;
 import com.app.treplabs.linkedinclone.viewmodels.AuthViewModel;
@@ -52,7 +54,7 @@ public class SignUpFragment extends Fragment implements AuthStateListener {
         );
     }
 
-    private void showToast(String message){
+    private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
@@ -62,17 +64,15 @@ public class SignUpFragment extends Fragment implements AuthStateListener {
     }
 
     @Override
-    public void onSuccess(LiveData<String> signUpResponse) {
-        signUpResponse.observe(this, s -> {
-            showToast(s);
-            Log.d("SignUpFragment", s);
-        });
+    public void onSuccess(String signUpResponse) {
+        showToast(signUpResponse);
+        Log.d("SignUpFragment", signUpResponse);
         mBinding.setIsBtnClicked(false);
     }
 
     @Override
     public void onFailure(String message) {
-        switch (message){
+        switch (message) {
             case "Error in First name":
                 mBinding.firstNameLayout.setError("*Required (2 or more characters)");
                 mBinding.lastNameLayout.setError(null);

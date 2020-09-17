@@ -1,17 +1,19 @@
 package com.app.treplabs.linkedinclone;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.app.treplabs.linkedinclone.databinding.FragmentLogInBinding;
 import com.app.treplabs.linkedinclone.interfaces.AuthStateListener;
 import com.app.treplabs.linkedinclone.viewmodels.AuthViewModel;
@@ -55,7 +57,7 @@ public class LogInFragment extends Fragment implements AuthStateListener {
         );
     }
 
-    private void showToast(String message){
+    private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
@@ -65,18 +67,16 @@ public class LogInFragment extends Fragment implements AuthStateListener {
     }
 
     @Override
-    public void onSuccess(LiveData<String> loginResponse) {
-        loginResponse.observe(this, s -> {
-            showToast(s);
-            Log.d("LoginFragment", s);
-        });
+    public void onSuccess(String loginResponse) {
+        showToast(loginResponse);
+        Log.d("LoginFragment", loginResponse);
         mBinding.setIsBtnClicked(false);
         Navigation.findNavController(getView()).navigate(R.id.action_logInFragment_to_profileFragment);
     }
 
     @Override
     public void onFailure(String message) {
-        switch (message){
+        switch (message) {
             case "Error in Email":
                 mBinding.emailLayout.setError("Invalid Email");
                 mBinding.passwordLayout.setError(null);
@@ -89,6 +89,10 @@ public class LogInFragment extends Fragment implements AuthStateListener {
                 mBinding.emailLayout.setError(null);
                 mBinding.passwordLayout.setError(null);
                 break;
+            default:
+                showToast(message);
+                Log.d("LoginFragment", message);
+                mBinding.setIsBtnClicked(false);
         }
     }
 }

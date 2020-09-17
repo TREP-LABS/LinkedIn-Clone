@@ -16,7 +16,6 @@ public class AuthViewModel extends ViewModel {
     public String mUserPassword;
     public String mResetEmail;
     private AuthStateListener mAuthStateListener;
-    private MutableLiveData<String> mResponse;
 
     public void setAuthStateListener(AuthStateListener authStateListener) {
         mAuthStateListener = authStateListener;
@@ -48,9 +47,10 @@ public class AuthViewModel extends ViewModel {
                     }
                     @Override
                     protected void onPostExecute(String string) {
-                        mResponse = new MutableLiveData<>();
-                        mResponse.setValue(string);
-                        mAuthStateListener.onSuccess(mResponse);
+                        if (string.contains("success"))
+                            mAuthStateListener.onSuccess(string);
+                        else
+                            mAuthStateListener.onFailure(string);
                     }
 
                 };
@@ -91,9 +91,10 @@ public class AuthViewModel extends ViewModel {
                     }
                     @Override
                     protected void onPostExecute(String string) {
-                        mResponse = new MutableLiveData<>();
-                        mResponse.setValue(string);
-                        mAuthStateListener.onSuccess(mResponse);
+                        if (string.contains("success"))
+                            mAuthStateListener.onSuccess(string);
+                        else
+                            mAuthStateListener.onFailure(string);
                     }
 
                 };
@@ -122,9 +123,10 @@ public class AuthViewModel extends ViewModel {
                     }
                     @Override
                     protected void onPostExecute(String string) {
-                        mResponse = new MutableLiveData<>();
-                        mResponse.setValue(string);
-                        mAuthStateListener.onSuccess(mResponse);
+                        if (string.contains("success"))
+                            mAuthStateListener.onSuccess(string);
+                        else
+                            mAuthStateListener.onFailure(string);
                     }
 
                 };
