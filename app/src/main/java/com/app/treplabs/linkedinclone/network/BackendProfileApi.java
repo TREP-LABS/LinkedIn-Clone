@@ -12,6 +12,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface BackendProfileApi {
     @GET("basic/{userId}")
@@ -20,6 +21,7 @@ public interface BackendProfileApi {
     @GET("full/{userId}")
     Call<ResponseBody> getFullProfile(@Path("userId") String userId);
 
+    //education requests
     @POST("educations")
     Call<ResponseBody> addNewEducation(@Header("Authorization") String token, @Body HashMap<String, String> map);
 
@@ -30,6 +32,7 @@ public interface BackendProfileApi {
     @DELETE("educations/{educationId}")
     Call<ResponseBody> deleteEducation(@Header("Authorization") String token, @Path("educationId") String educationId);
 
+    //experience requests
     //positions is used in place of experience in the backend API
     @POST("positions")
     Call<ResponseBody> addNewExperience(@Header("Authorization") String token, @Body HashMap<String, String> map);
@@ -40,4 +43,14 @@ public interface BackendProfileApi {
 
     @DELETE("positions/{positionId}")
     Call<ResponseBody> deleteExperience(@Header("Authorization") String token, @Path("positionId") String experienceId);
+
+    //skills request
+    @POST("skills")
+    Call<ResponseBody> addNewSkill(@Header("Authorization") String token, @Body HashMap<String, String> map);
+
+    @GET("skills")
+    Call<ResponseBody> searchForSkill(@Header("Authorization") String token, @Query("q") String searchText);
+
+    @DELETE("skills/{skillId}")
+    Call<ResponseBody> deleteSkill(@Header("Authorization") String token, @Path("skillId") String skillId);
 }
