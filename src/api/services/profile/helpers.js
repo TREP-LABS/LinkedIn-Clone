@@ -14,6 +14,7 @@ export const formatProfileData = (profileData) => {
   const skills = profileData.skills.map((skill) => formatSkillData(skill));
 
   return {
+    summary: profileData.summary,
     educations,
     positions,
     certifications,
@@ -96,6 +97,18 @@ export const getProfileByUser = async (Profile, user, populate = []) => {
   }
 
   const profile = await query;
+
+  return profile;
+};
+
+/**
+ * Gets the full profile of the user with all the populated fields.
+ * @param {Object} Profile The query interface for profile in the database.
+ * @param {String} userId The user ID of the profile to get.
+ * @returns {Object} The profile gotten from the database.
+ */
+export const getFullProfileByUser = async (Profile, userId) => {
+  const profile = await getProfileByUser(Profile, userId, ['skills.skill']);
 
   return profile;
 };
