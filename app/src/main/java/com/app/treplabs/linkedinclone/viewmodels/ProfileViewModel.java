@@ -10,13 +10,15 @@ import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import com.app.treplabs.linkedinclone.repositories.UserProfileRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileViewModel extends ViewModel {
     private ProfileStateListener mProfileStateListener;
-    private MutableLiveData<List<UserExperience>> mUserExperienceLD = new MutableLiveData<>();
-    private MutableLiveData<List<UserEducation>> mUserEducationLD = new MutableLiveData<>();
-    private MutableLiveData<List<UserSkill>> mUserSkillLD = new MutableLiveData<>();
+    private List<UserExperience> mUserExperiences = new ArrayList<>();
+    private List<UserEducation> mUserEducations = new ArrayList<>();
+    private List<UserSkill> mUserSkills = new ArrayList<>();
 
     public void setProfileStateListener(ProfileStateListener profileStateListener) {
         mProfileStateListener = profileStateListener;
@@ -37,7 +39,7 @@ public class ProfileViewModel extends ViewModel {
 
             @Override
             protected void onPostExecute(String s) {
-                mUserEducationLD.setValue(UserProfileRepository.getInstance().getUserEducations());
+                mUserEducations = UserProfileRepository.getInstance().getUserEducations();
                 mProfileStateListener.onGetProfileSuccess(s);
             }
         };
@@ -45,19 +47,19 @@ public class ProfileViewModel extends ViewModel {
     }
 
     public ProfileViewModel() {
-        mUserExperienceLD.setValue(UserProfileRepository.getInstance().getUserExperiences());
-        mUserSkillLD.setValue(UserProfileRepository.getInstance().getUserSkills());
+        mUserExperiences = UserProfileRepository.getInstance().getUserExperiences();
+        mUserSkills = UserProfileRepository.getInstance().getUserSkills();
     }
 
-    public LiveData<List<UserExperience>> getUserExperienceLD() {
-        return mUserExperienceLD;
+    public List<UserExperience> getUserExperiences() {
+        return mUserExperiences;
     }
 
-    public LiveData<List<UserEducation>> getUserEducationLD() {
-        return mUserEducationLD;
+    public List<UserEducation> getUserEducations() {
+        return mUserEducations;
     }
 
-    public LiveData<List<UserSkill>> getUserSkillLD() {
-        return mUserSkillLD;
+    public List<UserSkill> getUserSkills() {
+        return mUserSkills;
     }
 }

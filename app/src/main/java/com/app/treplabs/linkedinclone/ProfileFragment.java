@@ -43,12 +43,7 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mProfileViewModel.getUserExperienceLD().observe(getViewLifecycleOwner(),
-                experiences -> mBinding.setExperiences(experiences));
-        mProfileViewModel.getUserEducationLD().observe(getViewLifecycleOwner(),
-                educations -> mBinding.setEducations(educations));
-        mProfileViewModel.getUserSkillLD().observe(getViewLifecycleOwner(),
-                skills -> mBinding.setSkills(skills));
+
     }
 
     private void showToast(String message){
@@ -63,6 +58,9 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
     @Override
     public void onGetProfileSuccess(String s) {
         mBinding.setUser(User.INSTANCE);
+        mBinding.setExperiences(mProfileViewModel.getUserExperiences());
+        mBinding.setEducations(mProfileViewModel.getUserEducations());
+        mBinding.setSkills(mProfileViewModel.getUserSkills());
         showToast(s);
     }
 }
