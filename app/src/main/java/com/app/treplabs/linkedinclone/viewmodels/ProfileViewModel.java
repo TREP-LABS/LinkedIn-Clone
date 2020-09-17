@@ -41,14 +41,11 @@ public class ProfileViewModel extends ViewModel {
             protected void onPostExecute(String s) {
                 mUserEducations = UserProfileRepository.getInstance().getUserEducations();
                 mUserExperiences = UserProfileRepository.getInstance().getUserExperiences();
+                mUserSkills = UserProfileRepository.getInstance().getUserSkills();
                 mProfileStateListener.onGetProfileSuccess(s);
             }
         };
         task.execute(userId);
-    }
-
-    public ProfileViewModel() {
-        mUserSkills = UserProfileRepository.getInstance().getUserSkills();
     }
 
     public List<UserExperience> getUserExperiences() {

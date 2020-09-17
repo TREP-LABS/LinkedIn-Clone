@@ -32,7 +32,6 @@ public class UserProfileRepository {
     public static UserProfileRepository getInstance() {
         if (instance == null) {
             instance = new UserProfileRepository();
-            instance.initializeSampleSkills();
         }
         return instance;
     }
@@ -137,6 +136,13 @@ public class UserProfileRepository {
                 mUserExperiences.add(new UserExperience(title, company,
                         startDate + " - " + endDate, noOfYears, isCurrent,
                         summary, experienceId));
+            }
+            JSONArray skills = profile.getJSONArray("skills");
+            for (int i = 0; i < skills.length(); i++){
+                JSONObject skill = (JSONObject) skills.get(i);
+                String skillId = skill.getString("id");
+                String name = skill.getString("name");
+                mUserSkills.add(new UserSkill(name, skillId));
             }
         }
     }
@@ -440,16 +446,6 @@ public class UserProfileRepository {
                 mUserSkills.add(new UserSkill(name, skillId));
             }
         }
-    }
-
-    //samples
-    private void initializeSampleSkills() {
-        mUserSkills.add(new UserSkill("UI Design", ""));
-        mUserSkills.add(new UserSkill("Graphics Design", ""));
-        mUserSkills.add(new UserSkill("Adobe Photoshop", ""));
-        mUserSkills.add(new UserSkill("Adobe Illustrator", ""));
-        mUserSkills.add(new UserSkill("Android", ""));
-        mUserSkills.add(new UserSkill("Web Development", ""));
     }
 
     public List<UserEducation> getUserEducations() {
