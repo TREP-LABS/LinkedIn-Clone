@@ -1,5 +1,5 @@
 import express from 'express';
-import { profile } from '../controllers';
+import { users, profile } from '../controllers';
 import { validateInputs, validateUser } from '../middlewares';
 
 const { isUser } = validateUser;
@@ -897,5 +897,33 @@ router.put(
  *                $ref: '#/components/schemas/FailureResponse'
  */
 router.delete('/certifications/:certificationId', isUser, profile.deleteCertification);
+
+router.put(
+  '/firstname',
+  isUser,
+  validateInputs('ProfileSchemas', 'FirstNameSchema'),
+  users.updateFirstName,
+);
+
+router.put(
+  '/lastname',
+  isUser,
+  validateInputs('ProfileSchemas', 'LastNameSchema'),
+  users.updateLastName,
+);
+
+router.put(
+  '/headline',
+  isUser,
+  validateInputs('ProfileSchemas', 'HeadlineSchema'),
+  users.updateHeadline,
+);
+
+router.put(
+  '/summary',
+  isUser,
+  validateInputs('ProfileSchemas', 'SummarySchema'),
+  profile.updateSummary,
+);
 
 export default router;

@@ -200,3 +200,14 @@ export const deleteCertification = asyncHandler(async (req, res) => {
 
   return successResponse(res, 'Certification removed successfully.', {}, 204);
 });
+
+/**
+ * Update user profile summary.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const updateSummary = asyncHandler(async (req, res) => {
+  const user = await ProfileService.updateProfileDetails(req.user, 'summary', req.body.summary);
+
+  return successResponse(res, 'Summary updated successfully.', { data: { user } }, 200);
+});

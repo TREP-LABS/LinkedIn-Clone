@@ -44,3 +44,31 @@ export const CertificationSchema = Joi.object({
   endDate: GenericSchema.monthYearField,
   url: GenericSchema.stringField,
 });
+
+/**
+ * Joi ObjectSchema to validate firstname input.
+ */
+export const FirstNameSchema = Joi.object({
+  firstname: GenericSchema.stringField.required(),
+});
+
+/**
+ * Joi ObjectSchema to validate lastname input.
+ */
+export const LastNameSchema = Joi.object({
+  lastname: GenericSchema.stringField.required(),
+});
+
+/**
+ * Joi ObjectSchema to validate headline input.
+ */
+export const HeadlineSchema = Joi.object({
+  headline: GenericSchema.stringField.required(),
+});
+
+/**
+ * Joi ObjectSchema to validate summary input.
+ */
+export const SummarySchema = Joi.object({
+  summary: GenericSchema.stringField.required(),
+});

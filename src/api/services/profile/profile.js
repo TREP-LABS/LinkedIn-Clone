@@ -3,6 +3,7 @@ import db from '../../models';
 import { ServiceError } from '../helpers';
 import {
   getProfileByUser,
+  getFullProfileByUser,
   formatEducationData,
   formatPositionData,
   formatSkillData,
@@ -35,7 +36,27 @@ export const getFullProfile = async (userId) => {
 
   if (!user) throw new ServiceError('User profile does not exist.', 404);
 
-  const profile = await getProfileByUser(Profile, userId, ['skills.skill']);
+  const profile = await getFullProfileByUser(Profile, userId);
+
+  user.profile = profile;
+
+  return formatUserData(user);
+};
+
+/**
+ * Updates a string field given the field name and the value.
+ * @param {Object} user The authenticated user object.
+ * @param {String} field The field in the profile model to update.
+ * @param {String} value The value of the field to updated.
+ */
+export const updateProfileDetails = async (user, field, value) => {
+  const profile = await getFullProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  profile[field] = value;
+
+  await profile.save();
 
   user.profile = profile;
 
