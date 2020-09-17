@@ -58,7 +58,6 @@ public class ResetPasswordFragment extends Fragment implements AuthStateListener
     public void onSuccess(String loginResponse) {
         loginResponse = loginResponse.replace(" success", "");
         createDialogBox(loginResponse);
-        showToast(loginResponse);
         mBinding.setIsBtnClicked(false);
     }
 
@@ -71,6 +70,9 @@ public class ResetPasswordFragment extends Fragment implements AuthStateListener
             case "No errors":
                 mBinding.emailLayout.setError(null);
                 break;
+            default:
+                showToast(message);
+                mBinding.setIsBtnClicked(false);
         }
     }
 
