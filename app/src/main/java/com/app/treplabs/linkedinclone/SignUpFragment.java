@@ -103,6 +103,10 @@ public class SignUpFragment extends Fragment implements AuthStateListener {
                 mBinding.emailLayout.setError(null);
                 mBinding.passwordLayout.setError(null);
                 break;
+            default:
+                showToast(message);
+                Log.d("SignUpFragment", message);
+                mBinding.setIsBtnClicked(false);
         }
     }
 }
