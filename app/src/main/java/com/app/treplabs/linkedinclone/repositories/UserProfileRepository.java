@@ -151,54 +151,84 @@ public class UserProfileRepository {
 
     //education
     public String addNewEducation(HashMap<String, String> map, String token) {
-        Call<ResponseBody> call = invokeAPI().addNewEducation(token, map);
-        try {
-            Response<ResponseBody> result = call.execute();
-            if (result.isSuccessful()) {
-                Log.d("UserProfileRepo", "addNewEducation: isSuccessful");
-                getResponseFromEducationRequest(result.body().string());
-            } else {
-                Log.d("UserProfileRepo", "addNewEducation: unSuccessful");
-                getResponseFromEducationRequest(result.errorBody().string());
-            }
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
+        invokeAPI().addNewEducation(token, map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()){
+                                Log.d("UserProfileRepo", "addNewEducation OnSuccess: " + response.body().string());
+                                getResponseFromEducationRequest(response.body().string());
+                            }else {
+                                Log.d("UserProfileRepo", "addNewEducation UnSuccess: " + response.errorBody().string());
+                                getResponseFromEducationRequest(response.errorBody().string());
+                            }
+                        }catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
         return mMessage;
     }
 
     public String updateExistingEducation(String token, String educationId, HashMap<String, String> map) {
-        Call<ResponseBody> call = invokeAPI().updateExistingEducation(token, educationId, map);
-        try {
-            Response<ResponseBody> result = call.execute();
-            if (result.isSuccessful()) {
-                Log.d("UserProfileRepo", "updateExistingEducation: isSuccessful");
-                getResponseFromEducationRequest(result.body().string());
-            } else {
-                Log.d("UserProfileRepo", "updateExistingEducation: unSuccessful");
-                getResponseFromEducationRequest(result.errorBody().string());
-            }
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
+        invokeAPI().updateExistingEducation(token, educationId, map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.d("UserProfileRepo", "updateExistingEducation: isSuccessful");
+                                getResponseFromEducationRequest(response.body().string());
+                            } else {
+                                Log.d("UserProfileRepo", "updateExistingEducation: unSuccessful");
+                                getResponseFromEducationRequest(response.errorBody().string());
+                            }
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
         return mMessage;
     }
 
     public String deleteEducation(String token, String educationId) {
-        Call<ResponseBody> call = invokeAPI().deleteEducation(token, educationId);
-        try {
-            Response<ResponseBody> result = call.execute();
-            if (result.isSuccessful()) {
-                Log.d("UserProfileRepo", "deleteEducation: isSuccessful");
-                mMessage = "Deleted User Education Successfully";
-            } else {
-                Log.d("UserProfileRepo", "deleteEducation: unSuccessful");
-                JSONObject parent = new JSONObject(result.errorBody().string());
-                mMessage = parent.getString("message");
-            }
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
+        invokeAPI().deleteSkill(token, educationId)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.d("UserProfileRepo", "deleteEducation: isSuccessful");
+                                mMessage = "Deleted User Education Successfully";
+                            } else {
+                                Log.d("UserProfileRepo", "deleteEducation: unSuccessful");
+                                JSONObject parent = new JSONObject(response.errorBody().string());
+                                mMessage = parent.getString("message");
+                            }
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
         return mMessage;
     }
 
@@ -240,7 +270,7 @@ public class UserProfileRepository {
                                 Log.d("UserProfileRepo", "addNewExperience OnSuccess: " + response.body().string());
                                 getResponseFromExperienceRequest(response.body().string());
                             } else {
-                                Log.d("UserProfileRepo", "UnSuccess: " + response.errorBody());
+                                Log.d("UserProfileRepo", "UnSuccess: " + response.errorBody().string());
                                 getResponseFromExperienceRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
