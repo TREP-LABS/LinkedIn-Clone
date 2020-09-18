@@ -60,6 +60,7 @@ public class UserProfileRepository {
                 getBasicProfileResponseFromJSON(result.errorBody().string());
             }
         } catch (IOException | JSONException e) {
+            mMessage = "An error occurred";
             e.printStackTrace();
         }
         return mMessage;
@@ -98,6 +99,7 @@ public class UserProfileRepository {
                 getFullProfileResponseFromJSON(result.errorBody().string());
             }
         } catch (IOException | JSONException e) {
+            mMessage = "An error occurred";
             e.printStackTrace();
         }
         return mMessage;

@@ -48,6 +48,7 @@ public class UserRepository {
                 getLoginResponseFromJSON(result.errorBody().string());
             }
         } catch (IOException | JSONException e) {
+            mMessage = "An error occurred";
             e.printStackTrace();
         }
         return mMessage;
@@ -88,6 +89,7 @@ public class UserRepository {
                 getSignUpResponseFromJSON(map, result.errorBody().string());
             }
         } catch (IOException | JSONException e) {
+            mMessage = "An error occurred";
             e.printStackTrace();
         }
         return mMessage;
@@ -120,6 +122,7 @@ public class UserRepository {
                 getResetResponseFromJSON(result.errorBody().string());
             }
         } catch (IOException | JSONException e) {
+            mMessage = "An error occurred";
             e.printStackTrace();
         }
         return mMessage;
