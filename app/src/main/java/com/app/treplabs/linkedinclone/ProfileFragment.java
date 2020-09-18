@@ -15,6 +15,7 @@ import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.viewmodels.ProfileViewModel;
 
 public class ProfileFragment extends Fragment implements ProfileStateListener {
+    boolean mIsThereProfile;
     //data binding
     FragmentProfileBinding mBinding;
     //view model
@@ -27,6 +28,7 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mIsThereProfile = false;
         mProfileViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         mProfileViewModel.setProfileStateListener(this);
         mProfileViewModel.getFullProfileFromRepo(User.INSTANCE.getUserId());
@@ -36,6 +38,7 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentProfileBinding.inflate(inflater);
+        mBinding.setIsThereProfile(mIsThereProfile);
         return mBinding.getRoot();
     }
 
@@ -51,6 +54,7 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
 
     @Override
     public void onGetProfileFailure(String message) {
+        mBinding.setIsThereProfile(false);
         showToast(message);
     }
 
@@ -60,6 +64,7 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
         mBinding.setExperiences(mProfileViewModel.getUserExperiences());
         mBinding.setEducations(mProfileViewModel.getUserEducations());
         mBinding.setSkills(mProfileViewModel.getUserSkills());
+        mBinding.setIsThereProfile(true);
         showToast(s);
     }
 }
