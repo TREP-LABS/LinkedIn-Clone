@@ -164,10 +164,25 @@ const CertificationSchema = new Schema({
  *          profile:
  *            type: object
  *            properties:
+ *              headline:
+ *                type: string
+ *                example: I am a Software Engineer.
  *              educations:
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/Education'
+ *              positions:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/Position'
+ *              certifications:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/Certification'
+ *              skills:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/Skill'
  */
 const ProfileSchema = new Schema({
   summary: { type: String },
