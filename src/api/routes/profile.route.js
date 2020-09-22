@@ -898,6 +898,68 @@ router.put(
  */
 router.delete('/certifications/:certificationId', isUser, profile.deleteCertification);
 
+/**
+ * @swagger
+ * /profiles/firstname:
+ *  put:
+ *    tags: [Profile]
+ *    summary: Updates a user's firstname.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *    operationId: updateFirstname
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - firstname
+ *            properties:
+ *              firstname:
+ *                type: string
+ *    responses:
+ *       '200':
+ *         description: Firstname updated successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    user:
+ *                      $ref: '#/components/schemas/User'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.put(
   '/firstname',
   isUser,
@@ -905,6 +967,68 @@ router.put(
   users.updateFirstName,
 );
 
+/**
+ * @swagger
+ * /profiles/lastname:
+ *  put:
+ *    tags: [Profile]
+ *    summary: Updates a user's lastname.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *    operationId: updateLastname
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - lastname
+ *            properties:
+ *              lastname:
+ *                type: string
+ *    responses:
+ *       '200':
+ *         description: Lastname updated successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    user:
+ *                      $ref: '#/components/schemas/User'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.put(
   '/lastname',
   isUser,
@@ -912,6 +1036,68 @@ router.put(
   users.updateLastName,
 );
 
+/**
+ * @swagger
+ * /profiles/headline:
+ *  put:
+ *    tags: [Profile]
+ *    summary: Updates a user's headline.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *    operationId: updateHeadline
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - headline
+ *            properties:
+ *              headline:
+ *                type: string
+ *    responses:
+ *       '200':
+ *         description: Headline updated successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    user:
+ *                      $ref: '#/components/schemas/User'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.put(
   '/headline',
   isUser,
@@ -919,6 +1105,68 @@ router.put(
   users.updateHeadline,
 );
 
+/**
+ * @swagger
+ * /profiles/summary:
+ *  put:
+ *    tags: [Profile]
+ *    summary: Updates a user's summary.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *    operationId: updateSummary
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - summary
+ *            properties:
+ *              summary:
+ *                type: string
+ *    responses:
+ *       '200':
+ *         description: Summary updated successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    user:
+ *                      $ref: '#/components/schemas/Profile'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.put(
   '/summary',
   isUser,
