@@ -28,7 +28,7 @@ describe('Profile Endpoints', () => {
     });
   });
 
-  describe('Education Endpoints', () => {
+  describe('Profile Endpoints', () => {
     describe('Get Profile', () => {
       it('should get basic profile', (done) => {
         getProfile('basic', userId, (err, res) => {
@@ -58,6 +58,70 @@ describe('Profile Endpoints', () => {
       });
     });
 
+    describe('Update Profile Details', () => {
+      it('should update firstname', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint('profiles/firstname') },
+          alterDetails(userDetails, { firstname: 'John', token: userToken }),
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.data.user.firstname.should.be.eql('John');
+
+            done();
+          },
+        );
+      });
+
+      it('should update lastname', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint('profiles/lastname') },
+          alterDetails(userDetails, { lastname: 'Doe', token: userToken }),
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.data.user.lastname.should.be.eql('Doe');
+
+            done();
+          },
+        );
+      });
+
+      it('should update headline', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint('profiles/headline') },
+          alterDetails(userDetails, {
+            headline: 'Software Engineer at TREP Labs',
+            token: userToken,
+          }),
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.data.user.headline.should.be.eql('Software Engineer at TREP Labs');
+
+            done();
+          },
+        );
+      });
+
+      it('should update summary', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint('profiles/summary') },
+          alterDetails(userDetails, {
+            summary: 'I am a software engineer at TREP Labs.',
+            token: userToken,
+          }),
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.data.user.profile.summary.should.be.eql(
+              'I am a software engineer at TREP Labs.',
+            );
+
+            done();
+          },
+        );
+      });
+    });
+  });
+
+  describe('Education Endpoints', () => {
     describe('Create Education', () => {
       it('should not allow guest users create new education entry', (done) => {
         makeRequest(
