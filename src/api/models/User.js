@@ -37,17 +37,17 @@ const options = { timestamps: { createdAt: 'createdAt' } };
  *            type: string
  *          email:
  *            type: string
- *          slug:
+ *          headline:
  *            type: string
- *          profile:
+ *          slug:
  *            type: string
  *        example:
  *          id: 537e1f77bcf86cd799439011
  *          firstname: John
  *          lastname: Doe
  *          email: johndoe@gmail.com
+ *          headline: Software Engineer
  *          slug: john-doe
- *          profile: 537e1f77bcf86cd799439011
  */
 const UserSchema = new Schema(
   {
