@@ -64,6 +64,17 @@ export const formatSkillData = (skillData) => ({
 });
 
 /**
+ * Format the language data to be returned to the client.
+ * @param {Object} skill The raw position data gotten from the database.
+ * @returns {Object} The formatted skill data.
+ */
+export const formatLanguageData = (languageData) => ({
+  id: languageData._id,
+  name: languageData.name,
+  level: languageData.level,
+});
+
+/**
  * Format the certification data to be returned to the client.
  * @param {Object} certificationData The raw position data gotten from the database.
  * @returns {Object} The formatted certification data.
