@@ -72,3 +72,17 @@ export const HeadlineSchema = Joi.object({
 export const SummarySchema = Joi.object({
   summary: GenericSchema.stringField.required(),
 });
+
+/**
+ * Joi ObjectSchema to validate language input.
+ */
+export const LanguageSchema = Joi.object({
+  name: GenericSchema.stringField.required(),
+  level: GenericSchema.stringField.valid(
+    'elementary',
+    'limited-working',
+    'professional-working',
+    'full-professional',
+    'native-or-bilingual',
+  ),
+});
