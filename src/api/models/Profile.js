@@ -133,6 +133,20 @@ const CertificationSchema = new Schema({
   url: { type: String },
 });
 
+const LanguageSchema = new Schema({
+  name: { type: String, required: true },
+  level: {
+    type: String,
+    enum: [
+      'elementary',
+      'limited-working',
+      'professional-working',
+      'full-professional',
+      'native-or-bilingual',
+    ],
+  },
+});
+
 /**
  * @swagger
  *  components:
@@ -190,6 +204,7 @@ const ProfileSchema = new Schema({
   positions: [PositionSchema],
   skills: [EmbedSkillSchema],
   certifications: [CertificationSchema],
+  languages: [LanguageSchema],
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 });
 
