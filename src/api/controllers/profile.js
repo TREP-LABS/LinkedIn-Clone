@@ -211,3 +211,14 @@ export const updateSummary = asyncHandler(async (req, res) => {
 
   return successResponse(res, 'Summary updated successfully.', { data: { user } }, 200);
 });
+
+/**
+ * Add language entry to user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const addLanguage = asyncHandler(async (req, res) => {
+  const language = await ProfileService.addLanguage(req.user, req.body);
+
+  return successResponse(res, 'Language added successfully.', { data: { language } }, 201);
+});

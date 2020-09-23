@@ -8,6 +8,7 @@ import {
   formatPositionData,
   formatSkillData,
   formatCertificationData,
+  formatLanguageData,
 } from './helpers';
 import { formatUserData } from '../users/helpers';
 
@@ -356,4 +357,22 @@ export const deleteCertification = async (user, certificationId) => {
   await profile.save();
 
   return true;
+};
+
+/**
+ * Adds a language to the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {Object} data Request data from the controller.
+ * @returns {Object} The added language entry.
+ */
+export const addLanguage = async (user, data) => {
+  const profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  profile.languages.push(data);
+
+  await profile.save();
+
+  return formatLanguageData(profile.languages[profile.languages.length - 1]);
 };

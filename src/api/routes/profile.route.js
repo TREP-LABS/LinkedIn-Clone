@@ -1174,4 +1174,11 @@ router.put(
   profile.updateSummary,
 );
 
+router.post(
+  '/languages',
+  isUser,
+  validateInputs('ProfileSchemas', 'LanguageSchema'),
+  profile.addLanguage,
+);
+
 export default router;
