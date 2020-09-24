@@ -1,18 +1,23 @@
 package com.app.treplabs.linkedinclone.repositories;
 
 import android.util.Log;
+
+import com.app.treplabs.linkedinclone.helpers.JSONParser;
 import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import com.app.treplabs.linkedinclone.network.BackendProfileApi;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,103 +55,41 @@ public class UserProfileRepository {
     //profile
     public String getBasicProfile(String userId) {
         Call<ResponseBody> call = invokeAPI().getBasicProfile(userId);
+        JSONParser jsonParser = new JSONParser();
         try {
             Response<ResponseBody> result = call.execute();
-            if (result.isSuccessful()) {
+            if (result.isSuccessful())
                 Log.d("UserProfileRepo", "getBasicProfile: isSuccessful");
-                getBasicProfileResponseFromJSON(result.body().string());
-            } else {
+            else
                 Log.d("UserProfileRepo", "getBasicProfile: unSuccessful");
-                getBasicProfileResponseFromJSON(result.errorBody().string());
-            }
+            mMessage = jsonParser.getBasicProfileResponseFromJSON(result.body().string());
         } catch (IOException | JSONException e) {
             mMessage = "An error occurred";
             e.printStackTrace();
         }
         return mMessage;
-    }
-
-    private void getBasicProfileResponseFromJSON(String string) throws JSONException {
-        JSONObject parent = new JSONObject(string);
-        mSuccess = parent.getBoolean("success");
-        mMessage = parent.getString("message");
-        if (mSuccess) {
-            JSONObject data = parent.getJSONObject("data");
-            JSONObject user = data.getJSONObject("user");
-            String id = user.getString("id");
-            String firstname = user.getString("firstname");
-            String lastname = user.getString("lastname");
-            String email = user.getString("email");
-            String slug = user.getString("slug");
-
-            User.INSTANCE.setFirstName(firstname);
-            User.INSTANCE.setLastName(lastname);
-            User.INSTANCE.setUserId(id);
-            User.INSTANCE.setEmail(email);
-            User.INSTANCE.setSlug(slug);
-        }
     }
 
     public String getFullProfile(String userId) {
         Call<ResponseBody> call = invokeAPI().getFullProfile(userId);
+        JSONParser jsonParser = new JSONParser();
         try {
             Response<ResponseBody> result = call.execute();
             if (result.isSuccessful()) {
                 Log.d("UserProfileRepo", "getFullProfile: isSuccessful");
-                getFullProfileResponseFromJSON(result.body().string());
+                mMessage = jsonParser.getFullProfileResponseFromJSON(result.body().string());
+                mUserEducations = jsonParser.mUserEducations;
+                mUserExperiences = jsonParser.mUserExperiences;
+                mUserSkills = jsonParser.mUserSkills;
             } else {
                 Log.d("UserProfileRepo", "getFullProfile: unSuccessful");
-                getFullProfileResponseFromJSON(result.errorBody().string());
+                mMessage = jsonParser.getFullProfileResponseFromJSON(result.body().string());
             }
         } catch (IOException | JSONException e) {
             mMessage = "An error occurred";
             e.printStackTrace();
         }
         return mMessage;
-    }
-
-    private void getFullProfileResponseFromJSON(String string) throws JSONException {
-        getBasicProfileResponseFromJSON(string);
-        if (mSuccess) {
-            JSONObject profile = new JSONObject(string)
-                    .getJSONObject("data")
-                    .getJSONObject("user")
-                    .getJSONObject("profile");
-            JSONArray educations = profile.getJSONArray("educations");
-            for (int i = 0; i < educations.length(); i++) {
-                JSONObject education = (JSONObject) educations.get(i);
-                String educationId = education.getString("id");
-                String schoolName = education.getString("schoolName");
-                String fieldOfStudy = education.getString("fieldOfStudy");
-                int startDate = education.getInt("startDate");
-                int endDate = education.getInt("endDate");
-                mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
-                        startDate + " - " + endDate, educationId));
-            }
-            JSONArray experiences = profile.getJSONArray("positions");
-            for (int i = 0; i < experiences.length(); i++) {
-                JSONObject experience = (JSONObject) experiences.get(i);
-                String experienceId = experience.getString("id");
-                String title = experience.getString("title");
-                String summary = experience.getString("summary");
-                String startDate = experience.getString("startDate");
-                String endDate = experience.getString("endDate");
-                boolean isCurrent = experience.getBoolean("isCurrent");
-                String company = experience.getString("company");
-                int noOfYears = Integer.parseInt(endDate.split(" ")[1]) -
-                        Integer.parseInt(startDate.split(" ")[1]);
-                mUserExperiences.add(new UserExperience(title, company,
-                        startDate + " - " + endDate, noOfYears, isCurrent,
-                        summary, experienceId));
-            }
-            JSONArray skills = profile.getJSONArray("skills");
-            for (int i = 0; i < skills.length(); i++){
-                JSONObject skill = (JSONObject) skills.get(i);
-                String skillId = skill.getString("id");
-                String name = skill.getString("name");
-                mUserSkills.add(new UserSkill(name, skillId));
-            }
-        }
     }
 
     //education
@@ -156,14 +99,14 @@ public class UserProfileRepository {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
-                            if (response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "addNewEducation OnSuccess: " + response.body().string());
                                 getResponseFromEducationRequest(response.body().string());
-                            }else {
+                            } else {
                                 Log.d("UserProfileRepo", "addNewEducation UnSuccess: " + response.errorBody().string());
                                 getResponseFromEducationRequest(response.errorBody().string());
                             }
-                        }catch (JSONException | IOException e) {
+                        } catch (JSONException | IOException e) {
                             e.printStackTrace();
                         }
                     }
