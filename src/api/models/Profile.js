@@ -133,6 +133,23 @@ const CertificationSchema = new Schema({
   url: { type: String },
 });
 
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Language:
+ *        type: object
+ *        properties:
+ *          id:
+ *            type: string
+ *          name:
+ *            type: string
+ *            example: English
+ *            required: true
+ *          level:
+ *            type: string
+ *            example: professional-working
+ */
 const LanguageSchema = new Schema({
   name: { type: String, required: true },
   level: {
@@ -197,6 +214,10 @@ const LanguageSchema = new Schema({
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/Skill'
+ *              languages:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/Language'
  */
 const ProfileSchema = new Schema({
   summary: { type: String },
