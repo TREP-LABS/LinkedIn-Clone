@@ -1181,4 +1181,13 @@ router.post(
   profile.addLanguage,
 );
 
+router.put(
+  '/languages/:languageId',
+  isUser,
+  validateInputs('ProfileSchemas', 'LanguageSchema'),
+  profile.updateLanguage,
+);
+
+router.delete('/languages/:languageId', isUser, profile.deleteLanguage);
+
 export default router;

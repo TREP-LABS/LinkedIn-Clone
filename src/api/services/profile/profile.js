@@ -376,3 +376,48 @@ export const addLanguage = async (user, data) => {
 
   return formatLanguageData(profile.languages[profile.languages.length - 1]);
 };
+
+/**
+ * Update language entry in the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {String} languageId The ID of the language to update.
+ * @param {Object} data Request data from the controller.
+ * @returns {Object} The updated certification entry.
+ */
+export const updateLanguage = async (user, languageId, data) => {
+  const profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  const language = profile.languages.id(languageId);
+
+  if (!language) throw new ServiceError('Language entry does not exist.', 404);
+
+  Object.assign(language, data);
+
+  await profile.save();
+
+  return formatLanguageData(language);
+};
+
+/**
+ * Delete a language entry in the user's profile.
+ * @param {Object} user The authenticated user object.
+ * @param {String} languageId The ID of the certificate to delete.
+ * @returns {boolean} Truthy value.
+ */
+export const deleteLanguage = async (user, languageId) => {
+  const profile = await getProfileByUser(Profile, user.id);
+
+  if (!profile) throw new ServiceError('User profile does not exist.', 404);
+
+  const language = profile.languages.id(languageId);
+
+  if (!language) throw new ServiceError('Language entry does not exist.', 404);
+
+  language.remove();
+
+  await profile.save();
+
+  return true;
+};

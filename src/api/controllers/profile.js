@@ -222,3 +222,29 @@ export const addLanguage = asyncHandler(async (req, res) => {
 
   return successResponse(res, 'Language added successfully.', { data: { language } }, 201);
 });
+
+/**
+ * Add language entry to user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const updateLanguage = asyncHandler(async (req, res) => {
+  const { languageId } = req.params;
+
+  const language = await ProfileService.updateLanguage(req.user, languageId, req.body);
+
+  return successResponse(res, 'Language updated successfully.', { data: { language } }, 200);
+});
+
+/**
+ * Delete language entry from user's profile.
+ * @param {Function} controller The controller function.
+ * @returns {Object} The response object containing some response data.
+ */
+export const deleteLanguage = asyncHandler(async (req, res) => {
+  const { languageId } = req.params;
+
+  await ProfileService.deleteLanguage(req.user, languageId);
+
+  return successResponse(res, 'Language deleted successfully.', { data: {} }, 204);
+});
