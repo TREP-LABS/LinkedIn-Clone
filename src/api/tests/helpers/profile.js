@@ -34,6 +34,11 @@ export const certificationDetails = {
   url: 'https://certificates.udemy.com/100243783872',
 };
 
+export const languageDetails = {
+  name: 'English',
+  level: 'elementary',
+};
+
 export const getProfile = (type, userId, assertions) => {
   chai.request(app).get(`/api/v1/profiles/${type}/${userId}`).end(assertions);
 };

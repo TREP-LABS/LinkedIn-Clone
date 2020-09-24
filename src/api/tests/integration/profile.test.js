@@ -8,7 +8,13 @@ const {
   alterDetails,
 } = BaseHelpers;
 const { userDetails, loginUser } = UserHelpers;
-const { educationDetails, positionDetails, certificationDetails, getProfile } = ProfileHelpers;
+const {
+  educationDetails,
+  positionDetails,
+  certificationDetails,
+  languageDetails,
+  getProfile,
+} = ProfileHelpers;
 
 let userToken;
 let userId;
@@ -16,6 +22,7 @@ let educationId;
 let positionId;
 let skillId;
 let certificationId;
+let languageId;
 let wrongUserId = '5f4a2f6db262d23d4808948b';
 
 describe('Profile Endpoints', () => {
@@ -419,6 +426,99 @@ describe('Profile Endpoints', () => {
       it('should delete a certification entry', (done) => {
         makeRequest(
           { method: 'delete', endpoint: getEndpoint(`profiles/certifications/${certificationId}`) },
+          alterDetails({ token: userToken }),
+          (err, res) => {
+            res.should.have.status(204);
+
+            done();
+          },
+        );
+      });
+    });
+  });
+
+  describe('Languages Endpoints', () => {
+    describe('Add Language', () => {
+      it('should not allow guest users add language to profile', (done) => {
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/languages') },
+          alterDetails(languageDetails, { token: null }),
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should not allow wrong language proficiency level', (done) => {
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/languages') },
+          alterDetails(languageDetails, { level: 'Wrong Level', token: userToken }),
+          (err, res) => {
+            res.should.have.status(400);
+            res.body.success.should.be.eql(false);
+
+            done();
+          },
+        );
+      });
+
+      it('should add new language to profile', (done) => {
+        makeRequest(
+          { method: 'post', endpoint: getEndpoint('profiles/languages') },
+          alterDetails(languageDetails, { token: userToken }),
+          (err, res) => {
+            res.should.have.status(201);
+            res.body.success.should.be.eql(true);
+            res.body.data.language.name.should.be.eql(languageDetails.name);
+
+            languageId = res.body.data.language.id;
+
+            done();
+          },
+        );
+      });
+    });
+
+    describe('Update Language', () => {
+      it('should not allow guest users create new language entry', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint(`profiles/languages/${languageId}`) },
+          alterDetails(languageDetails, { token: null }),
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should update a language entry', (done) => {
+        makeRequest(
+          { method: 'put', endpoint: getEndpoint(`profiles/languages/${languageId}`) },
+          alterDetails(languageDetails, {
+            token: userToken,
+            name: 'Spanish',
+            level: 'limited-working',
+          }),
+          (err, res) => {
+            res.should.have.status(200);
+            res.body.success.should.be.eql(true);
+            res.body.data.language.should.be.a('object');
+            res.body.data.language.name.should.be.eql('Spanish');
+            res.body.data.language.level.should.be.eql('limited-working');
+
+            done();
+          },
+        );
+      });
+    });
+
+    describe('Delete Language', () => {
+      it('should not allow guest users delete language entry', (done) => {
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/languages/${languageId}`) },
+          alterDetails(positionDetails, { token: null }),
+          authFailureAssertions(done),
+        );
+      });
+
+      it('should delete a language entry', (done) => {
+        makeRequest(
+          { method: 'delete', endpoint: getEndpoint(`profiles/languages/${languageId}`) },
           alterDetails({ token: userToken }),
           (err, res) => {
             res.should.have.status(204);
