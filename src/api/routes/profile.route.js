@@ -730,7 +730,7 @@ router.get('/skills', isUser, profile.searchSkills);
  *              url:
  *                type: string
  *    responses:
- *       '200':
+ *       '201':
  *         description: Certification added successfully.
  *         content:
  *          application/json:
@@ -1174,6 +1174,70 @@ router.put(
   profile.updateSummary,
 );
 
+/**
+ * @swagger
+ * /profiles/languages:
+ *  post:
+ *    tags: [Languages]
+ *    summary: Adds a new language entry.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *    operationId: addLanguage
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name
+ *            properties:
+ *              name:
+ *                type: string
+ *              level:
+ *                type: string
+ *    responses:
+ *       '201':
+ *         description: Language added successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    language:
+ *                      $ref: '#/components/schemas/Language'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.post(
   '/languages',
   isUser,
@@ -1181,6 +1245,76 @@ router.post(
   profile.addLanguage,
 );
 
+/**
+ * @swagger
+ * /profiles/languages/{languageId}:
+ *  put:
+ *    tags: [Languages]
+ *    summary: Updates an existing language entry in user's profile.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *      - name: languageId
+ *        in: path
+ *        required: true
+ *        description: ID of the language entry to update.
+ *        schema:
+ *          type: string
+ *    operationId: updateLanguage
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name
+ *            properties:
+ *              name:
+ *                type: string
+ *              level:
+ *                type: string
+ *    responses:
+ *       '200':
+ *         description: Langauge updated successfully.
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                message:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    language:
+ *                      $ref: '#/components/schemas/Language'
+ *       '400':
+ *         description: 'Invalid inputs.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/InvalidRequestResponse'
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.put(
   '/languages/:languageId',
   isUser,
@@ -1188,6 +1322,43 @@ router.put(
   profile.updateLanguage,
 );
 
+/**
+ * @swagger
+ * /profiles/langauges/{languageId}:
+ *  delete:
+ *    tags: [Languages]
+ *    summary: Deletes a language from user's profile.
+ *    parameters:
+ *      - name: Authorization
+ *        in: header
+ *        required: true
+ *        description: The authorization token.
+ *        schema:
+ *          type: string
+ *          example: Bearer {token}
+ *      - name: languageId
+ *        in: path
+ *        required: true
+ *        description: ID of the language to delete.
+ *        schema:
+ *          type: string
+ *    operationId: deleteLanguage
+ *    responses:
+ *       '204':
+ *         description: Language deleted successfully.
+ *       '401':
+ *         description: 'Unauthorized user.'
+ *         content:
+ *           application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ *       '404':
+ *          description: Profile does not exists.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/FailureResponse'
+ */
 router.delete('/languages/:languageId', isUser, profile.deleteLanguage);
 
 export default router;
