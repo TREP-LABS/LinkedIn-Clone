@@ -12,6 +12,7 @@ export const formatProfileData = (profileData) => {
     formatCertificationData(certification),
   );
   const skills = profileData.skills.map((skill) => formatSkillData(skill));
+  const languages = profileData.languages.map((language) => formatLanguageData(language));
 
   return {
     summary: profileData.summary,
@@ -19,6 +20,7 @@ export const formatProfileData = (profileData) => {
     positions,
     certifications,
     skills,
+    languages,
   };
 };
 
