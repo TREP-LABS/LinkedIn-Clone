@@ -58,11 +58,13 @@ public class UserProfileRepository {
         JSONParser jsonParser = new JSONParser();
         try {
             Response<ResponseBody> result = call.execute();
-            if (result.isSuccessful())
+            if (result.isSuccessful()) {
                 Log.d("UserProfileRepo", "getBasicProfile: isSuccessful");
-            else
+                mMessage = jsonParser.getBasicProfileResponseFromJSON(result.body().string());
+            } else {
                 Log.d("UserProfileRepo", "getBasicProfile: unSuccessful");
-            mMessage = jsonParser.getBasicProfileResponseFromJSON(result.body().string());
+                mMessage = jsonParser.getBasicProfileResponseFromJSON(result.errorBody().string());
+            }
         } catch (IOException | JSONException e) {
             mMessage = "An error occurred";
             e.printStackTrace();
@@ -83,7 +85,7 @@ public class UserProfileRepository {
                 mUserSkills = jsonParser.mUserSkills;
             } else {
                 Log.d("UserProfileRepo", "getFullProfile: unSuccessful");
-                mMessage = jsonParser.getFullProfileResponseFromJSON(result.body().string());
+                mMessage = jsonParser.getFullProfileResponseFromJSON(result.errorBody().string());
             }
         } catch (IOException | JSONException e) {
             mMessage = "An error occurred";
@@ -94,6 +96,7 @@ public class UserProfileRepository {
 
     //education
     public String addNewEducation(HashMap<String, String> map, String token) {
+        JSONParser jsonParser = new JSONParser();
         invokeAPI().addNewEducation(token, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -101,10 +104,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "addNewEducation OnSuccess: " + response.body().string());
-                                getResponseFromEducationRequest(response.body().string());
+                                mMessage = jsonParser.getResponseFromEducationRequest(response.body().string());
+                                mUserEducations = jsonParser.mUserEducations;
                             } else {
                                 Log.d("UserProfileRepo", "addNewEducation UnSuccess: " + response.errorBody().string());
-                                getResponseFromEducationRequest(response.errorBody().string());
+                                mMessage = jsonParser.getResponseFromEducationRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -121,6 +125,7 @@ public class UserProfileRepository {
     }
 
     public String updateExistingEducation(String token, String educationId, HashMap<String, String> map) {
+        JSONParser jsonParser = new JSONParser();
         invokeAPI().updateExistingEducation(token, educationId, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -128,10 +133,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "updateExistingEducation: isSuccessful");
-                                getResponseFromEducationRequest(response.body().string());
+                                mMessage = jsonParser.getResponseFromEducationRequest(response.body().string());
+                                mUserEducations = jsonParser.mUserEducations;
                             } else {
                                 Log.d("UserProfileRepo", "updateExistingEducation: unSuccessful");
-                                getResponseFromEducationRequest(response.errorBody().string());
+                                mMessage = jsonParser.getResponseFromEducationRequest(response.errorBody().string());
                             }
                         } catch (IOException | JSONException e) {
                             e.printStackTrace();
@@ -175,35 +181,9 @@ public class UserProfileRepository {
         return mMessage;
     }
 
-    private void getResponseFromEducationRequest(String string) throws JSONException {
-        JSONObject parent = new JSONObject(string);
-        mSuccess = parent.getBoolean("success");
-        mMessage = parent.getString("message");
-        if (mSuccess) {
-            JSONObject jsonObject = parent.getJSONObject("data");
-            JSONObject education = jsonObject.getJSONObject("education");
-            String educationId = education.getString("id");
-            String schoolName = education.getString("schoolName");
-            String fieldOfStudy = education.getString("fieldOfStudy");
-            int startDate = education.getInt("startDate");
-            int endDate = education.getInt("endDate");
-
-            for (UserEducation userEducation : mUserEducations) {
-                if (educationId.equals(userEducation.getEducationId())) {
-                    userEducation.setEducationId(educationId);
-                    userEducation.setFromYearToYear(startDate + " - " + endDate);
-                    userEducation.setSchoolDegree(fieldOfStudy);
-                    userEducation.setSchoolName(schoolName);
-                } else {
-                    mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
-                            startDate + " - " + endDate, educationId));
-                }
-            }
-        }
-    }
-
     //experience
     public String addNewExperience(HashMap<String, String> map, String token) {
+        JSONParser jsonParser = new JSONParser();
         invokeAPI().addNewExperience(token, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -211,10 +191,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "addNewExperience OnSuccess: " + response.body().string());
-                                getResponseFromExperienceRequest(response.body().string());
+                                mMessage = jsonParser.getResponseFromExperienceRequest(response.body().string());
+                                mUserExperiences = jsonParser.mUserExperiences;
                             } else {
                                 Log.d("UserProfileRepo", "UnSuccess: " + response.errorBody().string());
-                                getResponseFromExperienceRequest(response.errorBody().string());
+                                mMessage = jsonParser.getResponseFromExperienceRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -231,6 +212,7 @@ public class UserProfileRepository {
     }
 
     public String updateExistingExperience(String token, String experienceId, HashMap<String, String> map) {
+        JSONParser jsonParser = new JSONParser();
         invokeAPI().updateExistingExperience(token, experienceId, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -238,10 +220,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "Update OnSuccess: " + response.body().string());
-                                getResponseFromExperienceRequest(response.body().string());
+                                mMessage = jsonParser.getResponseFromExperienceRequest(response.body().string());
+                                mUserExperiences = jsonParser.mUserExperiences;
                             } else {
                                 Log.d("UserProfileRepo", "Update UnSuccess: " + response.errorBody());
-                                getResponseFromExperienceRequest(response.errorBody().string());
+                                mMessage = jsonParser.getResponseFromExperienceRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -287,43 +270,9 @@ public class UserProfileRepository {
         return mMessage;
     }
 
-    private void getResponseFromExperienceRequest(String string) throws JSONException {
-        JSONObject parent = new JSONObject(string);
-        mSuccess = parent.getBoolean("success");
-        mMessage = parent.getString("message");
-        if (mSuccess) {
-            JSONObject jsonObject = parent.getJSONObject("data");
-            JSONObject experience = jsonObject.getJSONObject("position");
-            String experienceId = experience.getString("id");
-            String jobTitle = experience.getString("title");
-            String jobSummary = experience.getString("summary");
-            String startDate = experience.getString("startDate");
-            String endDate = experience.getString("endDate");
-            boolean isCurrent = experience.getBoolean("isCurrent");
-            String company = experience.getString("company");
-            int noOfYears = Integer.parseInt(endDate.split(" ")[1]) -
-                    Integer.parseInt(startDate.split(" ")[1]);
-
-            for (UserExperience userExperience : mUserExperiences) {
-                if (experienceId.equals(userExperience.getExperienceId())) {
-                    userExperience.setJobTitle(jobTitle);
-                    userExperience.setCompany(company);
-                    userExperience.setCurrent(isCurrent);
-                    userExperience.setExperienceId(experienceId);
-                    userExperience.setSummary(jobSummary);
-                    userExperience.setFromDateToDate(startDate + " - " + endDate);
-                    userExperience.setNoOfYears(noOfYears);
-                } else {
-                    mUserExperiences.add(new UserExperience(jobTitle, company,
-                            startDate + " - " + endDate, noOfYears, isCurrent,
-                            jobSummary, experienceId));
-                }
-            }
-        }
-    }
-
     //skills
     public String addNewSkill(HashMap<String, String> map, String token) {
+        JSONParser jsonParser = new JSONParser();
         invokeAPI().addNewSkill(token, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -331,10 +280,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "addNewSkill OnSuccess: " + response.body().string());
-                                getResponseFromSkillRequest(response.body().string());
+                                mMessage = jsonParser.getResponseFromSkillRequest(response.body().string());
+                                mUserSkills = jsonParser.mUserSkills;
                             } else {
                                 Log.d("UserProfileRepo", "addNewSkill UnSuccess: " + response.errorBody());
-                                getResponseFromSkillRequest(response.errorBody().string());
+                                mMessage = jsonParser.getResponseFromSkillRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -351,17 +301,19 @@ public class UserProfileRepository {
     }
 
     public String searchSkill(String token, String searchText) {
+        JSONParser jsonParser = new JSONParser();
         invokeAPI().searchForSkill(token, searchText)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
                             if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "searchSkill OnSuccess: " + response.body().string());
-                                getResponseFromSkillRequest(response.body().string());
+                                Log.d("UserProfileRepo", "searchSkill OnSuccess: ");
+                                mMessage = jsonParser.getResponseFromSkillRequest(response.body().string());
+                                mUserSkills = jsonParser.mUserSkills;
                             } else {
-                                Log.d("UserProfileRepo", "searchSkill UnSuccess: " + response.errorBody());
-                                getResponseFromSkillRequest(response.errorBody().string());
+                                Log.d("UserProfileRepo", "searchSkill UnSuccess: ");
+                                mMessage = jsonParser.getResponseFromSkillRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -405,22 +357,6 @@ public class UserProfileRepository {
                     }
                 });
         return mMessage;
-    }
-
-    private void getResponseFromSkillRequest(String string) throws JSONException {
-        JSONObject parent = new JSONObject(string);
-        mSuccess = parent.getBoolean("success");
-        mMessage = parent.getString("message");
-        if (mSuccess) {
-            JSONObject jsonObject = parent.getJSONObject("data");
-            JSONArray skillArray = jsonObject.getJSONArray("skills");
-            for (int i = 0; i < skillArray.length(); i++) {
-                JSONObject object = (JSONObject) skillArray.get(i);
-                String skillId = object.getString("id");
-                String name = object.getString("name");
-                mUserSkills.add(new UserSkill(name, skillId));
-            }
-        }
     }
 
     public List<UserEducation> getUserEducations() {

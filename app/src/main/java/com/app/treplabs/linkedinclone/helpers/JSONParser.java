@@ -86,4 +86,86 @@ public class JSONParser {
         }
         return message;
     }
+
+    public String getResponseFromEducationRequest(String string) throws JSONException {
+        JSONObject parent = new JSONObject(string);
+        mSuccess = parent.getBoolean("success");
+        String message = parent.getString("message");
+        if (mSuccess) {
+            JSONObject jsonObject = parent.getJSONObject("data");
+            JSONObject education = jsonObject.getJSONObject("education");
+            String educationId = education.getString("id");
+            String schoolName = education.getString("schoolName");
+            String fieldOfStudy = education.getString("fieldOfStudy");
+            int startDate = education.getInt("startDate");
+            int endDate = education.getInt("endDate");
+
+            for (UserEducation userEducation : mUserEducations) {
+                if (educationId.equals(userEducation.getEducationId())) {
+                    userEducation.setEducationId(educationId);
+                    userEducation.setFromYearToYear(startDate + " - " + endDate);
+                    userEducation.setSchoolDegree(fieldOfStudy);
+                    userEducation.setSchoolName(schoolName);
+                } else {
+                    mUserEducations.add(new UserEducation(schoolName, fieldOfStudy,
+                            startDate + " - " + endDate, educationId));
+                }
+            }
+        }
+        return message;
+    }
+
+    public String getResponseFromExperienceRequest(String string) throws JSONException {
+        JSONObject parent = new JSONObject(string);
+        mSuccess = parent.getBoolean("success");
+        String message = parent.getString("message");
+        if (mSuccess) {
+            JSONObject jsonObject = parent.getJSONObject("data");
+            JSONObject experience = jsonObject.getJSONObject("position");
+            String experienceId = experience.getString("id");
+            String jobTitle = experience.getString("title");
+            String jobSummary = experience.getString("summary");
+            String startDate = experience.getString("startDate");
+            String endDate = experience.getString("endDate");
+            boolean isCurrent = experience.getBoolean("isCurrent");
+            String company = experience.getString("company");
+            int noOfYears = Integer.parseInt(endDate.split(" ")[1]) -
+                    Integer.parseInt(startDate.split(" ")[1]);
+
+            for (UserExperience userExperience : mUserExperiences) {
+                if (experienceId.equals(userExperience.getExperienceId())) {
+                    userExperience.setJobTitle(jobTitle);
+                    userExperience.setCompany(company);
+                    userExperience.setCurrent(isCurrent);
+                    userExperience.setExperienceId(experienceId);
+                    userExperience.setSummary(jobSummary);
+                    userExperience.setFromDateToDate(startDate + " - " + endDate);
+                    userExperience.setNoOfYears(noOfYears);
+                } else {
+                    mUserExperiences.add(new UserExperience(jobTitle, company,
+                            startDate + " - " + endDate, noOfYears, isCurrent,
+                            jobSummary, experienceId));
+                }
+            }
+        }
+        return message;
+    }
+
+    public String getResponseFromSkillRequest(String string) throws JSONException {
+        JSONObject parent = new JSONObject(string);
+        mSuccess = parent.getBoolean("success");
+        String message = parent.getString("message");
+        if (mSuccess) {
+            JSONObject jsonObject = parent.getJSONObject("data");
+            JSONArray skillArray = jsonObject.getJSONArray("skills");
+            for (int i = 0; i < skillArray.length(); i++) {
+                JSONObject object = (JSONObject) skillArray.get(i);
+                String skillId = object.getString("id");
+                String name = object.getString("name");
+                mUserSkills.add(new UserSkill(name, skillId));
+            }
+        }
+        return message;
+    }
+
 }
