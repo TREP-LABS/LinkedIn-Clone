@@ -461,4 +461,7 @@ public class UserProfileRepository {
         return mUserSkills;
     }
 
+    public List<UserCertificate> getUserCertificates() {
+        return mUserCertificates;
+    }
 }
