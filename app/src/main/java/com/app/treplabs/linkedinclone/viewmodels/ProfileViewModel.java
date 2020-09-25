@@ -2,15 +2,13 @@ package com.app.treplabs.linkedinclone.viewmodels;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.app.treplabs.linkedinclone.interfaces.ProfileStateListener;
+import com.app.treplabs.linkedinclone.models.UserCertificate;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import com.app.treplabs.linkedinclone.repositories.UserProfileRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +17,7 @@ public class ProfileViewModel extends ViewModel {
     private List<UserExperience> mUserExperiences = new ArrayList<>();
     private List<UserEducation> mUserEducations = new ArrayList<>();
     private List<UserSkill> mUserSkills = new ArrayList<>();
+    private List<UserCertificate> mUserCertificates = new ArrayList<>();
 
     public void setProfileStateListener(ProfileStateListener profileStateListener) {
         mProfileStateListener = profileStateListener;
@@ -42,6 +41,8 @@ public class ProfileViewModel extends ViewModel {
                 mUserEducations = UserProfileRepository.getInstance().getUserEducations();
                 mUserExperiences = UserProfileRepository.getInstance().getUserExperiences();
                 mUserSkills = UserProfileRepository.getInstance().getUserSkills();
+                mUserCertificates.add(new UserCertificate("The Certificate", "Amazon", "13232823233",
+                        "Jul 2020", "April 2021", "231893213", "", false));
                 mProfileStateListener.onGetProfileSuccess(s);
             }
         };
@@ -58,5 +59,9 @@ public class ProfileViewModel extends ViewModel {
 
     public List<UserSkill> getUserSkills() {
         return mUserSkills;
+    }
+
+    public List<UserCertificate> getUserCertificates() {
+        return mUserCertificates;
     }
 }
