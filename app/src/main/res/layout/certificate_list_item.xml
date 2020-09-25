@@ -1,64 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp">
+<layout>
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="userCertificate"
+            type="com.app.treplabs.linkedinclone.models.UserCertificate" />
+        <variable
+            name="isLastItem"
+            type="java.lang.Boolean" />
+    </data>
 
-    <ImageView
-        android:id="@+id/certificate_img"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_whatsapp" />
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:padding="8dp">
 
-    <TextView
-        android:id="@+id/certificate_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="4dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/sample_header_name"
-        android:textColor="@color/colorBlack"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/certificate_img"
-        app:layout_constraintTop_toTopOf="@+id/certificate_img" />
+        <ImageView
+            android:id="@+id/certificate_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_whatsapp" />
 
-    <TextView
-        android:id="@+id/certificate_issuer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sample_job_title"
-        style="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/subText"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/certificate_title"
-        app:layout_constraintTop_toBottomOf="@+id/certificate_title" />
+        <TextView
+            android:id="@+id/certificate_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="@{userCertificate.name}"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/certificate_img"
+            app:layout_constraintTop_toTopOf="@+id/certificate_img" />
 
-    <TextView
-        android:id="@+id/certificate_date_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Issued Jul 2020 No Expiration Date"
-        android:textSize="14sp"
-        android:textColor="@color/subText"
-        app:layout_constraintStart_toStartOf="@+id/certificate_issuer"
-        app:layout_constraintTop_toBottomOf="@+id/certificate_issuer" />
+        <TextView
+            android:id="@+id/certificate_issuer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{userCertificate.authority}"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/subText"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/certificate_title"
+            app:layout_constraintTop_toBottomOf="@+id/certificate_title" />
 
-    <View
-        android:id="@+id/certificate_view"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/layoutBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="@{isLastItem ? View.GONE : View.VISIBLE}"
-        app:layout_constraintStart_toStartOf="@+id/certificate_title"
-        app:layout_constraintTop_toBottomOf="@+id/certificate_date_detail" />
+        <TextView
+            android:id="@+id/certificate_date_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`Issued ` + userCertificate.startDate + ` - ` + userCertificate.endDate}"
+            android:textSize="14sp"
+            android:textColor="@color/subText"
+            app:layout_constraintStart_toStartOf="@+id/certificate_issuer"
+            app:layout_constraintTop_toBottomOf="@+id/certificate_issuer" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/certificate_view"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/layoutBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{isLastItem ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="@+id/certificate_title"
+            app:layout_constraintTop_toBottomOf="@+id/certificate_date_detail" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
