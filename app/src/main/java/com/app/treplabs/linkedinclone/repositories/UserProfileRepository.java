@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.app.treplabs.linkedinclone.helpers.JSONParser;
 import com.app.treplabs.linkedinclone.models.User;
+import com.app.treplabs.linkedinclone.models.UserCertificate;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
@@ -30,9 +31,9 @@ public class UserProfileRepository {
     private List<UserExperience> mUserExperiences = new ArrayList<>();
     private List<UserSkill> mUserSkills = new ArrayList<>();
     private List<UserEducation> mUserEducations = new ArrayList<>();
+    private List<UserCertificate> mUserCertificates = new ArrayList<>();
     private static UserProfileRepository instance;
     private String mMessage;
-    private boolean mSuccess;
 
     public static UserProfileRepository getInstance() {
         if (instance == null) {
@@ -279,7 +280,7 @@ public class UserProfileRepository {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         try {
                             if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "addNewSkill OnSuccess: " + response.body().string());
+                                Log.d("UserProfileRepo", "addNewSkill OnSuccess: ");
                                 mMessage = jsonParser.getResponseFromSkillRequest(response.body().string());
                                 mUserSkills = jsonParser.mUserSkills;
                             } else {
@@ -353,6 +354,36 @@ public class UserProfileRepository {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.d("UserProfileRepo", "deleteSkill OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
+        return mMessage;
+    }
+
+    //certification
+    public String addNewCertificate(HashMap<String, String> map, String token) {
+        JSONParser jsonParser = new JSONParser();
+        invokeAPI().addNewCertificate(token, map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.d("UserProfileRepo", "addNewCertificate OnSuccess: ");
+                                mMessage = jsonParser.getResponseFromCertificateRequest(response.body().string());
+                                mUserCertificates = jsonParser.mUserCertificates;
+                            } else {
+                                Log.d("UserProfileRepo", "addNewCertificate UnSuccess: ");
+                                mMessage = jsonParser.getResponseFromCertificateRequest(response.errorBody().string());
+                            }
+                        } catch (IOException | JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "addNewCertificate OnFailure: " + t.getMessage());
                         mMessage = t.getMessage();
                     }
                 });

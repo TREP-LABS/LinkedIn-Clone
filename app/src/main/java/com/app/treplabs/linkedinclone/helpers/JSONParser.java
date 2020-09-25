@@ -1,9 +1,11 @@
 package com.app.treplabs.linkedinclone.helpers;
 
 import com.app.treplabs.linkedinclone.models.User;
+import com.app.treplabs.linkedinclone.models.UserCertificate;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +17,7 @@ public class JSONParser {
     public List<UserEducation> mUserEducations;
     public List<UserExperience> mUserExperiences;
     public List<UserSkill> mUserSkills;
+    public List<UserCertificate> mUserCertificates;
     private boolean mSuccess;
 
     public String getBasicProfileResponseFromJSON(String string) throws JSONException {
@@ -77,7 +80,7 @@ public class JSONParser {
                         summary, experienceId));
             }
             JSONArray skills = profile.getJSONArray("skills");
-            for (int i = 0; i < skills.length(); i++){
+            for (int i = 0; i < skills.length(); i++) {
                 JSONObject skill = (JSONObject) skills.get(i);
                 String skillId = skill.getString("id");
                 String name = skill.getString("name");
@@ -163,6 +166,44 @@ public class JSONParser {
                 String skillId = object.getString("id");
                 String name = object.getString("name");
                 mUserSkills.add(new UserSkill(name, skillId));
+            }
+        }
+        return message;
+    }
+
+    public String getResponseFromCertificateRequest(String string) throws JSONException {
+        JSONObject parent = new JSONObject(string);
+        mSuccess = parent.getBoolean("success");
+        String message = parent.getString("message");
+        if (mSuccess) {
+            JSONObject jsonObject = parent.getJSONObject("data");
+            JSONArray certificateArray = jsonObject.getJSONArray("certification");
+            for (int i = 0; i < certificateArray.length(); i++) {
+                JSONObject object = (JSONObject) certificateArray.get(i);
+                String certificateId = object.getString("id");
+                String name = object.getString("name");
+                String authority = object.getString("authority");
+                String number = object.getString("number");
+                String startDate = object.getString("startDate");
+                String endDate = object.getString("endDate");
+                boolean isPresent = object.getBoolean("isPresent");
+                String url = object.getString("url");
+
+                for (UserCertificate userCertificate : mUserCertificates) {
+                    if (certificateId.equals(userCertificate.getCertificateId())) {
+                        userCertificate.setName(name);
+                        userCertificate.setAuthority(authority);
+                        userCertificate.setCertificateId(certificateId);
+                        userCertificate.setNumber(number);
+                        userCertificate.setUrl(url);
+                        userCertificate.setEndDate(endDate);
+                        userCertificate.setPresent(isPresent);
+                        userCertificate.setStartDate(startDate);
+                    } else {
+                        mUserCertificates.add(new UserCertificate(name, authority, number, startDate,
+                                endDate, certificateId, url, isPresent));
+                    }
+                }
             }
         }
         return message;
