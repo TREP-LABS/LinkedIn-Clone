@@ -3,9 +3,11 @@ package com.app.treplabs.linkedinclone.bindingadapters;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.app.treplabs.linkedinclone.adapters.UserCertificateAdapter;
 import com.app.treplabs.linkedinclone.adapters.UserEducationAdapter;
 import com.app.treplabs.linkedinclone.adapters.UserExperienceAdapter;
 import com.app.treplabs.linkedinclone.adapters.UserSkillAdapter;
+import com.app.treplabs.linkedinclone.models.UserCertificate;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
@@ -51,6 +53,20 @@ public class ProfileBindingAdapters {
         UserSkillAdapter adapter = (UserSkillAdapter) view.getAdapter();
         if (adapter == null){
             adapter = new UserSkillAdapter(skills, view.getContext());
+            view.setAdapter(adapter);
+        }
+    }
+
+    @BindingAdapter("userCertificateList")
+    public static void setUserCertificateList(RecyclerView view, List<UserCertificate> certificates){
+        if (certificates == null)
+            return;
+        RecyclerView.LayoutManager layoutManager = view.getLayoutManager();
+        if (layoutManager == null)
+            view.setLayoutManager(new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false));
+        UserCertificateAdapter adapter = (UserCertificateAdapter) view.getAdapter();
+        if (adapter == null){
+            adapter = new UserCertificateAdapter(certificates, view.getContext());
             view.setAdapter(adapter);
         }
     }
