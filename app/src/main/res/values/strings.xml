@@ -40,4 +40,9 @@
     <string name="contact">Contact</string>
     <string name="your_profile">Your Profile</string>
     <string name="licences_and_certifications"><![CDATA[Licences & Certifications]]></string>
+    <string name="edit_intro">Edit Intro</string>
+    <string name="headline">Headline</string>
+    <string name="add_new_education">Add New Education</string>
+    <string name="country_region">Country/Region</string>
+    <string name="industry">Industry</string>
 </resources>
