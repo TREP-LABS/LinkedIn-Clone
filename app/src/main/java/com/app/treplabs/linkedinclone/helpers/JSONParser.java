@@ -48,6 +48,7 @@ public class JSONParser {
         mUserEducations = new ArrayList<>();
         mUserExperiences = new ArrayList<>();
         mUserSkills = new ArrayList<>();
+        mUserCertificates = new ArrayList<>();
         String message = getBasicProfileResponseFromJSON(string);
         if (mSuccess) {
             JSONObject profile = new JSONObject(string)
@@ -87,6 +88,20 @@ public class JSONParser {
                 String skillId = skill.getString("id");
                 String name = skill.getString("name");
                 mUserSkills.add(new UserSkill(name, skillId));
+            }
+            JSONArray certificates = profile.getJSONArray("certifications");
+            for (int i = 0; i < certificates.length(); i++){
+                JSONObject certificate = (JSONObject) certificates.get(i);
+                String certificateId = certificate.getString("id");
+                String name = certificate.getString("name");
+                String authority = certificate.getString("authority");
+                String number = certificate.getString("number");
+                String startDate = certificate.getString("startDate");
+                String endDate = certificate.getString("endDate");
+                boolean isPresent = certificate.getBoolean("isPresent");
+                String url = certificate.getString("url");
+                mUserCertificates.add(new UserCertificate(name, authority, number, startDate,
+                        endDate, certificateId, url, isPresent));
             }
         }
         return message;

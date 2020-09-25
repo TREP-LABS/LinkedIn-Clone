@@ -88,6 +88,7 @@ public class UserProfileRepository {
                 mUserEducations = jsonParser.mUserEducations;
                 mUserExperiences = jsonParser.mUserExperiences;
                 mUserSkills = jsonParser.mUserSkills;
+                mUserCertificates = jsonParser.mUserCertificates;
             } else {
                 Log.d("UserProfileRepo", "getFullProfile: unSuccessful");
                 mMessage = jsonParser.getFullProfileResponseFromJSON(result.errorBody().string());
