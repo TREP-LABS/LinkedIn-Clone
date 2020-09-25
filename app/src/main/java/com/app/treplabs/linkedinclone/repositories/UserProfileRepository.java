@@ -376,7 +376,7 @@ public class UserProfileRepository {
                                 Log.d("UserProfileRepo", "addNewCertificate UnSuccess: ");
                                 mMessage = jsonParser.getResponseFromCertificateRequest(response.errorBody().string());
                             }
-                        } catch (IOException | JSONException e){
+                        } catch (IOException | JSONException e) {
                             e.printStackTrace();
                         }
                     }
@@ -390,18 +390,18 @@ public class UserProfileRepository {
         return mMessage;
     }
 
-    public String updateExistingCertificate(String token, String experienceId, HashMap<String, String> map){
+    public String updateExistingCertificate(String token, String certificateId, HashMap<String, String> map) {
         JSONParser jsonParser = new JSONParser();
-        invokeAPI().updateExistingCertificate(token, experienceId, map)
+        invokeAPI().updateExistingCertificate(token, certificateId, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try{
-                            if (response.isSuccessful()){
+                        try {
+                            if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "Update OnSuccess: " + response.body().string());
                                 mMessage = jsonParser.getResponseFromCertificateRequest(response.body().string());
                                 mUserCertificates = jsonParser.mUserCertificates;
-                            }else {
+                            } else {
                                 Log.d("UserProfileRepo", "Update UnSuccess: " + response.errorBody());
                                 mMessage = jsonParser.getResponseFromCertificateRequest(response.errorBody().string());
                             }
@@ -413,6 +413,36 @@ public class UserProfileRepository {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.d("UserProfileRepo", "Update OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
+        return mMessage;
+    }
+
+    public String deleteCertificate(String token, String certificateId) {
+        invokeAPI().deleteCertificate(token, certificateId)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.d("UserProfileRepo", "deleteCertificate OnSuccess: " +
+                                        response.body().string());
+                                mMessage = "Deleted User Certificate Successfully";
+                            } else {
+                                Log.d("UserProfileRepo", "deleteCertificate UnSuccess: " +
+                                        response.body().string());
+                                JSONObject parent = new JSONObject(response.errorBody().string());
+                                mMessage = parent.getString("message");
+                            }
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "deleteCertificate OnFailure: " + t.getMessage());
                         mMessage = t.getMessage();
                     }
                 });
