@@ -2,10 +2,13 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/edit_intro_bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:overScrollMode="never"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    app:behavior_hideable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -67,8 +70,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/first_name"
             app:errorEnabled="true"
-            app:helperText="@string/required"
-            app:helperTextTextAppearance="@style/TextAppearances"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline">
@@ -90,8 +91,6 @@
             android:layout_marginTop="4dp"
             android:hint="@string/last_name"
             app:errorEnabled="true"
-            app:helperText="@string/required"
-            app:helperTextTextAppearance="@style/TextAppearances"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/first_name_layout">
@@ -110,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.37" />
+            app:layout_constraintGuide_percent="0.32" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/header_layout"
@@ -181,7 +180,7 @@
             <AutoCompleteTextView
                 android:id="@+id/country_region"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,8 +189,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/industry"
             android:layout_marginTop="4dp"
+            android:hint="@string/industry"
             app:endIconMode="dropdown_menu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -200,7 +199,7 @@
             <AutoCompleteTextView
                 android:id="@+id/industry"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
