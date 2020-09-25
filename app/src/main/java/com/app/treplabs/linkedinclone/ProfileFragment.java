@@ -64,6 +64,7 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
         mBinding.setExperiences(mProfileViewModel.getUserExperiences());
         mBinding.setEducations(mProfileViewModel.getUserEducations());
         mBinding.setSkills(mProfileViewModel.getUserSkills());
+        mBinding.setCertificates(mProfileViewModel.getUserCertificates());
         mBinding.setIsThereProfile(true);
         showToast(s);
     }

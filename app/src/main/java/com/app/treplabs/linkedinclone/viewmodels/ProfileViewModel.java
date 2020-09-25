@@ -41,8 +41,7 @@ public class ProfileViewModel extends ViewModel {
                 mUserEducations = UserProfileRepository.getInstance().getUserEducations();
                 mUserExperiences = UserProfileRepository.getInstance().getUserExperiences();
                 mUserSkills = UserProfileRepository.getInstance().getUserSkills();
-                mUserCertificates.add(new UserCertificate("The Certificate", "Amazon", "13232823233",
-                        "Jul 2020", "April 2021", "231893213", "", false));
+                mUserCertificates = UserProfileRepository.getInstance().getUserCertificates();
                 mProfileStateListener.onGetProfileSuccess(s);
             }
         };
