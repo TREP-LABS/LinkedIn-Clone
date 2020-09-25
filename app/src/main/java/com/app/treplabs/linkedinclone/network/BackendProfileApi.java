@@ -53,4 +53,15 @@ public interface BackendProfileApi {
 
     @DELETE("skills/{skillId}")
     Call<ResponseBody> deleteSkill(@Header("Authorization") String token, @Path("skillId") String skillId);
+
+    //certifications
+    @POST("certifications")
+    Call<ResponseBody> addNewCertificate(@Header("Authorization") String token, @Body HashMap<String, String> map);
+
+    @PUT("certifications/{certificationId}")
+    Call<ResponseBody> updateExistingCertificate(@Header("Authorization") String token, @Path("certificationId") String certificationId,
+                                                @Body HashMap<String, String> map);
+
+    @DELETE("certifications/{certificationId}")
+    Call<ResponseBody> deleteCertificate(@Header("Authorization") String token, @Path("certificationId") String certificationId);
 }
