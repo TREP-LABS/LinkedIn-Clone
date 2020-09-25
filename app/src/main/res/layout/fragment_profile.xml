@@ -33,8 +33,8 @@
             type="List&lt;UserCertificate>" />
 
         <variable
-            name="user"
-            type="com.app.treplabs.linkedinclone.models.User" />
+            name="userProfile"
+            type="com.app.treplabs.linkedinclone.models.UserProfile" />
 
         <variable
             name="isThereProfile"
@@ -115,7 +115,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="26dp"
                         android:fontFamily="@font/roboto"
-                        android:text="@{user.firstName + ` ` + user.lastName}"
+                        android:text="@{userProfile.currentUser.firstName + ` ` + userProfile.currentUser.lastName}"
                         android:textColor="@color/colorBlack"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toStartOf="@+id/img_create1"
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/roboto"
-                        android:text="@string/sample_job_title"
+                        android:text="@{userProfile.headline}"
                         android:textColor="@color/subText"
                         app:layout_constraintEnd_toEndOf="@+id/user_name"
                         app:layout_constraintStart_toStartOf="@+id/user_name"

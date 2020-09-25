@@ -4,6 +4,7 @@ import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.models.UserCertificate;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
+import com.app.treplabs.linkedinclone.models.UserProfile;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +17,7 @@ public class JSONParser {
     public List<UserExperience> mUserExperiences;
     public List<UserSkill> mUserSkills;
     public List<UserCertificate> mUserCertificates;
+    public UserProfile mUserProfile;
     private boolean mSuccess;
 
     public String getBasicProfileResponseFromJSON(String string) throws JSONException {
@@ -30,12 +32,14 @@ public class JSONParser {
             String lastname = user.getString("lastname");
             String email = user.getString("email");
             String slug = user.getString("slug");
+            String headline = user.getString("headline");
 
             User.INSTANCE.setFirstName(firstname);
             User.INSTANCE.setLastName(lastname);
             User.INSTANCE.setUserId(id);
             User.INSTANCE.setEmail(email);
             User.INSTANCE.setSlug(slug);
+            mUserProfile = new UserProfile(User.INSTANCE, headline);
         }
         return message;
     }

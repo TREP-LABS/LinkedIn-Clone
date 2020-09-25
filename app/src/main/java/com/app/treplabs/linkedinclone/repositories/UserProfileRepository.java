@@ -7,6 +7,7 @@ import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.models.UserCertificate;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
+import com.app.treplabs.linkedinclone.models.UserProfile;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import com.app.treplabs.linkedinclone.network.BackendProfileApi;
 
@@ -32,6 +33,8 @@ public class UserProfileRepository {
     private List<UserSkill> mUserSkills = new ArrayList<>();
     private List<UserEducation> mUserEducations = new ArrayList<>();
     private List<UserCertificate> mUserCertificates = new ArrayList<>();
+
+    private UserProfile mUserProfile;
     private static UserProfileRepository instance;
     private String mMessage;
 
@@ -81,6 +84,7 @@ public class UserProfileRepository {
             if (result.isSuccessful()) {
                 Log.d("UserProfileRepo", "getFullProfile: isSuccessful");
                 mMessage = jsonParser.getFullProfileResponseFromJSON(result.body().string());
+                mUserProfile = jsonParser.mUserProfile;
                 mUserEducations = jsonParser.mUserEducations;
                 mUserExperiences = jsonParser.mUserExperiences;
                 mUserSkills = jsonParser.mUserSkills;
@@ -463,5 +467,9 @@ public class UserProfileRepository {
 
     public List<UserCertificate> getUserCertificates() {
         return mUserCertificates;
+    }
+
+    public UserProfile getUserProfile() {
+        return mUserProfile;
     }
 }

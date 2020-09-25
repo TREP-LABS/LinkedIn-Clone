@@ -7,6 +7,7 @@ import com.app.treplabs.linkedinclone.interfaces.ProfileStateListener;
 import com.app.treplabs.linkedinclone.models.UserCertificate;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
+import com.app.treplabs.linkedinclone.models.UserProfile;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import com.app.treplabs.linkedinclone.repositories.UserProfileRepository;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class ProfileViewModel extends ViewModel {
     private List<UserEducation> mUserEducations = new ArrayList<>();
     private List<UserSkill> mUserSkills = new ArrayList<>();
     private List<UserCertificate> mUserCertificates = new ArrayList<>();
+    private UserProfile mUserProfile;
 
     public void setProfileStateListener(ProfileStateListener profileStateListener) {
         mProfileStateListener = profileStateListener;
@@ -38,6 +40,7 @@ public class ProfileViewModel extends ViewModel {
 
             @Override
             protected void onPostExecute(String s) {
+                mUserProfile = UserProfileRepository.getInstance().getUserProfile();
                 mUserEducations = UserProfileRepository.getInstance().getUserEducations();
                 mUserExperiences = UserProfileRepository.getInstance().getUserExperiences();
                 mUserSkills = UserProfileRepository.getInstance().getUserSkills();
@@ -62,5 +65,9 @@ public class ProfileViewModel extends ViewModel {
 
     public List<UserCertificate> getUserCertificates() {
         return mUserCertificates;
+    }
+
+    public UserProfile getUserProfile() {
+        return mUserProfile;
     }
 }
