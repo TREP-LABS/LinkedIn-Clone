@@ -12,6 +12,8 @@
 
         <import type="com.app.treplabs.linkedinclone.models.UserSkill" />
 
+        <import type="com.app.treplabs.linkedinclone.models.UserCertificate"/>
+
         <import type="java.util.List" />
 
         <variable
@@ -25,6 +27,10 @@
         <variable
             name="skills"
             type="List&lt;UserSkill>" />
+
+        <variable
+            name="certificates"
+            type="List&lt;UserCertificate>" />
 
         <variable
             name="user"
@@ -471,6 +477,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/certification_rv"
                         android:layout_width="0dp"
+                        userCertificateList="@{certificates}"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
