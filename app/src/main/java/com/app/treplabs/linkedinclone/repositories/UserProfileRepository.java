@@ -390,6 +390,35 @@ public class UserProfileRepository {
         return mMessage;
     }
 
+    public String updateExistingCertificate(String token, String experienceId, HashMap<String, String> map){
+        JSONParser jsonParser = new JSONParser();
+        invokeAPI().updateExistingCertificate(token, experienceId, map)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try{
+                            if (response.isSuccessful()){
+                                Log.d("UserProfileRepo", "Update OnSuccess: " + response.body().string());
+                                mMessage = jsonParser.getResponseFromCertificateRequest(response.body().string());
+                                mUserCertificates = jsonParser.mUserCertificates;
+                            }else {
+                                Log.d("UserProfileRepo", "Update UnSuccess: " + response.errorBody());
+                                mMessage = jsonParser.getResponseFromCertificateRequest(response.errorBody().string());
+                            }
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.d("UserProfileRepo", "Update OnFailure: " + t.getMessage());
+                        mMessage = t.getMessage();
+                    }
+                });
+        return mMessage;
+    }
+
     public List<UserEducation> getUserEducations() {
         return mUserEducations;
     }
