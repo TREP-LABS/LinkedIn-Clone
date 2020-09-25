@@ -5,11 +5,9 @@ import com.app.treplabs.linkedinclone.models.UserCertificate;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
 import com.app.treplabs.linkedinclone.models.UserSkill;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,34 +175,32 @@ public class JSONParser {
         String message = parent.getString("message");
         if (mSuccess) {
             JSONObject jsonObject = parent.getJSONObject("data");
-            JSONArray certificateArray = jsonObject.getJSONArray("certification");
-            for (int i = 0; i < certificateArray.length(); i++) {
-                JSONObject object = (JSONObject) certificateArray.get(i);
-                String certificateId = object.getString("id");
-                String name = object.getString("name");
-                String authority = object.getString("authority");
-                String number = object.getString("number");
-                String startDate = object.getString("startDate");
-                String endDate = object.getString("endDate");
-                boolean isPresent = object.getBoolean("isPresent");
-                String url = object.getString("url");
+            JSONObject certificate = jsonObject.getJSONObject("certification");
+            String certificateId = certificate.getString("id");
+            String name = certificate.getString("name");
+            String authority = certificate.getString("authority");
+            String number = certificate.getString("number");
+            String startDate = certificate.getString("startDate");
+            String endDate = certificate.getString("endDate");
+            boolean isPresent = certificate.getBoolean("isPresent");
+            String url = certificate.getString("url");
 
-                for (UserCertificate userCertificate : mUserCertificates) {
-                    if (certificateId.equals(userCertificate.getCertificateId())) {
-                        userCertificate.setName(name);
-                        userCertificate.setAuthority(authority);
-                        userCertificate.setCertificateId(certificateId);
-                        userCertificate.setNumber(number);
-                        userCertificate.setUrl(url);
-                        userCertificate.setEndDate(endDate);
-                        userCertificate.setPresent(isPresent);
-                        userCertificate.setStartDate(startDate);
-                    } else {
-                        mUserCertificates.add(new UserCertificate(name, authority, number, startDate,
-                                endDate, certificateId, url, isPresent));
-                    }
+            for (UserCertificate userCertificate : mUserCertificates) {
+                if (certificateId.equals(userCertificate.getCertificateId())) {
+                    userCertificate.setName(name);
+                    userCertificate.setAuthority(authority);
+                    userCertificate.setCertificateId(certificateId);
+                    userCertificate.setNumber(number);
+                    userCertificate.setUrl(url);
+                    userCertificate.setEndDate(endDate);
+                    userCertificate.setPresent(isPresent);
+                    userCertificate.setStartDate(startDate);
+                } else {
+                    mUserCertificates.add(new UserCertificate(name, authority, number, startDate,
+                            endDate, certificateId, url, isPresent));
                 }
             }
+
         }
         return message;
     }
