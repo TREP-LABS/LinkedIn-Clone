@@ -1,21 +1,27 @@
 package com.app.treplabs.linkedinclone;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.app.treplabs.linkedinclone.databinding.EditIntroBottomSheetBinding;
 import com.app.treplabs.linkedinclone.databinding.FragmentProfileBinding;
 import com.app.treplabs.linkedinclone.interfaces.ProfileStateListener;
 import com.app.treplabs.linkedinclone.models.User;
-import com.app.treplabs.linkedinclone.models.UserProfile;
 import com.app.treplabs.linkedinclone.viewmodels.ProfileViewModel;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class ProfileFragment extends Fragment implements ProfileStateListener {
+    BottomSheetBehavior mBottomSheetBehavior;
     boolean mIsThereProfile;
     //data binding
     FragmentProfileBinding mBinding;
@@ -39,6 +45,7 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentProfileBinding.inflate(inflater);
+        mBottomSheetBehavior = BottomSheetBehavior.from(mBinding.getRoot().findViewById(R.id.edit_intro_bottom_sheet));
         mBinding.setIsThereProfile(mIsThereProfile);
         return mBinding.getRoot();
     }
@@ -46,10 +53,12 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        mBinding.editHeadline.setOnClickListener(v -> {
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        });
     }
 
-    private void showToast(String message){
+    private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
