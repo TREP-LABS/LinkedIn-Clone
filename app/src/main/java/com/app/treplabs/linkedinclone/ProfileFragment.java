@@ -54,7 +54,12 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding.editHeadline.setOnClickListener(v -> {
-            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        });
+        mBinding.getRoot().findViewById(R.id.close_edit_intro).setOnClickListener(v -> {
+            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         });
     }
 
