@@ -45,4 +45,5 @@
     <string name="add_new_education">Add New Education</string>
     <string name="country_region">Country/Region</string>
     <string name="industry">Industry</string>
+    <string name="summary">Summary</string>
 </resources>
