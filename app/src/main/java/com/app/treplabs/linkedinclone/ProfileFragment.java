@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.app.treplabs.linkedinclone.databinding.EditAboutBottomSheetBinding;
 import com.app.treplabs.linkedinclone.databinding.EditIntroBottomSheetBinding;
 import com.app.treplabs.linkedinclone.databinding.FragmentProfileBinding;
 import com.app.treplabs.linkedinclone.interfaces.ProfileStateListener;
@@ -21,11 +21,12 @@ import com.app.treplabs.linkedinclone.viewmodels.ProfileViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 public class ProfileFragment extends Fragment implements ProfileStateListener {
-    BottomSheetBehavior mBottomSheetBehavior;
+    BottomSheetBehavior mIntroBottomSheetBehavior, mAboutBottomSheetBehavior;
     boolean mIsThereProfile;
     //data binding
     FragmentProfileBinding mBinding;
     EditIntroBottomSheetBinding mIntroBottomSheetBinding;
+    EditAboutBottomSheetBinding mAboutBottomSheetBinding;
     //view model
     ProfileViewModel mProfileViewModel;
 
@@ -47,7 +48,9 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
                              Bundle savedInstanceState) {
         mBinding = FragmentProfileBinding.inflate(inflater);
         mIntroBottomSheetBinding = mBinding.includedEditIntro;
-        mBottomSheetBehavior = BottomSheetBehavior.from(mIntroBottomSheetBinding.editIntroBottomSheet);
+        mAboutBottomSheetBinding = mBinding.includedEditAbout;
+        mIntroBottomSheetBehavior = BottomSheetBehavior.from(mIntroBottomSheetBinding.editIntroBottomSheet);
+        mAboutBottomSheetBehavior = BottomSheetBehavior.from(mAboutBottomSheetBinding.aboutBottomSheet);
         mBinding.setIsThereProfile(mIsThereProfile);
         return mBinding.getRoot();
     }
@@ -56,12 +59,16 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding.editHeadline.setOnClickListener(v -> {
-            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            if (mIntroBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+                mIntroBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        });
+        mBinding.editAbout.setOnClickListener(v -> {
+            if (mAboutBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+                mAboutBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         });
         mIntroBottomSheetBinding.closeEditIntro.setOnClickListener(v -> {
-            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
-                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            if (mIntroBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
+                mIntroBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         });
     }
 
