@@ -660,7 +660,10 @@
 
         </ScrollView>
 
-        <include layout="@layout/edit_intro_bottom_sheet" />
+        <include
+            android:id="@+id/included_edit_intro"
+            layout="@layout/edit_intro_bottom_sheet"
+            app:userProfile="@{userProfile}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <variable
+            name="userProfile"
+            type="com.app.treplabs.linkedinclone.models.UserProfile" />
+
+    </data>
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/edit_intro_bottom_sheet"
@@ -82,7 +90,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:text="@={userProfile.currentUser.firstName}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +112,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:text="@={userProfile.currentUser.lastName}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,7 +141,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="@={userProfile.headline}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
