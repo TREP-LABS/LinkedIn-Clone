@@ -70,6 +70,10 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
             if (mIntroBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
                 mIntroBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         });
+        mAboutBottomSheetBinding.closeEditAbout.setOnClickListener(v -> {
+            if (mAboutBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
+                mAboutBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        });
     }
 
     private void showToast(String message) {
