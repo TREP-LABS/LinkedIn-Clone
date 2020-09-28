@@ -665,6 +665,10 @@
             layout="@layout/edit_intro_bottom_sheet"
             app:userProfile="@{userProfile}"/>
 
+        <include
+            android:id="@+id/included_edit_about"
+            layout="@layout/edit_about_bottom_sheet" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
