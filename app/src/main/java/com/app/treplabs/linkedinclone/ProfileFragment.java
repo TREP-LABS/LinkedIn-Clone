@@ -58,21 +58,25 @@ public class ProfileFragment extends Fragment implements ProfileStateListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mBinding.editHeadline.setOnClickListener(v -> {
-            if (mIntroBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
-                mIntroBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        openBottomSheet(mBinding.editHeadline, mIntroBottomSheetBehavior);
+        openBottomSheet(mBinding.editAbout, mAboutBottomSheetBehavior);
+        closeBottomSheet(mIntroBottomSheetBinding.closeEditIntro, mIntroBottomSheetBehavior);
+        closeBottomSheet(mAboutBottomSheetBinding.closeEditAbout, mAboutBottomSheetBehavior);
+    }
+
+    private void openBottomSheet(View view, BottomSheetBehavior bottomSheetBehavior) {
+        view.setOnClickListener(v -> {
+            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
         });
-        mBinding.editAbout.setOnClickListener(v -> {
-            if (mAboutBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED)
-                mAboutBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        });
-        mIntroBottomSheetBinding.closeEditIntro.setOnClickListener(v -> {
-            if (mIntroBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
-                mIntroBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        });
-        mAboutBottomSheetBinding.closeEditAbout.setOnClickListener(v -> {
-            if (mAboutBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED)
-                mAboutBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    private void closeBottomSheet(View view, BottomSheetBehavior bottomSheetBehavior){
+        view.setOnClickListener(v -> {
+            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
         });
     }
 
