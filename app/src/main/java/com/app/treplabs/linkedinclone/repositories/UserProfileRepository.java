@@ -96,9 +96,9 @@ public class UserProfileRepository {
         return mMessage;
     }
 
-    public String add(String whatToAdd, String token, HashMap<String, String> map){
+    public String add(String whatToAdd, String token, HashMap<String, String> map) {
         Call<ResponseBody> call;
-        switch (whatToAdd){
+        switch (whatToAdd) {
             case "education":
                 call = invokeAPI().addNewEducation(token, map);
                 executeAddOperationInBackground(call, whatToAdd);
@@ -126,10 +126,10 @@ public class UserProfileRepository {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try{
-                    if (response.isSuccessful()){
+                try {
+                    if (response.isSuccessful()) {
                         Log.d("UserProfileRepo", "add: isSuccessful");
-                        switch (whatToAdd){
+                        switch (whatToAdd) {
                             case "education":
                                 mMessage = mJSONParser.getResponseFromEducationRequest(response.body().string());
                                 break;
@@ -145,7 +145,7 @@ public class UserProfileRepository {
                         }
                     } else {
                         Log.d("UserProfileRepo", "add: Unsuccessful");
-                        switch (whatToAdd){
+                        switch (whatToAdd) {
                             case "education":
                                 mMessage = mJSONParser.getResponseFromEducationRequest(response.errorBody().string());
                                 break;
@@ -228,64 +228,53 @@ public class UserProfileRepository {
         });
     }
 
-    //education
-    public String deleteEducation(String token, String educationId) {
-        invokeAPI().deleteSkill(token, educationId)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "deleteEducation: isSuccessful");
-                                mMessage = "Deleted User Education Successfully";
-                            } else {
-                                Log.d("UserProfileRepo", "deleteEducation: unSuccessful");
-                                JSONObject parent = new JSONObject(response.errorBody().string());
-                                mMessage = parent.getString("message");
-                            }
-                        } catch (IOException | JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("UserProfileRepo", "OnFailure: " + t.getMessage());
-                        mMessage = t.getMessage();
-                    }
-                });
+    public String delete(String whatToDelete, String token, String idToDelete) {
+        Call<ResponseBody> call;
+        switch (whatToDelete) {
+            case "education":
+                call = invokeAPI().deleteEducation(token, idToDelete);
+                executeDeleteOperationInBackground(call, whatToDelete);
+                break;
+            case "experience":
+                call = invokeAPI().deleteExperience(token, idToDelete);
+                executeDeleteOperationInBackground(call, whatToDelete);
+                break;
+            case "certificate":
+                call = invokeAPI().deleteCertificate(token, idToDelete);
+                executeDeleteOperationInBackground(call, whatToDelete);
+                break;
+            case "skill":
+                call = invokeAPI().deleteSkill(token, idToDelete);
+                executeDeleteOperationInBackground(call, whatToDelete);
+                break;
+        }
         return mMessage;
     }
 
-    //experience
-    public String deleteExperience(String token, String experienceId) {
-        invokeAPI().deleteExperience(token, experienceId)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "deleteExperience OnSuccess: " +
-                                        response.body().string());
-                                mMessage = "Deleted User Experience Successfully";
-                            } else {
-                                Log.d("UserProfileRepo", "deleteExperience UnSuccess: " +
-                                        response.body().string());
-                                JSONObject parent = new JSONObject(response.errorBody().string());
-                                mMessage = parent.getString("message");
-                            }
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
+    private void executeDeleteOperationInBackground(Call<ResponseBody> call, String whatToDelete) {
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        Log.d("UserProfileRepo", "delete: isSuccessful");
+                        mMessage = "Deleted " + whatToDelete + " successfully";
+                    } else {
+                        Log.d("UserProfileRepo", "delete: Unsuccessful");
+                        JSONObject parent = new JSONObject(response.errorBody().string());
+                        mMessage = parent.getString("message");
                     }
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("UserProfileRepo", "deleteExperience OnFailure: " + t.getMessage());
-                        mMessage = t.getMessage();
-                    }
-                });
-        return mMessage;
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("UserProfileRepo", "OnFailure: " + t.getMessage());
+                mMessage = t.getMessage();
+            }
+        });
     }
 
     //skills
@@ -311,67 +300,6 @@ public class UserProfileRepository {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.d("UserProfileRepo", "searchSkill OnFailure: " + t.getMessage());
-                        mMessage = t.getMessage();
-                    }
-                });
-        return mMessage;
-    }
-
-    public String deleteSkill(String token, String skillId) {
-        invokeAPI().deleteSkill(token, skillId)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "deleteSkill OnSuccess: " +
-                                        response.body().string());
-                                mMessage = "Deleted User Skill Successfully";
-                            } else {
-                                Log.d("UserProfileRepo", "deleteSkill UnSuccess: " +
-                                        response.body().string());
-                                JSONObject parent = new JSONObject(response.errorBody().string());
-                                mMessage = parent.getString("message");
-                            }
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("UserProfileRepo", "deleteSkill OnFailure: " + t.getMessage());
-                        mMessage = t.getMessage();
-                    }
-                });
-        return mMessage;
-    }
-
-    //certification
-    public String deleteCertificate(String token, String certificateId) {
-        invokeAPI().deleteCertificate(token, certificateId)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "deleteCertificate OnSuccess: " +
-                                        response.body().string());
-                                mMessage = "Deleted User Certificate Successfully";
-                            } else {
-                                Log.d("UserProfileRepo", "deleteCertificate UnSuccess: " +
-                                        response.body().string());
-                                JSONObject parent = new JSONObject(response.errorBody().string());
-                                mMessage = parent.getString("message");
-                            }
-                        } catch (IOException | JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("UserProfileRepo", "deleteCertificate OnFailure: " + t.getMessage());
                         mMessage = t.getMessage();
                     }
                 });
