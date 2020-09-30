@@ -3,7 +3,6 @@ package com.app.treplabs.linkedinclone.repositories;
 import android.util.Log;
 
 import com.app.treplabs.linkedinclone.helpers.JSONParser;
-import com.app.treplabs.linkedinclone.models.User;
 import com.app.treplabs.linkedinclone.models.UserCertificate;
 import com.app.treplabs.linkedinclone.models.UserEducation;
 import com.app.treplabs.linkedinclone.models.UserExperience;
@@ -11,7 +10,6 @@ import com.app.treplabs.linkedinclone.models.UserProfile;
 import com.app.treplabs.linkedinclone.models.UserSkill;
 import com.app.treplabs.linkedinclone.network.BackendProfileApi;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,6 +35,7 @@ public class UserProfileRepository {
     private UserProfile mUserProfile;
     private static UserProfileRepository instance;
     private String mMessage;
+    private JSONParser mJSONParser;
 
     public static UserProfileRepository getInstance() {
         if (instance == null) {
@@ -100,6 +99,62 @@ public class UserProfileRepository {
         return mMessage;
     }
 
+    public String update(String whatToUpdate, String token, String idToUpdate, HashMap<String, String> map) {
+        mJSONParser = new JSONParser();
+        Call<ResponseBody> call;
+        switch (whatToUpdate) {
+            case "education":
+                call = invokeAPI().updateExistingEducation(token, idToUpdate, map);
+                executeUpdateInBackground(call, whatToUpdate);
+                mUserEducations = mJSONParser.mUserEducations;
+                break;
+            case "experience":
+                call = invokeAPI().updateExistingExperience(token, idToUpdate, map);
+                executeUpdateInBackground(call, whatToUpdate);
+                mUserExperiences = mJSONParser.mUserExperiences;
+                break;
+            case "certificate":
+                call = invokeAPI().updateExistingCertificate(token, idToUpdate, map);
+                executeUpdateInBackground(call, whatToUpdate);
+                mUserCertificates = mJSONParser.mUserCertificates;
+                break;
+        }
+        return mMessage;
+    }
+
+    private void executeUpdateInBackground(Call<ResponseBody> call, String whatToUpdate) {
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        Log.d("UserProfileRepo", "update: isSuccessful");
+                        switch (whatToUpdate) {
+                            case "education":
+                                mMessage = mJSONParser.getResponseFromEducationRequest(response.body().string());
+                                break;
+                        }
+                    } else {
+                        Log.d("UserProfileRepo", "update: Unsuccessful");
+                        switch (whatToUpdate) {
+                            case "education":
+                                mMessage = mJSONParser.getResponseFromEducationRequest(response.errorBody().string());
+                                break;
+                        }
+                    }
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("UserProfileRepo", "OnFailure: " + t.getMessage());
+                mMessage = t.getMessage();
+            }
+        });
+    }
+
     //education
     public String addNewEducation(HashMap<String, String> map, String token) {
         JSONParser jsonParser = new JSONParser();
@@ -117,35 +172,6 @@ public class UserProfileRepository {
                                 mMessage = jsonParser.getResponseFromEducationRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("UserProfileRepo", "OnFailure: " + t.getMessage());
-                        mMessage = t.getMessage();
-                    }
-                });
-        return mMessage;
-    }
-
-    public String updateExistingEducation(String token, String educationId, HashMap<String, String> map) {
-        JSONParser jsonParser = new JSONParser();
-        invokeAPI().updateExistingEducation(token, educationId, map)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "updateExistingEducation: isSuccessful");
-                                mMessage = jsonParser.getResponseFromEducationRequest(response.body().string());
-                                mUserEducations = jsonParser.mUserEducations;
-                            } else {
-                                Log.d("UserProfileRepo", "updateExistingEducation: unSuccessful");
-                                mMessage = jsonParser.getResponseFromEducationRequest(response.errorBody().string());
-                            }
-                        } catch (IOException | JSONException e) {
                             e.printStackTrace();
                         }
                     }
@@ -211,35 +237,6 @@ public class UserProfileRepository {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.d("UserProfileRepo", "OnFailure: " + t.getMessage());
-                        mMessage = t.getMessage();
-                    }
-                });
-        return mMessage;
-    }
-
-    public String updateExistingExperience(String token, String experienceId, HashMap<String, String> map) {
-        JSONParser jsonParser = new JSONParser();
-        invokeAPI().updateExistingExperience(token, experienceId, map)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "Update OnSuccess: " + response.body().string());
-                                mMessage = jsonParser.getResponseFromExperienceRequest(response.body().string());
-                                mUserExperiences = jsonParser.mUserExperiences;
-                            } else {
-                                Log.d("UserProfileRepo", "Update UnSuccess: " + response.errorBody());
-                                mMessage = jsonParser.getResponseFromExperienceRequest(response.errorBody().string());
-                            }
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("UserProfileRepo", "Update OnFailure: " + t.getMessage());
                         mMessage = t.getMessage();
                     }
                 });
@@ -389,35 +386,6 @@ public class UserProfileRepository {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.d("UserProfileRepo", "addNewCertificate OnFailure: " + t.getMessage());
-                        mMessage = t.getMessage();
-                    }
-                });
-        return mMessage;
-    }
-
-    public String updateExistingCertificate(String token, String certificateId, HashMap<String, String> map) {
-        JSONParser jsonParser = new JSONParser();
-        invokeAPI().updateExistingCertificate(token, certificateId, map)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            if (response.isSuccessful()) {
-                                Log.d("UserProfileRepo", "Update OnSuccess: " + response.body().string());
-                                mMessage = jsonParser.getResponseFromCertificateRequest(response.body().string());
-                                mUserCertificates = jsonParser.mUserCertificates;
-                            } else {
-                                Log.d("UserProfileRepo", "Update UnSuccess: " + response.errorBody());
-                                mMessage = jsonParser.getResponseFromCertificateRequest(response.errorBody().string());
-                            }
-                        } catch (JSONException | IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.d("UserProfileRepo", "Update OnFailure: " + t.getMessage());
                         mMessage = t.getMessage();
                     }
                 });
