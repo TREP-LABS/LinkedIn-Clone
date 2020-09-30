@@ -206,12 +206,24 @@ public class UserProfileRepository {
                             case "education":
                                 mMessage = mJSONParser.getResponseFromEducationRequest(response.body().string());
                                 break;
+                            case "experience":
+                                mMessage = mJSONParser.getResponseFromExperienceRequest(response.body().string());
+                                break;
+                            case "certificate":
+                                mMessage = mJSONParser.getResponseFromCertificateRequest(response.body().string());
+                                break;
                         }
                     } else {
                         Log.d("UserProfileRepo", "update: Unsuccessful");
                         switch (whatToUpdate) {
                             case "education":
                                 mMessage = mJSONParser.getResponseFromEducationRequest(response.errorBody().string());
+                                break;
+                            case "experience":
+                                mMessage = mJSONParser.getResponseFromExperienceRequest(response.errorBody().string());
+                                break;
+                            case "certificate":
+                                mMessage = mJSONParser.getResponseFromCertificateRequest(response.errorBody().string());
                                 break;
                         }
                     }
