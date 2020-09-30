@@ -31,11 +31,10 @@ public class UserProfileRepository {
     private List<UserSkill> mUserSkills = new ArrayList<>();
     private List<UserEducation> mUserEducations = new ArrayList<>();
     private List<UserCertificate> mUserCertificates = new ArrayList<>();
-
     private UserProfile mUserProfile;
     private static UserProfileRepository instance;
     private String mMessage;
-    private JSONParser mJSONParser;
+    private JSONParser mJSONParser = new JSONParser();
 
     public static UserProfileRepository getInstance() {
         if (instance == null) {
@@ -58,15 +57,14 @@ public class UserProfileRepository {
     //profile
     public String getBasicProfile(String userId) {
         Call<ResponseBody> call = invokeAPI().getBasicProfile(userId);
-        JSONParser jsonParser = new JSONParser();
         try {
             Response<ResponseBody> result = call.execute();
             if (result.isSuccessful()) {
                 Log.d("UserProfileRepo", "getBasicProfile: isSuccessful");
-                mMessage = jsonParser.getBasicProfileResponseFromJSON(result.body().string());
+                mMessage = mJSONParser.getBasicProfileResponseFromJSON(result.body().string());
             } else {
                 Log.d("UserProfileRepo", "getBasicProfile: unSuccessful");
-                mMessage = jsonParser.getBasicProfileResponseFromJSON(result.errorBody().string());
+                mMessage = mJSONParser.getBasicProfileResponseFromJSON(result.errorBody().string());
             }
         } catch (IOException | JSONException e) {
             mMessage = "An error occurred";
@@ -77,20 +75,19 @@ public class UserProfileRepository {
 
     public String getFullProfile(String userId) {
         Call<ResponseBody> call = invokeAPI().getFullProfile(userId);
-        JSONParser jsonParser = new JSONParser();
         try {
             Response<ResponseBody> result = call.execute();
             if (result.isSuccessful()) {
                 Log.d("UserProfileRepo", "getFullProfile: isSuccessful");
-                mMessage = jsonParser.getFullProfileResponseFromJSON(result.body().string());
-                mUserProfile = jsonParser.mUserProfile;
-                mUserEducations = jsonParser.mUserEducations;
-                mUserExperiences = jsonParser.mUserExperiences;
-                mUserSkills = jsonParser.mUserSkills;
-                mUserCertificates = jsonParser.mUserCertificates;
+                mMessage = mJSONParser.getFullProfileResponseFromJSON(result.body().string());
+                mUserProfile = mJSONParser.mUserProfile;
+                mUserEducations = mJSONParser.mUserEducations;
+                mUserExperiences = mJSONParser.mUserExperiences;
+                mUserSkills = mJSONParser.mUserSkills;
+                mUserCertificates = mJSONParser.mUserCertificates;
             } else {
                 Log.d("UserProfileRepo", "getFullProfile: unSuccessful");
-                mMessage = jsonParser.getFullProfileResponseFromJSON(result.errorBody().string());
+                mMessage = mJSONParser.getFullProfileResponseFromJSON(result.errorBody().string());
             }
         } catch (IOException | JSONException e) {
             mMessage = "An error occurred";
@@ -100,7 +97,6 @@ public class UserProfileRepository {
     }
 
     public String update(String whatToUpdate, String token, String idToUpdate, HashMap<String, String> map) {
-        mJSONParser = new JSONParser();
         Call<ResponseBody> call;
         switch (whatToUpdate) {
             case "education":
@@ -157,7 +153,6 @@ public class UserProfileRepository {
 
     //education
     public String addNewEducation(HashMap<String, String> map, String token) {
-        JSONParser jsonParser = new JSONParser();
         invokeAPI().addNewEducation(token, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -165,11 +160,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "addNewEducation OnSuccess: " + response.body().string());
-                                mMessage = jsonParser.getResponseFromEducationRequest(response.body().string());
-                                mUserEducations = jsonParser.mUserEducations;
+                                mMessage = mJSONParser.getResponseFromEducationRequest(response.body().string());
+                                mUserEducations = mJSONParser.mUserEducations;
                             } else {
                                 Log.d("UserProfileRepo", "addNewEducation UnSuccess: " + response.errorBody().string());
-                                mMessage = jsonParser.getResponseFromEducationRequest(response.errorBody().string());
+                                mMessage = mJSONParser.getResponseFromEducationRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -215,7 +210,6 @@ public class UserProfileRepository {
 
     //experience
     public String addNewExperience(HashMap<String, String> map, String token) {
-        JSONParser jsonParser = new JSONParser();
         invokeAPI().addNewExperience(token, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -223,11 +217,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "addNewExperience OnSuccess: " + response.body().string());
-                                mMessage = jsonParser.getResponseFromExperienceRequest(response.body().string());
-                                mUserExperiences = jsonParser.mUserExperiences;
+                                mMessage = mJSONParser.getResponseFromExperienceRequest(response.body().string());
+                                mUserExperiences = mJSONParser.mUserExperiences;
                             } else {
                                 Log.d("UserProfileRepo", "UnSuccess: " + response.errorBody().string());
-                                mMessage = jsonParser.getResponseFromExperienceRequest(response.errorBody().string());
+                                mMessage = mJSONParser.getResponseFromExperienceRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -275,7 +269,6 @@ public class UserProfileRepository {
 
     //skills
     public String addNewSkill(HashMap<String, String> map, String token) {
-        JSONParser jsonParser = new JSONParser();
         invokeAPI().addNewSkill(token, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -283,11 +276,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "addNewSkill OnSuccess: ");
-                                mMessage = jsonParser.getResponseFromSkillRequest(response.body().string());
-                                mUserSkills = jsonParser.mUserSkills;
+                                mMessage = mJSONParser.getResponseFromSkillRequest(response.body().string());
+                                mUserSkills = mJSONParser.mUserSkills;
                             } else {
                                 Log.d("UserProfileRepo", "addNewSkill UnSuccess: " + response.errorBody());
-                                mMessage = jsonParser.getResponseFromSkillRequest(response.errorBody().string());
+                                mMessage = mJSONParser.getResponseFromSkillRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -304,7 +297,6 @@ public class UserProfileRepository {
     }
 
     public String searchSkill(String token, String searchText) {
-        JSONParser jsonParser = new JSONParser();
         invokeAPI().searchForSkill(token, searchText)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -312,11 +304,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "searchSkill OnSuccess: ");
-                                mMessage = jsonParser.getResponseFromSkillRequest(response.body().string());
-                                mUserSkills = jsonParser.mUserSkills;
+                                mMessage = mJSONParser.getResponseFromSkillRequest(response.body().string());
+                                mUserSkills = mJSONParser.mUserSkills;
                             } else {
                                 Log.d("UserProfileRepo", "searchSkill UnSuccess: ");
-                                mMessage = jsonParser.getResponseFromSkillRequest(response.errorBody().string());
+                                mMessage = mJSONParser.getResponseFromSkillRequest(response.errorBody().string());
                             }
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
@@ -364,7 +356,6 @@ public class UserProfileRepository {
 
     //certification
     public String addNewCertificate(HashMap<String, String> map, String token) {
-        JSONParser jsonParser = new JSONParser();
         invokeAPI().addNewCertificate(token, map)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -372,11 +363,11 @@ public class UserProfileRepository {
                         try {
                             if (response.isSuccessful()) {
                                 Log.d("UserProfileRepo", "addNewCertificate OnSuccess: ");
-                                mMessage = jsonParser.getResponseFromCertificateRequest(response.body().string());
-                                mUserCertificates = jsonParser.mUserCertificates;
+                                mMessage = mJSONParser.getResponseFromCertificateRequest(response.body().string());
+                                mUserCertificates = mJSONParser.mUserCertificates;
                             } else {
                                 Log.d("UserProfileRepo", "addNewCertificate UnSuccess: ");
-                                mMessage = jsonParser.getResponseFromCertificateRequest(response.errorBody().string());
+                                mMessage = mJSONParser.getResponseFromCertificateRequest(response.errorBody().string());
                             }
                         } catch (IOException | JSONException e) {
                             e.printStackTrace();
